@@ -1,10 +1,5 @@
 {
-    "git.ignoreLimitWarning": true,
-    "editor.codeActionsOnSave": { "source.fixAll.eslint": true },
-    "files.autoSave": "onFocusChange",    
-    "prettier.disableLanguages": ["html"],
-    "[html]": { 
-        "editor.formatOnSave": true,
-        "editor.defaultFormatter": "vscode.html-language-features" 
-    },
+  "git.ignoreLimitWarning": true,
+  "editor.codeActionsOnSave": { "source.fixAll.eslint": true },
+  "files.autoSave": "onFocusChange",
 }
