@@ -13,7 +13,7 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  plugins: ['react', '@typescript-eslint'],
+  plugins: ['react', '@typescript-eslint', 'unused-imports'],
   rules: {
     'prettier/prettier': [
       'error',
@@ -21,5 +21,8 @@ module.exports = {
         endOfLine: 'auto',
       },
     ],
+    'no-unused-vars': 'off',
+    'unused-imports/no-unused-imports': 2,
+    'unused-imports/no-unused-vars': 1,
   },
 };
