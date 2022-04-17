@@ -11,7 +11,11 @@ export const GlobalStyle = createGlobalStyle`
     width:100%;
     background-color: rgb(242, 242, 242);
     color:#333333;
-    font-family: 'Noto Sans KR', sans-serif;
     font-weight:300;
+  }
+
+  a {
+    color: #000;
+    cursor: pointer;
   }
 `;
