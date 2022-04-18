@@ -1,18 +1,29 @@
 import React from 'react';
 import Link from 'next/link';
-import { StyledHeader, HeaderContent, HeaderLink } from './style';
+import { StyledHeader, HeaderContent, HeaderLink, StyledLogo } from './style';
+import { Button, Flex } from '@/components/atoms';
 
 const Header = () => {
   return (
     <StyledHeader>
       <HeaderContent>
         <Link href="/">
-          <HeaderLink isLogo={true}>TeamTodo</HeaderLink>
+          <StyledLogo>TeamTodo</StyledLogo>
         </Link>
 
-        <Link href="/login">
-          <HeaderLink>로그인</HeaderLink>
-        </Link>
+        <Flex>
+          <Link href="/signup">
+            <HeaderLink>Signup</HeaderLink>
+          </Link>
+          <Button
+            color={'black'}
+            size={'XL'}
+            font={{ size: 'M', weight: 'bold' }}
+            to={'/signin'}
+          >
+            Signin
+          </Button>
+        </Flex>
       </HeaderContent>
     </StyledHeader>
   );
