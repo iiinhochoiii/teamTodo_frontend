@@ -14,7 +14,7 @@ const BaseTemplates = (props: Props) => {
     <div>
       <Head>{title || 'Team Todo'}</Head>
       <Header />
-      <div>{children}</div>
+      <main>{children}</main>
     </div>
   );
 };

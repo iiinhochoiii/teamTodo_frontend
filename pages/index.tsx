@@ -1,9 +1,13 @@
 import React from 'react';
 import type { NextPage } from 'next';
-import { Base } from '@/components/templates';
+import { Base, MainComponent } from '@/components/templates';
 
 const Home: NextPage = () => {
-  return <Base>test</Base>;
+  return (
+    <Base>
+      <MainComponent />
+    </Base>
+  );
 };
 
 export default Home;
