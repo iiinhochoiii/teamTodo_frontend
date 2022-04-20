@@ -21,7 +21,7 @@ const fontStyles = css<Props>`
 const buttonStyles = css<Props>`
   ${fontStyles}
   ${({ theme, color, size }) => {
-    const selectedColor = theme.palette[color || 'white'];
+    const selectedColor = theme.palette[color || 'black'];
     const selectedSize = theme.button.size[size || 'L'];
 
     return css`
@@ -38,4 +38,5 @@ export const StyledButton = styled.button<Props>`
   border: none;
   cursor: pointer;
   border-radius: 5px;
+  height: 40px;
 `;

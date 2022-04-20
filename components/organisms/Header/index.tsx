@@ -17,7 +17,7 @@ const Header = () => {
           </Link>
           <Button
             color={'black'}
-            size={'XL'}
+            size={'L'}
             font={{ size: 'M', weight: 'bold' }}
             to={'/signin'}
           >

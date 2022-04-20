@@ -3,6 +3,7 @@ import { StyledSection, StyledContainer } from './style';
 
 export interface Props extends InputHTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
+  background?: string;
 }
 
 const Section = (props: Props) => {

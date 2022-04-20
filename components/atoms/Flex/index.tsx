@@ -3,6 +3,7 @@ import { StyledFlex } from './style';
 
 export interface Props extends InputHTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
+  justify?: string;
 }
 
 const Box = (props: Props) => {

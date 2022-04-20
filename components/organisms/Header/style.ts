@@ -1,7 +1,14 @@
 import styled from 'styled-components';
+import { theme } from 'styled-tools';
 
 export const StyledHeader = styled.header`
   display: flex;
+  box-shadow: rgb(0 0 0 / 5%) 0px 5px 10px -5px;
+  background: ${theme('palette.white')};
+  transition: box-shadow 0.3s ease 0s, transform 0.3s ease 0s;
+  position: fixed;
+  left: 0;
+  right: 0;
 `;
 
 export const HeaderContent = styled.div`

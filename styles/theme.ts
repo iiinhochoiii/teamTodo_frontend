@@ -2,6 +2,10 @@ export const theme = {
   palette: {
     black: '#000',
     white: '#fff',
+    gray: '#6A7B8F',
+    purple: '#4848d3',
+    skyblue:
+      'linear-gradient( 0deg,rgb(225,242,255) 0%,rgba(238,245,255,0) 100% ),rgb(255,255,255)',
   },
 
   button: {
@@ -9,8 +13,8 @@ export const theme = {
       XS: '20px',
       S: '40px',
       M: '60px',
-      L: '100px',
-      XL: '120px',
+      L: '120px',
+      XL: '200px',
     },
   },
 
@@ -40,7 +44,7 @@ export const theme = {
       `,
       h4: `
         font-size: 2.4rem;
-        font-weight: 400;
+        font-weight: bold;
       `,
       subtitle1: `
         font-size: 1.6rem;

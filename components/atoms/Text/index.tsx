@@ -7,6 +7,7 @@ export interface Props extends InputHTMLAttributes<HTMLParagraphElement> {
     size?: string;
     weight?: string;
   };
+  color?: string;
 }
 
 const Text = (props: Props) => {
