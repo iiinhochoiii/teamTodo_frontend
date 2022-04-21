@@ -5,11 +5,12 @@ import { useRouter } from 'next/router';
 export interface Props extends HTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   disabled?: boolean;
-  color?: string;
   size?: string;
+  background?: string;
   font?: {
     size?: string;
     weight?: string;
+    color?: string;
   };
   to?: string;
 }

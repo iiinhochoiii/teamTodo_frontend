@@ -10,23 +10,24 @@ const fontStyles = css<Props>`
           (item: number | string) => item === font?.weight
         )
       ] || 400;
+    const selectedFontColor = theme.palette[font?.color || 'white'];
 
     return css`
       font-size: ${selectedFontSize};
       font-weight: ${selectedFontWeight};
+      color: ${selectedFontColor};
     `;
   }}
 `;
 
 const buttonStyles = css<Props>`
   ${fontStyles}
-  ${({ theme, color, size }) => {
-    const selectedColor = theme.palette[color || 'black'];
+  ${({ theme, background, size }) => {
+    const selectedBackground = theme.palette[background || 'black'];
     const selectedSize = theme.button.size[size || 'L'];
 
     return css`
-      background-color: ${selectedColor};
-      color: ${theme.palette['white']};
+      background-color: ${selectedBackground};
       width: ${selectedSize};
     `;
   }}

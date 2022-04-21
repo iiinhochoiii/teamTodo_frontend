@@ -8,7 +8,9 @@ const MainComponent = () => {
     <>
       <Section background="skyblue" style={{ padding: '120px 0 0 0' }}>
         <StyledContent>
-          <StyledTitle>Better TeamWork, Share My Work</StyledTitle>
+          <StyledTitle color="black">
+            Better TeamWork, Share My Work
+          </StyledTitle>
           <Text font={{ size: 'L', weight: 'bold' }} color="gray">
             TeamTodo는 실시간으로 어떤 업무를 진행하는지 공유를 하여 더욱
             효율적으로 협업을 할 수 있도록 도와줍니다.
@@ -30,12 +32,118 @@ const MainComponent = () => {
             TeamTodo는 개인과 팀을 연결하여 효율적인 업무를 돕습니다.
           </Text>
         </StyledContent>
-        <Flex justify="space-between">
-          <Box>
+        <Flex justify="space-between" style={{ margin: '150px 0 0 0' }}>
+          <Box width={0.98 / 2}>
             <ImageFrame background="purple"></ImageFrame>
           </Box>
-          <Box>test</Box>
+          <Box width={0.98 / 2}>
+            <Text
+              font={{ size: 'M' }}
+              color="lightred"
+              style={{ margin: '15px 0 0 0' }}
+            >
+              Share My Todo List
+            </Text>
+            <Text
+              font={{ size: 'XL', weight: 'bold' }}
+              style={{ margin: '30px 0 0 0 ' }}
+            >
+              더 편리하게 작성합니다.
+            </Text>
+            <Text
+              font={{ size: 'L' }}
+              color="gray"
+              style={{ margin: '30px 0 0 0' }}
+            >
+              오늘 예정되었거나, 완료된 일에 대해서, 같은 팀원에게 공유 합니다.
+              누가 어떠한 작업을 진행중인지 쉽게 파악할 수 있습니다.
+            </Text>
+          </Box>
         </Flex>
+        <Flex justify="space-between" style={{ margin: '150px 0 0 0' }}>
+          <Box width={0.98 / 2}>
+            <Text
+              font={{ size: 'M' }}
+              color="lightred"
+              style={{ margin: '15px 0 0 0' }}
+            >
+              Set a Goals
+            </Text>
+            <Text
+              font={{ size: 'XL', weight: 'bold' }}
+              style={{ margin: '30px 0 0 0 ' }}
+            >
+              팀의 목표를 설정합니다.
+            </Text>
+            <Text
+              font={{ size: 'L' }}
+              color="gray"
+              style={{ margin: '30px 0 0 0' }}
+            >
+              팀의 목표를 설정하여, 해당 목표가 어디까지 진행중인지, 잘
+              진행중인지 쉽게 파악하고 구성원끼리 목표를 달성하기 위해 돕습니다.
+            </Text>
+          </Box>
+          <Box width={0.98 / 2}>
+            <ImageFrame background="purple"></ImageFrame>
+          </Box>
+        </Flex>
+
+        <Flex justify="space-between" style={{ margin: '150px 0 150px 0' }}>
+          <Box width={0.98 / 2}>
+            <ImageFrame background="purple"></ImageFrame>
+          </Box>
+          <Box width={0.98 / 2}>
+            <Text
+              font={{ size: 'M' }}
+              color="lightred"
+              style={{ margin: '15px 0 0 0' }}
+            >
+              Vote and check the results.
+            </Text>
+            <Text
+              font={{ size: 'XL', weight: 'bold' }}
+              style={{ margin: '30px 0 0 0 ' }}
+            >
+              우리의 만족도를 체크합니다.
+            </Text>
+            <Text
+              font={{ size: 'L' }}
+              color="gray"
+              style={{ margin: '30px 0 0 0' }}
+            >
+              쉽게 결정을하기 어렵거나, 팀원의 의견이 필요할 때, 투표를 진행하여
+              더 나은 결과물을 만들도록 합니다.
+            </Text>
+          </Box>
+        </Flex>
+      </Section>
+      <Section background="black" style={{ padding: '60px 0 0 0' }}>
+        <StyledContent>
+          <StyledTitle color="white">
+            업무 내용을 팀원과 공유를 하고 팀 목표를 달성해보세요.
+          </StyledTitle>
+          <Text font={{ size: 'L', weight: 'bold' }} color="gray">
+            지금 시작해보세요.
+          </Text>
+          <Button
+            size="XL"
+            font={{ size: 'M', weight: 'bold', color: 'black' }}
+            background="white"
+            style={{ margin: '50px 0 100px' }}
+            to="/signup"
+          >
+            무료로 시작하기
+          </Button>
+        </StyledContent>
+      </Section>
+      <Section style={{ padding: '60px 0 0 0' }}>
+        <StyledContent>
+          <StyledTitle type="subtitle1">
+            혹시 궁금한 점이 있으신가요?
+          </StyledTitle>
+          <Button to="mailto:dlsgh120@gmail.com">문의하기</Button>
+        </StyledContent>
       </Section>
     </>
   );

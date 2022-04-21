@@ -21,4 +21,5 @@ const fontStyles = css<Props>`
 export const StyledText = styled.p<Props>`
   ${fontStyles};
   color: ${(props) => props.theme.palette[props.color || 'black']};
+  margin: 0;
 `;

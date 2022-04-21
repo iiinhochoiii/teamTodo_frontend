@@ -1,8 +1,23 @@
-import styled from 'styled-components';
-import { theme } from 'styled-tools';
+import styled, { css } from 'styled-components';
 
-export const StyledTitle = styled.h4`
-  ${theme('font.style.h4')};
+interface titleProps {
+  color?: string;
+  type?: string;
+}
+
+const typeStyles = css<titleProps>`
+  ${({ theme, type }) => {
+    const selectedFont = theme.font.style[type || 'h4'];
+
+    return css`
+      ${selectedFont};
+    `;
+  }}
+`;
+
+export const StyledTitle = styled.h4<titleProps>`
+  ${typeStyles};
+  color: ${(props) => props.theme.palette[props.color || 'black']};
   margin: 30px 0;
 `;
 
