@@ -6,12 +6,15 @@ import { StyledTitle, StyledContent } from './style';
 const MainComponent = () => {
   return (
     <>
-      <Section background="skyblue" style={{ padding: '120px 0 0 0' }}>
+      <Section
+        background="lightbrown_gradient"
+        style={{ padding: '120px 0 0 0' }}
+      >
         <StyledContent>
           <StyledTitle color="black">
             Better TeamWork, Share My Work
           </StyledTitle>
-          <Text font={{ size: 'L', weight: 'bold' }} color="gray">
+          <Text font={{ size: 'L', weight: 400 }} color="gray">
             TeamTodo는 실시간으로 어떤 업무를 진행하는지 공유를 하여 더욱
             효율적으로 협업을 할 수 있도록 도와줍니다.
           </Text>
@@ -34,7 +37,7 @@ const MainComponent = () => {
         </StyledContent>
         <Flex justify="space-between" style={{ margin: '150px 0 0 0' }}>
           <Box width={0.98 / 2}>
-            <ImageFrame background="purple"></ImageFrame>
+            <ImageFrame background="lightbrown"></ImageFrame>
           </Box>
           <Box width={0.98 / 2}>
             <Text
@@ -51,7 +54,7 @@ const MainComponent = () => {
               더 편리하게 작성합니다.
             </Text>
             <Text
-              font={{ size: 'L' }}
+              font={{ size: 'ML' }}
               color="gray"
               style={{ margin: '30px 0 0 0' }}
             >
@@ -76,7 +79,7 @@ const MainComponent = () => {
               팀의 목표를 설정합니다.
             </Text>
             <Text
-              font={{ size: 'L' }}
+              font={{ size: 'ML' }}
               color="gray"
               style={{ margin: '30px 0 0 0' }}
             >
@@ -85,13 +88,13 @@ const MainComponent = () => {
             </Text>
           </Box>
           <Box width={0.98 / 2}>
-            <ImageFrame background="purple"></ImageFrame>
+            <ImageFrame background="lightbrown"></ImageFrame>
           </Box>
         </Flex>
 
         <Flex justify="space-between" style={{ margin: '150px 0 150px 0' }}>
           <Box width={0.98 / 2}>
-            <ImageFrame background="purple"></ImageFrame>
+            <ImageFrame background="lightbrown"></ImageFrame>
           </Box>
           <Box width={0.98 / 2}>
             <Text
@@ -108,7 +111,7 @@ const MainComponent = () => {
               우리의 만족도를 체크합니다.
             </Text>
             <Text
-              font={{ size: 'L' }}
+              font={{ size: 'ML' }}
               color="gray"
               style={{ margin: '30px 0 0 0' }}
             >
@@ -135,14 +138,23 @@ const MainComponent = () => {
           >
             무료로 시작하기
           </Button>
-        </StyledContent>
-      </Section>
-      <Section style={{ padding: '60px 0 0 0' }}>
-        <StyledContent>
-          <StyledTitle type="subtitle1">
-            혹시 궁금한 점이 있으신가요?
-          </StyledTitle>
-          <Button to="mailto:dlsgh120@gmail.com">문의하기</Button>
+          <Flex justify="center" style={{ margin: '0 0 60px 0' }}>
+            <Text
+              color="white"
+              font={{ size: 'L', weight: 'bold' }}
+              style={{ margin: 'auto 0' }}
+            >
+              혹시 궁금한 점이 있으신가요?
+            </Text>
+            <Button
+              background="white"
+              font={{ color: 'black', weight: 'bold' }}
+              to="mailto:dlsgh120@gmail.com"
+              style={{ margin: '0 0 0 20px' }}
+            >
+              문의하기
+            </Button>
+          </Flex>
         </StyledContent>
       </Section>
     </>

@@ -5,7 +5,10 @@ export const theme = {
     gray: '#6A7B8F',
     purple: '#4848d3',
     lightred: '#b01c2d',
-    skyblue:
+    lightbrown: '#F8F6F1',
+    lightbrown_gradient:
+      'linear-gradient( 0deg,rgb(248,246,241) 0%,rgba(238,245,255,0) 100% ),rgb(255,255,255)',
+    skyblue_gradient:
       'linear-gradient( 0deg,rgb(225,242,255) 0%,rgba(238,245,255,0) 100% ),rgb(255,255,255)',
   },
 
@@ -24,6 +27,7 @@ export const theme = {
       XS: '12px',
       S: '14px',
       M: '16px',
+      ML: '20px',
       L: '24px',
       XL: '28px',
     },

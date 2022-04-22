@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
-import { Header } from '@/components/organisms';
+import { Header, Footer } from '@/components/organisms';
 
 interface Props {
   children?: React.ReactNode;
@@ -15,6 +15,9 @@ const BaseTemplates = (props: Props) => {
       <Head>{title || 'Team Todo'}</Head>
       <Header />
       <main>{children}</main>
+      <footer>
+        <Footer />
+      </footer>
     </div>
   );
 };

@@ -5,7 +5,7 @@ export interface Props extends InputHTMLAttributes<HTMLParagraphElement> {
   children?: React.ReactNode;
   font?: {
     size?: string;
-    weight?: string;
+    weight?: string | number;
   };
   color?: string;
 }
