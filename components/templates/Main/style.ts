@@ -15,7 +15,7 @@ const typeStyles = css<titleProps>`
   }}
 `;
 
-export const StyledTitle = styled.h4<titleProps>`
+export const StyledTitle = styled.h1<titleProps>`
   ${typeStyles};
   color: ${(props) => props.theme.palette[props.color || 'black']};
   margin: 30px 0;

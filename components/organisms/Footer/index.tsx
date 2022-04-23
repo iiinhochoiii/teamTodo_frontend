@@ -8,10 +8,10 @@ const Footer = () => {
     <StyledFooter>
       <StyledFooterContent>
         <Box>
-          <Text font={{ size: 'XS' }}>
+          <Text font={{ size: 'XS', weight: 200 }}>
             본 웹사이트는 개인 프로젝트 목적으로 제작되었습니다.
           </Text>
-          <Text font={{ size: 'XS' }}>
+          <Text font={{ size: 'XS', weight: 200 }}>
             문의 사항 및 건의 사항은 dlsgh120@gmail.com 으로 보내주시면 답변
             드리겠습니다.
           </Text>
