@@ -3,6 +3,7 @@ export const theme = {
     black: '#000',
     white: '#fff',
     gray: '#6A7B8F',
+    lightgray: '#e5e5e5',
     purple: '#4848d3',
     lightred: '#b01c2d',
     lightbrown: '#F8F6F1',
@@ -34,14 +35,12 @@ export const theme = {
     weight: [100, 200, 300, 400, 500, 'bold'],
     style: {
       h1: `
-        font-size: 4.2rem;
-        letter-spacing: -0.15rem;
-        font-weight: 300;
+        font-size: 34px;
+        font-weight: 500;
       `,
       h2: `
-        font-size: 3.4rem;
-        letter-spacing: -0.05rem;
-        font-weight: 300;
+        font-size: 30px;
+        font-weight: 400;
       `,
       h3: `
         font-size: 2.8rem;

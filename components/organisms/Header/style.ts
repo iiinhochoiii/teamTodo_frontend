@@ -25,7 +25,7 @@ export const StyledLogo = styled.a`
 `;
 
 export const HeaderLink = styled.a`
-  margin: auto 10px auto 0;
+  margin: auto 20px auto 0;
   font-size: 16px;
   font-weight: bold;
 `;

@@ -12,10 +12,12 @@ export const GlobalStyle = createGlobalStyle`
     background-color: #fff;
     color:#333333;
     font-weight:300;
+    font-family: 'Noto Sans KR', sans-serif;
   }
 
   a {
     color: #000;
     cursor: pointer;
+    text-decoration: none;
   }
 `;

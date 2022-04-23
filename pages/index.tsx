@@ -1,12 +1,12 @@
 import React from 'react';
 import type { NextPage } from 'next';
-import { Base, MainComponent } from '@/components/templates';
+import { HomeTemplates, MainComponent } from '@/components/templates';
 
 const Home: NextPage = () => {
   return (
-    <Base>
+    <HomeTemplates>
       <MainComponent />
-    </Base>
+    </HomeTemplates>
   );
 };
 

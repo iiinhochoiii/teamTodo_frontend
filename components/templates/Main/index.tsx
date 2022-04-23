@@ -8,7 +8,7 @@ const MainComponent = () => {
     <>
       <Section
         background="lightbrown_gradient"
-        style={{ padding: '120px 0 0 0' }}
+        style={{ padding: '140px 0 0 0' }}
       >
         <StyledContent>
           <StyledTitle color="black">
@@ -22,7 +22,7 @@ const MainComponent = () => {
             size="XL"
             font={{ size: 'M', weight: 'bold' }}
             style={{ margin: '50px 0 100px' }}
-            to="/signup"
+            to="/auth/signup"
           >
             무료로 시작하기
           </Button>
@@ -134,7 +134,7 @@ const MainComponent = () => {
             font={{ size: 'M', weight: 'bold', color: 'black' }}
             background="white"
             style={{ margin: '50px 0 100px' }}
-            to="/signup"
+            to="/auth/signup"
           >
             무료로 시작하기
           </Button>

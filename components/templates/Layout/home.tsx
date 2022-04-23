@@ -7,7 +7,7 @@ interface Props {
   title?: string;
 }
 
-const BaseTemplates = (props: Props) => {
+const HomeTemplates = (props: Props) => {
   const { children, title } = props;
 
   return (
@@ -22,4 +22,4 @@ const BaseTemplates = (props: Props) => {
   );
 };
 
-export default BaseTemplates;
+export default HomeTemplates;

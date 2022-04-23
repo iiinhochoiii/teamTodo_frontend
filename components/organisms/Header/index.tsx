@@ -12,14 +12,14 @@ const Header = () => {
         </Link>
 
         <Flex>
-          <Link href="/signup">
+          <Link href="/auth/signup">
             <HeaderLink>Signup</HeaderLink>
           </Link>
           <Button
             color={'black'}
             size={'L'}
             font={{ size: 'M', weight: 'bold' }}
-            to={'/signin'}
+            to={'/auth/signin'}
           >
             Signin
           </Button>
