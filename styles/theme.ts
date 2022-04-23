@@ -20,6 +20,7 @@ export const theme = {
       M: '60px',
       L: '120px',
       XL: '200px',
+      MAX: '100%',
     },
   },
 
