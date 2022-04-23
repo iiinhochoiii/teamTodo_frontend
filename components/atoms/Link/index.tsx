@@ -8,13 +8,19 @@ export interface Props {
   href?: string;
   as?: string;
   color?: string;
+  font?: {
+    size?: string;
+    weight?: string | number;
+  };
 }
 
 const Links = (props: Props) => {
-  const { children, href, as, color } = props;
+  const { children, href, as, color, font, style } = props;
   return (
     <Link href={href || '/'} passHref as={as}>
-      <StyledLink color={color}>{children}</StyledLink>
+      <StyledLink color={color} font={font} style={style}>
+        {children}
+      </StyledLink>
     </Link>
   );
 };
