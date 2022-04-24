@@ -6,12 +6,10 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import { menu } from './menu';
 import { Drawer } from './material-style';
 import { StyledLogo, StyledIconButton } from './style';
-import { Flex } from '@/components/atoms';
+import { Flex, Text, Box } from '@/components/atoms';
 
 interface Props {
   open: boolean;
@@ -43,6 +41,7 @@ const DashboardSidebar = (props: Props) => {
                 minHeight: 48,
                 justifyContent: open ? 'initial' : 'center',
                 px: 2.5,
+                ...(index === 0 && { margin: '0 0 30px 0' }),
               }}
               onClick={() => router.push(item.href)}
             >
@@ -53,7 +52,7 @@ const DashboardSidebar = (props: Props) => {
                   justifyContent: 'center',
                 }}
               >
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <img src={item.svg} style={{ width: '20px' }} />
               </ListItemIcon>
               <ListItemText
                 primary={item.title}
@@ -62,6 +61,16 @@ const DashboardSidebar = (props: Props) => {
             </ListItemButton>
           );
         })}
+
+        <Box style={{ margin: '30px 0 0 20px' }}>
+          <Text
+            color="gray"
+            font={{ size: 'M', weight: 300 }}
+            style={{ ...(!open && { display: 'none' }) }}
+          >
+            My teams
+          </Text>
+        </Box>
       </List>
     </Drawer>
   );
