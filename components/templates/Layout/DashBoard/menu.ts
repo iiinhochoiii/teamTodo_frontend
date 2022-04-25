@@ -6,7 +6,7 @@ export const menu = [
   },
   {
     title: 'Hoem',
-    href: '/dashboard/home',
+    href: '/dashboard',
     svg: '/static/images/home.png',
   },
   {

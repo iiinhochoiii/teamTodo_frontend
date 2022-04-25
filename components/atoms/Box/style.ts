@@ -12,7 +12,11 @@ const widthStyles = css<Props>`
         selectedWidth = `${props.width}%`;
       }
     } else {
-      selectedWidth = `${props.width?.replaceAll('px', '')}px`;
+      if (props.width?.includes('px')) {
+        selectedWidth = `${props.width?.replaceAll('px', '')}px`;
+      } else if (props.width?.includes('%')) {
+        selectedWidth = `${props.width?.replaceAll('%', '')}%`;
+      }
     }
 
     return css`

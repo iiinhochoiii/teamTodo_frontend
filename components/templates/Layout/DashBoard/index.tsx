@@ -30,7 +30,9 @@ const MiniDrawer = (props: Props) => {
         </StyledToolbar>
       </AppBar>
       <DashboardSidebar open={open} handleDrawerClose={() => setOpen(false)} />
-      <Box style={{ padding: '85px 30px 30px 30px' }}>{children}</Box>
+      <Box style={{ padding: '85px 30px 30px 30px' }} width="50%">
+        {children}
+      </Box>
     </Flex>
   );
 };
