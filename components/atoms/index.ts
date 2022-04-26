@@ -7,3 +7,4 @@ export { default as Text } from './Text';
 export { default as Form } from './Form/Form';
 export { default as FormInput } from './Form/FormInput';
 export { default as FormSubmit } from './Form/FormSubmit';
+export { default as HRBox } from './HRBox';

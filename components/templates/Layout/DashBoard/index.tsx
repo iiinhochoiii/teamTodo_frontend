@@ -14,7 +14,7 @@ const MiniDrawer = (props: Props) => {
   const [open, setOpen] = useState(true);
 
   return (
-    <Flex>
+    <Flex justify="center">
       <AppBar open={open}>
         <StyledToolbar>
           <StyledIconButton
@@ -30,7 +30,7 @@ const MiniDrawer = (props: Props) => {
         </StyledToolbar>
       </AppBar>
       <DashboardSidebar open={open} handleDrawerClose={() => setOpen(false)} />
-      <Box style={{ padding: '85px 30px 30px 30px' }} width="50%">
+      <Box style={{ padding: '85px 30px 30px 30px' }} width={1 / 2}>
         {children}
       </Box>
     </Flex>
