@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react';
+import React, { useState, HTMLAttributes } from 'react';
 import {
   StyledCard,
   StyledCardHeader,
@@ -8,6 +8,7 @@ import {
   CardContentItem,
 } from './style';
 import { Box, Text, HRBox, Flex } from '@/components/atoms';
+import { Menu } from '@/components/molecules';
 import MoreHoriz from '@material-ui/icons/MoreHoriz';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
@@ -24,10 +25,15 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
       }[];
     };
   };
+
+  remove: (id: number) => void;
 }
 
 const Card = (props: Props) => {
-  const { item } = props;
+  const { item, remove } = props;
+
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <StyledCard>
       <StyledCardHeader>
@@ -36,8 +42,23 @@ const Card = (props: Props) => {
         </Box>
         <Box style={{ margin: '0 0 0 20px' }}>
           <Flex justify="space-between">
-            <Text>{item.userName}</Text>
-            <MoreHoriz />
+            <Text>
+              {item.userName}
+              {item.id}
+            </Text>
+            <Box width="auto" style={{ position: 'relative' }}>
+              <MoreHoriz onClick={() => setIsOpen(!isOpen)} />
+              {isOpen && (
+                <Menu>
+                  <Box>
+                    <Text font={{ size: 'S', weight: 400 }}>Add Items</Text>
+                  </Box>
+                  <Box onClick={() => remove(item.id)}>
+                    <Text font={{ size: 'S', weight: 400 }}>Remove</Text>
+                  </Box>
+                </Menu>
+              )}
+            </Box>
           </Flex>
           <Text font={{ size: 'XS' }} color="gray">
             {item.createdAt}

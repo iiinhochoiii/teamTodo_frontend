@@ -3,7 +3,9 @@ import { DashboardCard } from '@/components/organisms';
 import { Container } from './style';
 
 const DashBoardComponent = () => {
-  const [data] = useState(Array.from({ length: 10 }, (_, index) => index + 1));
+  const [data, setData] = useState(
+    Array.from({ length: 10 }, (_, index) => index + 1)
+  );
 
   const test = {
     id: 0,
@@ -23,10 +25,20 @@ const DashBoardComponent = () => {
     },
   };
 
+  const remove = (id: number) => {
+    if (window.confirm('작성하신 내용을 삭제하시겠습니까?')) {
+      setData((item) => item.filter((i) => i !== id));
+    }
+  };
+
   return (
     <Container>
       {data.map((item) => (
-        <DashboardCard key={item} item={{ ...test, id: item }} />
+        <DashboardCard
+          key={item}
+          item={{ ...test, id: item }}
+          remove={(id: number) => remove(id)}
+        />
       ))}
     </Container>
   );

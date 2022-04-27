@@ -16,6 +16,8 @@ const widthStyles = css<Props>`
         selectedWidth = `${props.width?.replaceAll('px', '')}px`;
       } else if (props.width?.includes('%')) {
         selectedWidth = `${props.width?.replaceAll('%', '')}%`;
+      } else {
+        selectedWidth = 'auto';
       }
     }
 
