@@ -10,6 +10,8 @@ import {
 import { Box, Text, HRBox, Flex } from '@/components/atoms';
 import { Menu } from '@/components/molecules';
 import MoreHoriz from '@material-ui/icons/MoreHoriz';
+import AddIcon from '@material-ui/icons/Add';
+import { Dialog } from '@/components/organisms';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   item: {
@@ -33,6 +35,8 @@ const Card = (props: Props) => {
   const { item, remove } = props;
 
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenItem, setIsOpenItem] = useState(false);
+  const [isDialog, setIsDialog] = useState(false);
 
   return (
     <StyledCard>
@@ -50,8 +54,15 @@ const Card = (props: Props) => {
               <MoreHoriz onClick={() => setIsOpen(!isOpen)} />
               {isOpen && (
                 <Menu>
-                  <Box>
-                    <Text font={{ size: 'S', weight: 400 }}>Add Items</Text>
+                  <Box
+                    onClick={() => {
+                      setIsOpenItem(!isOpenItem);
+                      setIsOpen(false);
+                    }}
+                  >
+                    <Text font={{ size: 'S', weight: 400 }}>
+                      {isOpenItem ? 'Done Add Items' : 'Add Items'}
+                    </Text>
                   </Box>
                   <Box onClick={() => remove(item.id)}>
                     <Text font={{ size: 'S', weight: 400 }}>Remove</Text>
@@ -66,16 +77,24 @@ const Card = (props: Props) => {
         </Box>
       </StyledCardHeader>
       <CardContent>
-        <Box>
-          {item.data.t.map((i, index) => (
-            <CardContentItem key={index}>
-              <CardContentIcon />
-              <Box>
-                <Text font={{ size: 'M', weight: 300 }}>{i.title}</Text>
-              </Box>
-            </CardContentItem>
-          ))}
-        </Box>
+        {item.data.t.map((i, index) => (
+          <CardContentItem key={index}>
+            <CardContentIcon />
+            <Box>
+              <Text font={{ size: 'M', weight: 300 }}>{i.title}</Text>
+            </Box>
+          </CardContentItem>
+        ))}
+        {isOpenItem && (
+          <CardContentItem onClick={() => setIsDialog(true)}>
+            <AddIcon />
+            <Box>
+              <Text color="purple" font={{ size: 'S', weight: 400 }}>
+                Add Items
+              </Text>
+            </Box>
+          </CardContentItem>
+        )}
       </CardContent>
       <HRBox color="lightgray" />
       <CardContent>
@@ -87,7 +106,22 @@ const Card = (props: Props) => {
             </Box>
           </CardContentItem>
         ))}
+        {isOpenItem && (
+          <CardContentItem>
+            <AddIcon />
+            <Box>
+              <Text color="purple" font={{ size: 'S', weight: 400 }}>
+                Add Items
+              </Text>
+            </Box>
+          </CardContentItem>
+        )}
       </CardContent>
+      {isDialog && (
+        <Dialog open={isDialog} setOpen={setIsDialog}>
+          <Box>asd</Box>
+        </Dialog>
+      )}
     </StyledCard>
   );
 };

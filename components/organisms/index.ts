@@ -1,3 +1,4 @@
 export { default as Header } from './Header';
 export { default as Footer } from './Footer';
 export { default as DashboardCard } from './Dashboard/Card';
+export { default as Dialog } from './Dialog';

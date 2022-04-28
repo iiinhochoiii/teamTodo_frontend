@@ -62,7 +62,13 @@ export const CardContentItem = styled.div`
   cursor: pointer;
 
   &:hover {
-    background-color: ${palette('lightgray')};
+    background-color: ${palette('whitesmoke')};
     border-radius: 5px;
+  }
+
+  & > svg {
+    width: 20px;
+    margin: 0 15px 0 3px;
+    color: ${palette('purple')};
   }
 `;
