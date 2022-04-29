@@ -1,4 +1,4 @@
-import React, { useState, HTMLAttributes } from 'react';
+import React, { useState, useEffect, HTMLAttributes } from 'react';
 import {
   StyledCard,
   StyledCardHeader,
@@ -7,11 +7,20 @@ import {
   CardContentIcon,
   CardContentItem,
 } from './style';
-import { Box, Text, HRBox, Flex } from '@/components/atoms';
+import {
+  Box,
+  Text,
+  HRBox,
+  Flex,
+  FormTextarea,
+  Button,
+} from '@/components/atoms';
 import { Menu } from '@/components/molecules';
 import MoreHoriz from '@material-ui/icons/MoreHoriz';
 import AddIcon from '@material-ui/icons/Add';
 import { Dialog } from '@/components/organisms';
+import { useForm } from 'react-hook-form';
+import DialogActions from '@mui/material/DialogActions';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   item: {
@@ -29,14 +38,61 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   };
 
   remove: (id: number) => void;
+  add: (data: { id: number; dataType: string; title: string }) => void;
+  update: (data: {
+    id: number;
+    dataType: string;
+    title: string;
+    updateId: number;
+  }) => void;
 }
 
 const Card = (props: Props) => {
-  const { item, remove } = props;
+  const { item, remove, add, update } = props;
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [isOpenItem, setIsOpenItem] = useState(false);
-  const [isDialog, setIsDialog] = useState(false);
+  const [isOpen, setIsOpen] = useState(false); // 메뉴 open값
+  const [isOpenItem, setIsOpenItem] = useState(false); // addiItem에 대한 값
+  const [isCreateDialog, setIsCreateDialog] = useState(false); // item 생성 다이어로그
+  const [isUpdateDialog, setIsUpdateDialog] = useState(false); // item 변경 다이어로그
+  const [updateId, setUpdateId] = useState<number>(-1);
+  const [dataType, setDataType] = useState('');
+
+  const { register, watch, reset } = useForm();
+
+  const onClickHandler = (type: string) => {
+    if (watch('title')) {
+      const data = {
+        id: item.id,
+        dataType: dataType,
+        title: watch('title'),
+      };
+
+      if (type === 'add') {
+        add(data);
+      } else if (type === 'update') {
+        update({ ...data, updateId: updateId });
+      }
+      setDataType('');
+      reset({
+        title: '',
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (updateId >= 0) {
+      reset({
+        title:
+          dataType === 'today'
+            ? item.data.t[updateId].title
+            : item.data.y[updateId].title,
+      });
+    } else {
+      reset({
+        title: '',
+      });
+    }
+  }, [dataType, updateId]);
 
   return (
     <StyledCard>
@@ -78,7 +134,14 @@ const Card = (props: Props) => {
       </StyledCardHeader>
       <CardContent>
         {item.data.t.map((i, index) => (
-          <CardContentItem key={index}>
+          <CardContentItem
+            key={index}
+            onClick={() => {
+              setIsUpdateDialog(true);
+              setDataType('today');
+              setUpdateId(index);
+            }}
+          >
             <CardContentIcon />
             <Box>
               <Text font={{ size: 'M', weight: 300 }}>{i.title}</Text>
@@ -86,7 +149,13 @@ const Card = (props: Props) => {
           </CardContentItem>
         ))}
         {isOpenItem && (
-          <CardContentItem onClick={() => setIsDialog(true)}>
+          <CardContentItem
+            onClick={() => {
+              setIsCreateDialog(true);
+              setDataType('today');
+              setUpdateId(-1);
+            }}
+          >
             <AddIcon />
             <Box>
               <Text color="purple" font={{ size: 'S', weight: 400 }}>
@@ -99,7 +168,14 @@ const Card = (props: Props) => {
       <HRBox color="lightgray" />
       <CardContent>
         {item.data.y.map((i, index) => (
-          <CardContentItem key={index}>
+          <CardContentItem
+            key={index}
+            onClick={() => {
+              setIsUpdateDialog(true);
+              setDataType('yesterday');
+              setUpdateId(index);
+            }}
+          >
             <CardContentIcon type="done" />
             <Box>
               <Text font={{ size: 'M', weight: 300 }}>{i.title}</Text>
@@ -107,7 +183,13 @@ const Card = (props: Props) => {
           </CardContentItem>
         ))}
         {isOpenItem && (
-          <CardContentItem>
+          <CardContentItem
+            onClick={() => {
+              setIsCreateDialog(true);
+              setDataType('yesterday');
+              setUpdateId(-1);
+            }}
+          >
             <AddIcon />
             <Box>
               <Text color="purple" font={{ size: 'S', weight: 400 }}>
@@ -117,9 +199,55 @@ const Card = (props: Props) => {
           </CardContentItem>
         )}
       </CardContent>
-      {isDialog && (
-        <Dialog open={isDialog} setOpen={setIsDialog}>
-          <Box>asd</Box>
+      {isCreateDialog && (
+        <Dialog
+          open={isCreateDialog}
+          setOpen={setIsCreateDialog}
+          title="Add Items"
+          footer={
+            <DialogActions>
+              <Button
+                size="M"
+                onClick={() => {
+                  onClickHandler('add');
+                  setIsCreateDialog(false);
+                }}
+              >
+                Add
+              </Button>
+            </DialogActions>
+          }
+        >
+          <FormTextarea
+            {...register('title')}
+            font={{ size: 'ML', weight: 600 }}
+          />
+        </Dialog>
+      )}
+
+      {isUpdateDialog && (
+        <Dialog
+          open={isUpdateDialog}
+          setOpen={setIsUpdateDialog}
+          title="Update Items"
+          footer={
+            <DialogActions>
+              <Button
+                size="M"
+                onClick={() => {
+                  onClickHandler('update');
+                  setIsUpdateDialog(false);
+                }}
+              >
+                Update
+              </Button>
+            </DialogActions>
+          }
+        >
+          <FormTextarea
+            {...register('title')}
+            font={{ size: 'ML', weight: 600 }}
+          />
         </Dialog>
       )}
     </StyledCard>

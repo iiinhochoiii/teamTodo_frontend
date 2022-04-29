@@ -3,9 +3,7 @@ import { DashboardCard } from '@/components/organisms';
 import { Container } from './style';
 
 const DashBoardComponent = () => {
-  const [data, setData] = useState(
-    Array.from({ length: 10 }, (_, index) => index + 1)
-  );
+  const [data] = useState(Array.from({ length: 10 }, (_, index) => index + 1));
 
   const test = {
     id: 0,
@@ -25,19 +23,106 @@ const DashBoardComponent = () => {
     },
   };
 
+  const [items, setItems] = useState(
+    data.map((d) => {
+      return {
+        ...test,
+        id: d,
+      };
+    })
+  );
+
   const remove = (id: number) => {
+    console.log(id);
     if (window.confirm('작성하신 내용을 삭제하시겠습니까?')) {
-      setData((item) => item.filter((i) => i !== id));
+      setItems((item) => item.filter((i) => i.id !== id));
+    }
+  };
+
+  const add = (data: { id: number; dataType: string; title: string }) => {
+    const { id, dataType, title } = data;
+    if (id) {
+      setItems(
+        items.map((item) => {
+          if (item.id === id) {
+            return {
+              ...item,
+              data: {
+                t:
+                  dataType === 'today'
+                    ? [...item.data.t, { title: title }]
+                    : [...item.data.t],
+                y:
+                  dataType === 'yesterday'
+                    ? [...item.data.y, { title: title }]
+                    : [...item.data.y],
+              },
+            };
+          } else {
+            return {
+              ...item,
+            };
+          }
+        })
+      );
+    }
+  };
+
+  const update = (data: {
+    id: number;
+    dataType: string;
+    title: string;
+    updateId: number;
+  }) => {
+    const { id, dataType, title, updateId } = data;
+    if (id) {
+      console.log(data);
+      // setItems(
+      //   items.map((item) => {
+      //     if (item.id === id) {
+      //       return {
+      //         ...item,
+      //         data: {
+      //           t:
+      //             dataType === 'today'
+      //               ? item.data.t.map((i, index) =>
+      //                   index === updateId ? { title: title } : { ...i }
+      //                 )
+      //               : [...item.data.t],
+      //           y:
+      //             dataType === 'yesterday'
+      //               ? item.data.y.map((i, index) =>
+      //                   index === updateId ? { title: title } : { ...i }
+      //                 )
+      //               : [...item.data.y],
+      //         },
+      //       };
+      //     } else {
+      //       return {
+      //         ...item,
+      //       };
+      //     }
+      //   })
+      // );
     }
   };
 
   return (
     <Container>
-      {data.map((item) => (
+      {items.map((item) => (
         <DashboardCard
-          key={item}
-          item={{ ...test, id: item }}
+          key={item.id}
+          item={item}
           remove={(id: number) => remove(id)}
+          add={(data: { id: number; dataType: string; title: string }) =>
+            add(data)
+          }
+          update={(data: {
+            id: number;
+            dataType: string;
+            title: string;
+            updateId: number;
+          }) => update(data)}
         />
       ))}
     </Container>

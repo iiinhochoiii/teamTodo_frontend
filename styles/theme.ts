@@ -34,7 +34,7 @@ export const theme = {
       L: '24px',
       XL: '28px',
     },
-    weight: [100, 200, 300, 400, 500, 'bold'],
+    weight: [100, 200, 300, 400, 500, 600, 'bold'],
     style: {
       h1: `
         font-size: 34px;
