@@ -1,9 +1,6 @@
-import React, { useState } from 'react';
-import MenuIcon from '@material-ui/icons/Menu';
+import React from 'react';
 import DashboardSidebar from './sidebar';
-import { AppBar } from './material-style';
-import { StyledToolbar, StyledIconButton } from './style';
-import { Box, Flex, Text } from '@/components/atoms';
+import { Box, Flex } from '@/components/atoms';
 
 interface Props {
   children?: React.ReactNode;
@@ -11,26 +8,11 @@ interface Props {
 
 const MiniDrawer = (props: Props) => {
   const { children } = props;
-  const [open, setOpen] = useState(true);
 
   return (
-    <Flex justify="center">
-      <AppBar open={open}>
-        <StyledToolbar>
-          <StyledIconButton
-            onClick={() => setOpen(true)}
-            disabled={open}
-            style={{ margin: '0 15px 0 0' }}
-          >
-            <MenuIcon />
-          </StyledIconButton>
-          <Box>
-            <Text font={{ size: 'L', weight: 500 }}>good</Text>
-          </Box>
-        </StyledToolbar>
-      </AppBar>
-      <DashboardSidebar open={open} handleDrawerClose={() => setOpen(false)} />
-      <Box style={{ padding: '85px 30px 30px 30px' }} width={1 / 2}>
+    <Flex>
+      <DashboardSidebar />
+      <Box width={1 / 2} style={{ margin: '0 auto' }}>
         {children}
       </Box>
     </Flex>
