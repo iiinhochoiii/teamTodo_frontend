@@ -17,3 +17,8 @@ export const StyledSidebar = styled.div`
   border-right: 1px solid ${palette('lightgray')};
   background-color: ${palette('whitesmoke')};
 `;
+
+export const StyledSidearContent = styled.div`
+  position: fixed;
+  width: 250px;
+`;
