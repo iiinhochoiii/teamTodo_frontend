@@ -45,10 +45,15 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
     title: string;
     updateId: number;
   }) => void;
+  removeItems: (data: {
+    id: number;
+    dataType: string;
+    updateId: number;
+  }) => void;
 }
 
 const Card = (props: Props) => {
-  const { item, remove, add, update } = props;
+  const { item, remove, add, update, removeItems } = props;
 
   const [isOpen, setIsOpen] = useState(false); // 메뉴 open값
   const [isOpenItem, setIsOpenItem] = useState(false); // addiItem에 대한 값
@@ -71,6 +76,12 @@ const Card = (props: Props) => {
         add(data);
       } else if (type === 'update') {
         update({ ...data, updateId: updateId });
+      } else if (type === 'remove') {
+        removeItems({
+          id: data.id,
+          dataType: dataType,
+          updateId: updateId,
+        });
       }
       setDataType('');
       reset({
@@ -84,8 +95,8 @@ const Card = (props: Props) => {
       reset({
         title:
           dataType === 'today'
-            ? item.data.t[updateId].title
-            : item.data.y[updateId].title,
+            ? item.data.t[updateId]?.title
+            : item.data.y[updateId]?.title,
       });
     } else {
       reset({
@@ -232,6 +243,15 @@ const Card = (props: Props) => {
           title="Update Items"
           footer={
             <DialogActions>
+              <Button
+                size="ML"
+                onClick={() => {
+                  onClickHandler('remove');
+                  setIsUpdateDialog(false);
+                }}
+              >
+                Remove
+              </Button>
               <Button
                 size="M"
                 onClick={() => {

@@ -32,6 +32,7 @@ const DashBoardComponent = () => {
     })
   );
 
+  // remove Card
   const remove = (id: number) => {
     console.log(id);
     if (window.confirm('작성하신 내용을 삭제하시겠습니까?')) {
@@ -76,34 +77,67 @@ const DashBoardComponent = () => {
   }) => {
     const { id, dataType, title, updateId } = data;
     if (id) {
-      console.log(data);
-      // setItems(
-      //   items.map((item) => {
-      //     if (item.id === id) {
-      //       return {
-      //         ...item,
-      //         data: {
-      //           t:
-      //             dataType === 'today'
-      //               ? item.data.t.map((i, index) =>
-      //                   index === updateId ? { title: title } : { ...i }
-      //                 )
-      //               : [...item.data.t],
-      //           y:
-      //             dataType === 'yesterday'
-      //               ? item.data.y.map((i, index) =>
-      //                   index === updateId ? { title: title } : { ...i }
-      //                 )
-      //               : [...item.data.y],
-      //         },
-      //       };
-      //     } else {
-      //       return {
-      //         ...item,
-      //       };
-      //     }
-      //   })
-      // );
+      setItems(
+        items.map((item) => {
+          if (item.id === id) {
+            return {
+              ...item,
+              data: {
+                t:
+                  dataType === 'today'
+                    ? item.data.t.map((i, index) =>
+                        index === updateId ? { ...i, title: title } : { ...i }
+                      )
+                    : [...item.data.t],
+                y:
+                  dataType === 'yesterday'
+                    ? item.data.y.map((i, index) =>
+                        index === updateId ? { ...i, title: title } : { ...i }
+                      )
+                    : [...item.data.y],
+              },
+            };
+          } else {
+            return {
+              ...item,
+            };
+          }
+        })
+      );
+    }
+  };
+
+  const removeItems = (data: {
+    id: number;
+    dataType: string;
+    updateId: number;
+  }) => {
+    const { id, dataType, updateId } = data;
+
+    if (id) {
+      setItems(
+        items.map((item) => {
+          if (item.id === id) {
+            return {
+              ...item,
+              data: {
+                t:
+                  dataType === 'today'
+                    ? item.data.t.filter((_, index) => updateId !== index)
+                    : [...item.data.t],
+                y:
+                  dataType === 'yesterday'
+                    ? item.data.y.filter((_, index) => updateId !== index)
+                    : [...item.data.y],
+              },
+            };
+          } else {
+            return {
+              ...item,
+            };
+          }
+        })
+      );
     }
   };
 
@@ -123,6 +157,11 @@ const DashBoardComponent = () => {
             title: string;
             updateId: number;
           }) => update(data)}
+          removeItems={(data: {
+            id: number;
+            dataType: string;
+            updateId: number;
+          }) => removeItems(data)}
         />
       ))}
     </Container>
