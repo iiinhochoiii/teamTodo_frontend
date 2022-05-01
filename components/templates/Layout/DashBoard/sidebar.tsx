@@ -31,7 +31,6 @@ const DashboardSidebar = () => {
                 key={index}
                 sx={{
                   minHeight: 48,
-                  px: 2.5,
                   ...(index === 0 && { margin: '0 0 30px 0' }),
                 }}
                 onClick={() => router.push(item.href)}
@@ -39,7 +38,6 @@ const DashboardSidebar = () => {
                 <ListItemIcon
                   sx={{
                     minWidth: 0,
-                    justifyContent: 'center',
                     margin: '0 20px 0 0',
                   }}
                 >
