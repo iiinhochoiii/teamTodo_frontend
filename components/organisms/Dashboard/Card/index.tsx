@@ -37,15 +37,15 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
     };
   };
 
-  remove: (id: number) => void;
-  add: (data: { id: number; dataType: string; title: string }) => void;
-  update: (data: {
+  remove?: (id: number) => void;
+  add?: (data: { id: number; dataType: string; title: string }) => void;
+  update?: (data: {
     id: number;
     dataType: string;
     title: string;
     updateId: number;
   }) => void;
-  removeItems: (data: {
+  removeItems?: (data: {
     id: number;
     dataType: string;
     updateId: number;
@@ -72,11 +72,11 @@ const Card = (props: Props) => {
         title: watch('title'),
       };
 
-      if (type === 'add') {
+      if (type === 'add' && add) {
         add(data);
-      } else if (type === 'update') {
+      } else if (type === 'update' && update) {
         update({ ...data, updateId: updateId });
-      } else if (type === 'remove') {
+      } else if (type === 'remove' && removeItems) {
         removeItems({
           id: data.id,
           dataType: dataType,
@@ -131,7 +131,13 @@ const Card = (props: Props) => {
                       {isOpenItem ? 'Done Add Items' : 'Add Items'}
                     </Text>
                   </Box>
-                  <Box onClick={() => remove(item.id)}>
+                  <Box
+                    onClick={() => {
+                      if (remove) {
+                        remove(item.id);
+                      }
+                    }}
+                  >
                     <Text font={{ size: 'S', weight: 400 }}>Remove</Text>
                   </Box>
                 </Menu>

@@ -10,8 +10,8 @@ export const menu = [
     svg: '/static/images/home.png',
   },
   {
-    title: 'My Todo',
-    href: '/dashboard/my',
+    title: 'Todos',
+    href: '/dashboard/todos',
     svg: '/static/images/my.png',
   },
   {

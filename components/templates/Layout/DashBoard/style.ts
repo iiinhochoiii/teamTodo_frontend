@@ -8,13 +8,14 @@ export const StyledLogo = styled.a`
 
 export const StyledSidebar = styled.nav`
   width: 250px;
-  border-right: 1px solid ${palette('lightgray')};
-  background-color: ${palette('whitesmoke')};
 `;
 
 export const StyledSidearContent = styled.div`
   position: fixed;
   width: 250px;
+  height: 100vh;
+  border-right: 1px solid ${palette('lightgray')};
+  background-color: ${palette('whitesmoke')};
 `;
 
 export const StyledContainer = styled.main`

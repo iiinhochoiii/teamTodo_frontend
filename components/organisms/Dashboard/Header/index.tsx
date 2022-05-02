@@ -6,11 +6,17 @@ import {
   HeaderBadge,
 } from './style';
 
-const DashboardHeader = () => {
+interface Props {
+  title?: string;
+}
+
+const DashboardHeader = (props: Props) => {
+  const { title } = props;
+
   return (
     <HeaderContainer>
       <HeaderContent>
-        <HeaderText>Home</HeaderText>
+        <HeaderText>{title || ''}</HeaderText>
         <HeaderBadge />
       </HeaderContent>
     </HeaderContainer>
