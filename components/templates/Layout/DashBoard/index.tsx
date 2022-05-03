@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import DashboardSidebar from './sidebar';
 import { DashboardHeader } from '@/components/organisms';
-import { Box, Flex } from '@/components/atoms';
+import { Flex } from '@/components/atoms';
 import { StyledContainer } from './style';
 import { useRouter } from 'next/router';
 
@@ -31,9 +31,7 @@ const MiniDrawer = (props: Props) => {
       <DashboardSidebar />
       <StyledContainer>
         <DashboardHeader title={path} />
-        <Box width={1 / 2} style={{ margin: '0 auto' }}>
-          {children}
-        </Box>
+        <Flex width={1 / 2}>{children}</Flex>
       </StyledContainer>
     </Flex>
   );

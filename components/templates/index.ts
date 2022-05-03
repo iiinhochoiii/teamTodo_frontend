@@ -6,3 +6,4 @@ export { default as SignUpComponent } from './Auth/SignUp';
 export { default as SignInComponent } from './Auth/SignIn';
 export { default as DashboardComponent } from './Dashboard';
 export { default as DashboardTodosComponent } from './Dashboard/Todos';
+export { default as DashboardComposeComponent } from './Dashboard/Compose';

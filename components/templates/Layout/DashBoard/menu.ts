@@ -1,7 +1,7 @@
 export const menu = [
   {
     title: 'Write Todo',
-    href: '/dashboard/write',
+    href: '/dashboard/compose',
     svg: '/static/images/write.png',
   },
   {
