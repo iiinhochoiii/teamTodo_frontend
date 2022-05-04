@@ -1,15 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Container,
   Title,
   Article,
   ArticleIcon,
   ArticleContent,
+  ArticleEditor,
+  IconButton,
 } from './style';
-import { Text, Box } from '@/components/atoms';
+import { Text, Box, FormTextarea } from '@/components/atoms';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { useForm } from 'react-hook-form';
 
 const ComposeComponent = () => {
   const [items, setItems] = useState([]);
+  const [isContent, setIsContent] = useState(false);
+  const contentRef: any = useRef(null);
+  const { register, watch } = useForm();
+
+  useEffect(() => {
+    document.addEventListener('mousedown', clickContentOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', clickContentOutside);
+    };
+  }, []);
+
+  const clickContentOutside = (event: MouseEvent) => {
+    if (contentRef.current && !contentRef.current.contains(event.target)) {
+      setIsContent(false);
+    }
+  };
 
   return (
     <Container>
@@ -17,10 +38,30 @@ const ComposeComponent = () => {
       <Box style={{ margin: '50px 0 0 0' }}>
         <Text font={{ size: 'M', weight: 600 }}>Plan</Text>
         <Box style={{ margin: '20px 0 0 0' }}>
-          <Article>
+          <Article
+            onClick={() => setIsContent(true)}
+            isContent={isContent}
+            ref={contentRef}
+          >
             <ArticleIcon />
             <ArticleContent>
-              <Text>What is most important to get done today?</Text>
+              {!isContent ? (
+                <Text font={{ size: 'S', weight: 300 }}>
+                  What is most important to get done today?
+                </Text>
+              ) : (
+                <Box>
+                  <FormTextarea
+                    placeholder="What is most important to get done today?"
+                    {...register('title')}
+                  />
+                  <ArticleEditor>
+                    <IconButton disabled={!watch('title')}>
+                      <DeleteIcon />
+                    </IconButton>
+                  </ArticleEditor>
+                </Box>
+              )}
             </ArticleContent>
           </Article>
         </Box>
@@ -31,7 +72,9 @@ const ComposeComponent = () => {
           <Article>
             <ArticleIcon />
             <ArticleContent>
-              <Text>What was the most important thing that happend?</Text>
+              <Text font={{ size: 'S', weight: 300 }}>
+                What was the most important thing that happend?
+              </Text>
             </ArticleContent>
           </Article>
         </Box>

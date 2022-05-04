@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { theme, palette } from 'styled-tools';
 
 export const Container = styled.div`
@@ -11,15 +11,29 @@ export const Title = styled.h1`
   ${theme('font.style.subtitle2')}
 `;
 
-export const Article = styled.div`
+interface ArticleProps {
+  isContent?: boolean;
+}
+
+export const Article = styled.div<ArticleProps>`
   display: flex;
   padding: 10px;
-  cursor: pointer;
+  border-radius: 10px;
 
-  &:hover {
-    background-color: ${palette('whitesmoke')};
-    border-radius: 10px;
-  }
+  ${(props) => {
+    if (props.isContent) {
+      return css`
+        border: 1px solid ${palette('lightgray')};
+      `;
+    } else {
+      return css`
+        cursor: pointer;
+        &:hover {
+          background-color: ${palette('whitesmoke')};
+        }
+      `;
+    }
+  }}
 `;
 
 export const ArticleIcon = styled.div`
@@ -27,9 +41,40 @@ export const ArticleIcon = styled.div`
   height: 15px;
   border-radius: 50%;
   border: 2px solid ${palette('lightgray')};
-  margin: auto 10px auto 0;
+  margin: 0 10px 0 0;
 `;
 
 export const ArticleContent = styled.div`
-  margin: -4px 0 0 0;
+  width: 100%;
+`;
+
+export const ArticleEditor = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
+interface IconButtonProps {
+  disabled?: boolean;
+}
+
+export const IconButton = styled.button<IconButtonProps>`
+  background: none;
+  border: none;
+
+  ${(props) => {
+    if (props.disabled) {
+      return css`
+        & > svg {
+          color: ${palette('lightgray')};
+        }
+      `;
+    } else {
+      return css`
+        cursor: pointer;
+        & > svg {
+          color: ${palette('gray')};
+        }
+      `;
+    }
+  }}
 `;

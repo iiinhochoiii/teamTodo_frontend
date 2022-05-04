@@ -238,6 +238,7 @@ const Card = (props: Props) => {
           <FormTextarea
             {...register('title')}
             font={{ size: 'ML', weight: 600 }}
+            style={{ minHeight: '80px' }}
           />
         </Dialog>
       )}
@@ -273,6 +274,7 @@ const Card = (props: Props) => {
           <FormTextarea
             {...register('title')}
             font={{ size: 'ML', weight: 600 }}
+            style={{ minHeight: '80px' }}
           />
         </Dialog>
       )}

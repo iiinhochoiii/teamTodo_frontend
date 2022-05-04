@@ -20,7 +20,6 @@ const fontStyles = css<Props>`
 export const StyledFormTextArea = styled.textarea`
   ${fontStyles};
   width: calc(100% - 10px);
-  min-height: 80px;
   border: none;
   resize: none;
   outline: none;
