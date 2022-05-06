@@ -7,13 +7,15 @@ import {
   ArticleContent,
   ArticleEditor,
   IconButton,
+  AddItems,
+  AddItemIcon,
 } from './style';
 import { Text, Box, FormTextarea } from '@/components/atoms';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { useForm } from 'react-hook-form';
 
 const ComposeComponent = () => {
-  const [items, setItems] = useState<string[]>(['']);
+  const [items, setItems] = useState<string[]>([]);
   const [isContent, setIsContent] = useState(false);
   const contentRef: React.MutableRefObject<HTMLDivElement | null> =
     useRef(null);
@@ -32,14 +34,21 @@ const ComposeComponent = () => {
   ) => {
     if (contentRef.current && !contentRef.current.contains(event.target)) {
       setIsContent(false);
-      if (watch('title')) {
-        console.log(watch('title'));
-        setItems((item) => [...item]);
+
+      const title = watch('title');
+      if (title) {
+        setItems((item) => [...item, title]);
         reset({
           title: '',
         });
       }
     }
+  };
+
+  const remove = () => {
+    reset({
+      title: '',
+    });
   };
 
   return (
@@ -48,9 +57,22 @@ const ComposeComponent = () => {
       <Box style={{ margin: '50px 0 0 0' }}>
         <Text font={{ size: 'M', weight: 600 }}>Plan</Text>
         <Box style={{ margin: '20px 0 0 0' }}>
-          {items.map((item, index) => (
+          {items.length > 0 ? (
+            items.map((item, index) => (
+              <Article
+                key={index}
+                onClick={() => setIsContent(true)}
+                isContent={isContent}
+                ref={contentRef}
+              >
+                <ArticleIcon />
+                <ArticleContent>
+                  <Text font={{ size: 'S', weight: 300 }}>{item}</Text>
+                </ArticleContent>
+              </Article>
+            ))
+          ) : (
             <Article
-              key={index}
               onClick={() => setIsContent(true)}
               isContent={isContent}
               ref={contentRef}
@@ -68,7 +90,10 @@ const ComposeComponent = () => {
                       {...register('title')}
                     />
                     <ArticleEditor>
-                      <IconButton disabled={!watch('title')}>
+                      <IconButton
+                        disabled={!watch('title')}
+                        onClick={() => remove()}
+                      >
                         <DeleteIcon />
                       </IconButton>
                     </ArticleEditor>
@@ -76,7 +101,15 @@ const ComposeComponent = () => {
                 )}
               </ArticleContent>
             </Article>
-          ))}
+          )}
+          {items.length > 0 && (
+            <AddItems>
+              <AddItemIcon />
+              <Text font={{ size: 'S', weight: 300 }} color="purple">
+                Add Item
+              </Text>
+            </AddItems>
+          )}
         </Box>
       </Box>
       <Box style={{ margin: '50px 0 0 0' }}>
