@@ -16,39 +16,14 @@ import { useForm } from 'react-hook-form';
 
 const ComposeComponent = () => {
   const [items, setItems] = useState<string[]>([]);
-  const [isContent, setIsContent] = useState(false);
-  const contentRef: React.MutableRefObject<HTMLDivElement | null> =
-    useRef(null);
-  const { register, watch, reset } = useForm();
+  const [isAdd, setIsAdd] = useState(false);
 
-  useEffect(() => {
-    document.addEventListener('mousedown', clickContentOutside);
-
-    return () => {
-      document.removeEventListener('mousedown', clickContentOutside);
-    };
-  }, []);
-
-  const clickContentOutside = (
-    event: React.BaseSyntheticEvent | MouseEvent
-  ) => {
-    if (contentRef.current && !contentRef.current.contains(event.target)) {
-      setIsContent(false);
-
-      const title = watch('title');
-      if (title) {
-        setItems((item) => [...item, title]);
-        reset({
-          title: '',
-        });
-      }
-    }
+  const createItems = (title: string) => {
+    setItems(() => [...items, title]);
   };
 
-  const remove = () => {
-    reset({
-      title: '',
-    });
+  const updateItems = (id: number, title: string) => {
+    setItems(items.map((item, index) => (id === index ? title : item)));
   };
 
   return (
@@ -59,51 +34,23 @@ const ComposeComponent = () => {
         <Box style={{ margin: '20px 0 0 0' }}>
           {items.length > 0 ? (
             items.map((item, index) => (
-              <Article
+              <ArticleComponent
                 key={index}
-                onClick={() => setIsContent(true)}
-                isContent={isContent}
-                ref={contentRef}
-              >
-                <ArticleIcon />
-                <ArticleContent>
-                  <Text font={{ size: 'S', weight: 300 }}>{item}</Text>
-                </ArticleContent>
-              </Article>
+                value={item}
+                updateItems={(id: number, title: string) =>
+                  updateItems(id, title)
+                }
+                id={index}
+              />
             ))
           ) : (
-            <Article
-              onClick={() => setIsContent(true)}
-              isContent={isContent}
-              ref={contentRef}
-            >
-              <ArticleIcon />
-              <ArticleContent>
-                {!isContent ? (
-                  <Text font={{ size: 'S', weight: 300 }}>
-                    What is most important to get done today?
-                  </Text>
-                ) : (
-                  <Box>
-                    <FormTextarea
-                      placeholder="What is most important to get done today?"
-                      {...register('title')}
-                    />
-                    <ArticleEditor>
-                      <IconButton
-                        disabled={!watch('title')}
-                        onClick={() => remove()}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                    </ArticleEditor>
-                  </Box>
-                )}
-              </ArticleContent>
-            </Article>
+            <ArticleComponent
+              createItems={(title: string) => createItems(title)}
+            />
           )}
+          {isAdd && <div>asd</div>}
           {items.length > 0 && (
-            <AddItems>
+            <AddItems onClick={() => setIsAdd(true)}>
               <AddItemIcon />
               <Text font={{ size: 'S', weight: 300 }} color="purple">
                 Add Item
@@ -112,21 +59,95 @@ const ComposeComponent = () => {
           )}
         </Box>
       </Box>
-      <Box style={{ margin: '50px 0 0 0' }}>
-        <Text font={{ size: 'M', weight: 600 }}>What happened</Text>
-        <Box style={{ margin: '20px 0 0 0' }}>
-          <Article>
-            <ArticleIcon />
-            <ArticleContent>
-              <Text font={{ size: 'S', weight: 300 }}>
-                What was the most important thing that happend?
-              </Text>
-            </ArticleContent>
-          </Article>
-        </Box>
-      </Box>
     </Container>
   );
 };
 
+interface ArticleProps {
+  createItems?: (title: string) => void;
+  updateItems?: (id: number, title: string) => void;
+  value?: string;
+  id?: number;
+}
+
+const ArticleComponent = (props: ArticleProps) => {
+  const { createItems, value, updateItems, id } = props;
+  const { register, watch, reset } = useForm();
+  const [isContent, setIsContent] = useState(false);
+
+  const remove = () => {
+    reset({
+      title: '',
+    });
+  };
+
+  const contentRef: React.MutableRefObject<HTMLDivElement | null> =
+    useRef(null);
+  useEffect(() => {
+    document.addEventListener('mousedown', clickContentOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', clickContentOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (value) {
+      reset({
+        title: value,
+      });
+    }
+  }, [value]);
+
+  const clickContentOutside = (
+    event: React.BaseSyntheticEvent | MouseEvent
+  ) => {
+    if (contentRef.current && !contentRef.current.contains(event.target)) {
+      setIsContent(false);
+
+      const title = watch('title');
+      if (title) {
+        if (createItems) {
+          createItems(title);
+          reset({
+            title: '',
+          });
+        }
+        if (updateItems && id !== undefined) {
+          updateItems(id, title);
+        }
+      }
+    }
+  };
+  return (
+    <Article
+      onClick={() => setIsContent(true)}
+      isContent={isContent}
+      ref={contentRef}
+    >
+      <ArticleIcon />
+      <ArticleContent>
+        {!isContent ? (
+          <Text font={{ size: 'S', weight: 300 }}>
+            {value || 'What is most important to get done today?'}
+          </Text>
+        ) : (
+          <Box>
+            <FormTextarea
+              placeholder={
+                !value ? 'What is most important to get done today?' : ''
+              }
+              {...register('title')}
+            />
+            <ArticleEditor>
+              <IconButton disabled={!watch('title')} onClick={() => remove()}>
+                <DeleteIcon />
+              </IconButton>
+            </ArticleEditor>
+          </Box>
+        )}
+      </ArticleContent>
+    </Article>
+  );
+};
 export default ComposeComponent;
