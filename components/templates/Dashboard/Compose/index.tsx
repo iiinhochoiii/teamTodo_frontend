@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Container,
   Title,
@@ -17,14 +17,22 @@ import { useForm } from 'react-hook-form';
 const ComposeComponent = () => {
   const [items, setItems] = useState<string[]>([]);
   const [isAdd, setIsAdd] = useState(false);
+  const [isDone, setIsDone] = useState(false);
 
   const createItems = (title: string) => {
-    setItems(() => [...items, title]);
+    setIsAdd(false);
+    setItems((state) => [...state, title]);
   };
 
   const updateItems = (id: number, title: string) => {
     setItems(items.map((item, index) => (id === index ? title : item)));
   };
+
+  useEffect(() => {
+    if (items.length > 0) {
+      setIsDone(true);
+    }
+  }, [items]);
 
   return (
     <Container>
@@ -41,6 +49,7 @@ const ComposeComponent = () => {
                   updateItems(id, title)
                 }
                 id={index}
+                isDone={isDone}
               />
             ))
           ) : (
@@ -48,7 +57,11 @@ const ComposeComponent = () => {
               createItems={(title: string) => createItems(title)}
             />
           )}
-          {isAdd && <div>asd</div>}
+          {isAdd && (
+            <ArticleComponent
+              createItems={(title: string) => createItems(title)}
+            />
+          )}
           {items.length > 0 && (
             <AddItems onClick={() => setIsAdd(true)}>
               <AddItemIcon />
@@ -68,28 +81,13 @@ interface ArticleProps {
   updateItems?: (id: number, title: string) => void;
   value?: string;
   id?: number;
+  isDone?: boolean;
 }
 
 const ArticleComponent = (props: ArticleProps) => {
-  const { createItems, value, updateItems, id } = props;
+  const { createItems, value, updateItems, id, isDone } = props;
   const { register, watch, reset } = useForm();
-  const [isContent, setIsContent] = useState(false);
-
-  const remove = () => {
-    reset({
-      title: '',
-    });
-  };
-
-  const contentRef: React.MutableRefObject<HTMLDivElement | null> =
-    useRef(null);
-  useEffect(() => {
-    document.addEventListener('mousedown', clickContentOutside);
-
-    return () => {
-      document.removeEventListener('mousedown', clickContentOutside);
-    };
-  }, []);
+  const [isContent, setIsContent] = useState(-1);
 
   useEffect(() => {
     if (value) {
@@ -99,35 +97,25 @@ const ArticleComponent = (props: ArticleProps) => {
     }
   }, [value]);
 
-  const clickContentOutside = (
-    event: React.BaseSyntheticEvent | MouseEvent
-  ) => {
-    if (contentRef.current && !contentRef.current.contains(event.target)) {
-      setIsContent(false);
-
-      const title = watch('title');
-      if (title) {
-        if (createItems) {
-          createItems(title);
-          reset({
-            title: '',
-          });
-        }
-        if (updateItems && id !== undefined) {
-          updateItems(id, title);
-        }
-      }
+  useEffect(() => {
+    if (isDone) {
+      setIsContent(-1);
     }
+  }, [isDone]);
+  const onClickHandler = (title: string) => {
+    if (createItems) {
+      createItems(title);
+    } else if (updateItems && id !== undefined) {
+      updateItems(id, title);
+    }
+    setIsContent(-1);
   };
+
   return (
-    <Article
-      onClick={() => setIsContent(true)}
-      isContent={isContent}
-      ref={contentRef}
-    >
+    <Article onClick={() => setIsContent(id || 0)} isContent={isContent}>
       <ArticleIcon />
       <ArticleContent>
-        {!isContent ? (
+        {isContent < 0 ? (
           <Text font={{ size: 'S', weight: 300 }}>
             {value || 'What is most important to get done today?'}
           </Text>
@@ -140,7 +128,16 @@ const ArticleComponent = (props: ArticleProps) => {
               {...register('title')}
             />
             <ArticleEditor>
-              <IconButton disabled={!watch('title')} onClick={() => remove()}>
+              <IconButton
+                disabled={!watch('title')}
+                onClick={() => {
+                  const title = watch('title');
+                  onClickHandler(title);
+                }}
+              >
+                {createItems ? 'Add' : 'Update'}
+              </IconButton>
+              <IconButton disabled={!watch('title')}>
                 <DeleteIcon />
               </IconButton>
             </ArticleEditor>

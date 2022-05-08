@@ -12,7 +12,7 @@ export const Title = styled.h1`
 `;
 
 interface ArticleProps {
-  isContent?: boolean;
+  isContent: number;
 }
 
 export const Article = styled.div<ArticleProps>`
@@ -21,7 +21,7 @@ export const Article = styled.div<ArticleProps>`
   border-radius: 10px;
 
   ${(props) => {
-    if (props.isContent) {
+    if (props.isContent > -1) {
       return css`
         border: 1px solid ${palette('lightgray')};
       `;
