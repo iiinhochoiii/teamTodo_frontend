@@ -16,9 +16,14 @@ interface ArticleProps {
 }
 
 export const Article = styled.div<ArticleProps>`
+  position: relative;
+`;
+
+export const ArticleContainer = styled.div<ArticleProps>`
   display: flex;
   padding: 10px;
   border-radius: 10px;
+  position: relative;
 
   ${(props) => {
     if (props.isContent) {
@@ -41,11 +46,15 @@ export const ArticleIcon = styled.div`
   height: 15px;
   border-radius: 50%;
   border: 2px solid ${palette('lightgray')};
-  margin: 0 10px 0 0;
+  z-index: 10;
+  position: absolute;
+  top: 10px;
+  left: 10px;
 `;
 
 export const ArticleContent = styled.div`
   width: 100%;
+  margin: 0 0 0 30px;
 `;
 
 export const ArticleEditor = styled.div`

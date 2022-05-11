@@ -9,6 +9,7 @@ import {
   IconButton,
   AddItems,
   AddItemIcon,
+  ArticleContainer,
 } from './style';
 import { Text, Box, FormTextarea } from '@/components/atoms';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -16,16 +17,21 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import { useForm } from 'react-hook-form';
 
+type Item = {
+  id: number;
+  title: string;
+  isDone: boolean;
+};
+
 const ComposeComponent = () => {
   const [isAdd, setIsAdd] = useState(false);
-  const [isAdd2, setIsAdd2] = useState(false);
+  const [isDone, setIsDone] = useState(false);
   const [isContent, setIsContent] = useState(-1);
   const { register, watch, reset } = useForm();
 
-  const [items, setItems] = useState<string[]>([]);
-  const [happendItems, setHappendItems] = useState<string[]>([]);
+  const [items, setItems] = useState<Item[]>([]);
   const [allClose, setAllClose] = useState(false);
-  const itemRef: React.MutableRefObject<string[]> = useRef([]);
+  const itemRef: React.MutableRefObject<Item[]> = useRef([]);
   const contentRef: React.MutableRefObject<HTMLDivElement | null> =
     useRef(null);
 
@@ -52,23 +58,36 @@ const ComposeComponent = () => {
   ) => {
     if (contentRef.current && !contentRef.current.contains(event.target)) {
       setIsAdd(false);
+      setIsDone(false);
       setAllClose(true);
     }
   };
 
-  const createItems = (title: string, type?: string) => {
+  const createItems = (title: string, isDone: boolean) => {
     setIsAdd(false);
-    if (type === '1') {
-      setItems((state) => [...state, title]);
-      reset({ title: '' });
-    } else {
-      setHappendItems((state) => [...state, title]);
-      reset({ title2: '' });
-    }
+    setIsDone(false);
+    setItems((state) => [
+      ...state,
+      {
+        id: items.length,
+        title: title,
+        isDone: isDone,
+      },
+    ]);
+    reset({ title: '' });
   };
 
   const updateItems = (id: number, title: string) => {
-    setItems(items.map((item, index) => (id === index ? title : item)));
+    setItems(
+      items.map((item) =>
+        id === item.id
+          ? {
+              ...item,
+              title: title,
+            }
+          : item
+      )
+    );
     itemRef.current = items;
   };
 
@@ -83,6 +102,7 @@ const ComposeComponent = () => {
     }
   }, [items]);
 
+  console.log(items);
   return (
     <Container>
       <Title>작업 예정이거나, 완료한 일정을 팀원에게 공유해보세요.</Title>
@@ -90,48 +110,53 @@ const ComposeComponent = () => {
         <Text font={{ size: 'M', weight: 600 }}>Plan</Text>
         <Box style={{ margin: '20px 0 0 0' }}>
           {items.length > 0 &&
-            items.map((item, index) => (
-              <Article
-                key={index}
-                isContent={index === isContent}
-                onClick={() => {
-                  setIsContent(index);
-                  setIsAdd(false);
-                  reset({
-                    title: item,
-                  });
-                }}
-                ref={contentRef}
-              >
-                <ArticleIcon />
-                <ArticleContent>
-                  {isContent === index ? (
-                    <Box>
-                      <FormTextarea {...register('title')} />
-                      <ArticleEditor>
-                        <IconButton
-                          disabled={!watch('title')}
-                          onClick={() => {
-                            const title = watch('title');
-                            updateItems(index, title);
-                          }}
-                        >
-                          <ChangeCircleIcon />
-                        </IconButton>
-                        <IconButton
-                          disabled={!watch('title')}
-                          onClick={() => removeItem(index)}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </ArticleEditor>
-                    </Box>
-                  ) : (
-                    <Text font={{ size: 'S', weight: 300 }}>{item}</Text>
-                  )}
-                </ArticleContent>
-              </Article>
-            ))}
+            items.map(
+              (item) =>
+                !item.isDone && (
+                  <Article key={item.id} ref={contentRef}>
+                    <ArticleIcon onClick={() => console.log('test')} />
+                    <ArticleContainer
+                      isContent={item.id === isContent}
+                      onClick={() => {
+                        setIsContent(item.id);
+                        setIsAdd(false);
+                        reset({
+                          title: item.title,
+                        });
+                      }}
+                    >
+                      <ArticleContent>
+                        {isContent === item.id ? (
+                          <Box>
+                            <FormTextarea {...register('title')} />
+                            <ArticleEditor>
+                              <IconButton
+                                disabled={!watch('title')}
+                                onClick={() => {
+                                  const title = watch('title');
+                                  updateItems(item.id, title);
+                                }}
+                              >
+                                <ChangeCircleIcon />
+                              </IconButton>
+                              <IconButton
+                                disabled={!watch('title')}
+                                onClick={() => removeItem(item.id)}
+                              >
+                                <DeleteIcon />
+                              </IconButton>
+                            </ArticleEditor>
+                          </Box>
+                        ) : (
+                          <Text font={{ size: 'S', weight: 300 }}>
+                            {item.title}
+                          </Text>
+                        )}
+                      </ArticleContent>
+                    </ArticleContainer>
+                  </Article>
+                )
+            )}
           {isAdd && (
             <Article isContent={true} ref={contentRef}>
               <ArticleIcon />
@@ -146,7 +171,7 @@ const ComposeComponent = () => {
                       disabled={!watch('title')}
                       onClick={() => {
                         const title = watch('title');
-                        createItems(title, '1');
+                        createItems(title, false);
                       }}
                     >
                       <AddCircleIcon />
@@ -177,73 +202,78 @@ const ComposeComponent = () => {
         </Box>
       </Box>
 
-      {/* 완료 */}
+      {/* done */}
       <Box style={{ margin: '50px 0 0 0' }}>
         <Text font={{ size: 'M', weight: 600 }}>Happend</Text>
         <Box style={{ margin: '20px 0 0 0' }}>
-          {happendItems.length > 0 &&
-            happendItems.map((item, index) => (
-              <Article
-                key={index}
-                isContent={index === isContent}
-                onClick={() => {
-                  setIsContent(index);
-                  setIsAdd(false);
-                  reset({
-                    title: item,
-                  });
-                }}
-                ref={contentRef}
-              >
-                <ArticleIcon />
-                <ArticleContent>
-                  {isContent === index ? (
-                    <Box>
-                      <FormTextarea {...register('title2')} />
-                      <ArticleEditor>
-                        <IconButton
-                          disabled={!watch('title2')}
-                          onClick={() => {
-                            const title = watch('title2');
-                            updateItems(index, title);
-                          }}
-                        >
-                          <ChangeCircleIcon />
-                        </IconButton>
-                        <IconButton
-                          disabled={!watch('title2')}
-                          onClick={() => removeItem(index)}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </ArticleEditor>
-                    </Box>
-                  ) : (
-                    <Text font={{ size: 'S', weight: 300 }}>{item}</Text>
-                  )}
-                </ArticleContent>
-              </Article>
-            ))}
-          {isAdd2 && (
+          {items.length > 0 &&
+            items.map(
+              (item) =>
+                item.isDone && (
+                  <Article
+                    key={item.id}
+                    isContent={item.id === isContent}
+                    onClick={() => {
+                      setIsContent(item.id);
+                      setIsDone(false);
+                      reset({
+                        title: item.title,
+                      });
+                    }}
+                    ref={contentRef}
+                  >
+                    <ArticleIcon />
+                    <ArticleContent>
+                      {isContent === item.id ? (
+                        <Box>
+                          <FormTextarea {...register('title')} />
+                          <ArticleEditor>
+                            <IconButton
+                              disabled={!watch('title')}
+                              onClick={() => {
+                                const title = watch('title');
+                                updateItems(item.id, title);
+                              }}
+                            >
+                              <ChangeCircleIcon />
+                            </IconButton>
+                            <IconButton
+                              disabled={!watch('title')}
+                              onClick={() => removeItem(item.id)}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          </ArticleEditor>
+                        </Box>
+                      ) : (
+                        <Text font={{ size: 'S', weight: 300 }}>
+                          {item.title}
+                        </Text>
+                      )}
+                    </ArticleContent>
+                  </Article>
+                )
+            )}
+          {isDone && (
             <Article isContent={true} ref={contentRef}>
               <ArticleIcon />
               <ArticleContent>
                 <Box>
                   <FormTextarea
                     placeholder={'What is most important to get done today?'}
-                    {...register('title2')}
+                    {...register('title')}
                   />
                   <ArticleEditor>
                     <IconButton
-                      disabled={!watch('title2')}
+                      disabled={!watch('title')}
                       onClick={() => {
-                        const title = watch('title2');
-                        createItems(title, '2');
+                        const title = watch('title');
+                        createItems(title, true);
                       }}
                     >
                       <AddCircleIcon />
                     </IconButton>
-                    <IconButton disabled={!watch('title2')}>
+                    <IconButton disabled={!watch('title')}>
                       <DeleteIcon />
                     </IconButton>
                   </ArticleEditor>
@@ -254,10 +284,10 @@ const ComposeComponent = () => {
 
           <AddItems
             onClick={() => {
-              setIsAdd2(true);
+              setIsDone(true);
               setIsContent(-1);
               reset({
-                title2: '',
+                title: '',
               });
             }}
           >
