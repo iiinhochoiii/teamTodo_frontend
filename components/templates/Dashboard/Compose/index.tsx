@@ -102,6 +102,19 @@ const ComposeComponent = () => {
     }
   }, [items]);
 
+  const doneItem = (id: number) => {
+    setItems(
+      items.map((item) =>
+        item.id === id
+          ? {
+              ...item,
+              isDone: !item.isDone,
+            }
+          : item
+      )
+    );
+  };
+
   console.log(items);
   return (
     <Container>
@@ -114,7 +127,7 @@ const ComposeComponent = () => {
               (item) =>
                 !item.isDone && (
                   <Article key={item.id} ref={contentRef}>
-                    <ArticleIcon onClick={() => console.log('test')} />
+                    <ArticleIcon onClick={() => doneItem(item.id)} />
                     <ArticleContainer
                       isContent={item.id === isContent}
                       onClick={() => {
