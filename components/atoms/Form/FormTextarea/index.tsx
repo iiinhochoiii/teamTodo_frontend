@@ -1,5 +1,5 @@
 import React, { HTMLAttributes, forwardRef } from 'react';
-import { StyledFormTextArea } from './style';
+import * as S from './style';
 
 export interface Props extends HTMLAttributes<HTMLTextAreaElement> {
   readonly?: boolean;
@@ -13,7 +13,7 @@ export interface Props extends HTMLAttributes<HTMLTextAreaElement> {
 // eslint-disable-next-line react/display-name
 const FormTextArea = forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
   return (
-    <StyledFormTextArea {...props} ref={ref} readOnly={!!props.readonly} />
+    <S.StyledFormTextArea {...props} ref={ref} readOnly={!!props.readonly} />
   );
 });
 

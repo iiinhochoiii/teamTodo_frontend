@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container } from './style';
+import * as S from './style';
 import { DashboardCard } from '@/components/organisms';
 
 const TodosComponent = () => {
@@ -133,7 +133,7 @@ const TodosComponent = () => {
   };
 
   return (
-    <Container>
+    <S.Container>
       {items.map((item) => (
         <DashboardCard
           key={item.id}
@@ -155,7 +155,7 @@ const TodosComponent = () => {
           }) => removeItems(data)}
         />
       ))}
-    </Container>
+    </S.Container>
   );
 };
 

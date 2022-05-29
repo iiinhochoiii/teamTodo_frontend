@@ -1,12 +1,5 @@
 import React, { useState, useEffect, HTMLAttributes } from 'react';
-import {
-  StyledCard,
-  StyledCardHeader,
-  CardBadge,
-  CardContent,
-  CardContentIcon,
-  CardContentItem,
-} from './style';
+import * as S from './style';
 import {
   Box,
   Text,
@@ -106,10 +99,10 @@ const Card = (props: Props) => {
   }, [dataType, updateId]);
 
   return (
-    <StyledCard>
-      <StyledCardHeader>
+    <S.StyledCard>
+      <S.StyledCardHeader>
         <Box width="30px">
-          <CardBadge></CardBadge>
+          <S.CardBadge></S.CardBadge>
         </Box>
         <Box style={{ margin: '0 0 0 20px' }}>
           <Flex justify="space-between">
@@ -148,10 +141,10 @@ const Card = (props: Props) => {
             {item.createdAt}
           </Text>
         </Box>
-      </StyledCardHeader>
-      <CardContent>
+      </S.StyledCardHeader>
+      <S.CardContent>
         {item.data.t.map((i, index) => (
-          <CardContentItem
+          <S.CardContentItem
             key={index}
             onClick={() => {
               setIsUpdateDialog(true);
@@ -159,14 +152,14 @@ const Card = (props: Props) => {
               setUpdateId(index);
             }}
           >
-            <CardContentIcon />
+            <S.CardContentIcon />
             <Box>
               <Text font={{ size: 'M', weight: 300 }}>{i.title}</Text>
             </Box>
-          </CardContentItem>
+          </S.CardContentItem>
         ))}
         {isOpenItem && (
-          <CardContentItem
+          <S.CardContentItem
             onClick={() => {
               setIsCreateDialog(true);
               setDataType('today');
@@ -179,13 +172,13 @@ const Card = (props: Props) => {
                 Add Items
               </Text>
             </Box>
-          </CardContentItem>
+          </S.CardContentItem>
         )}
-      </CardContent>
+      </S.CardContent>
       <HRBox color="lightgray" />
-      <CardContent>
+      <S.CardContent>
         {item.data.y.map((i, index) => (
-          <CardContentItem
+          <S.CardContentItem
             key={index}
             onClick={() => {
               setIsUpdateDialog(true);
@@ -193,14 +186,14 @@ const Card = (props: Props) => {
               setUpdateId(index);
             }}
           >
-            <CardContentIcon type="done" />
+            <S.CardContentIcon type="done" />
             <Box>
               <Text font={{ size: 'M', weight: 300 }}>{i.title}</Text>
             </Box>
-          </CardContentItem>
+          </S.CardContentItem>
         ))}
         {isOpenItem && (
-          <CardContentItem
+          <S.CardContentItem
             onClick={() => {
               setIsCreateDialog(true);
               setDataType('yesterday');
@@ -213,9 +206,9 @@ const Card = (props: Props) => {
                 Add Items
               </Text>
             </Box>
-          </CardContentItem>
+          </S.CardContentItem>
         )}
-      </CardContent>
+      </S.CardContent>
       {isCreateDialog && (
         <Dialog
           open={isCreateDialog}
@@ -278,7 +271,7 @@ const Card = (props: Props) => {
           />
         </Dialog>
       )}
-    </StyledCard>
+    </S.StyledCard>
   );
 };
 

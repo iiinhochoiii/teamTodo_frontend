@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  HeaderContainer,
-  HeaderText,
-  HeaderContent,
-  HeaderBadge,
-} from './style';
+import * as S from './style';
 
 interface Props {
   title?: string;
@@ -14,12 +9,12 @@ const DashboardHeader = (props: Props) => {
   const { title } = props;
 
   return (
-    <HeaderContainer>
-      <HeaderContent>
-        <HeaderText>{title || ''}</HeaderText>
-        <HeaderBadge />
-      </HeaderContent>
-    </HeaderContainer>
+    <S.HeaderContainer>
+      <S.HeaderContent>
+        <S.HeaderText>{title || ''}</S.HeaderText>
+        <S.HeaderBadge />
+      </S.HeaderContent>
+    </S.HeaderContainer>
   );
 };
 

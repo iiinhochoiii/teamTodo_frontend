@@ -1,5 +1,5 @@
 import React, { HTMLAttributes } from 'react';
-import { StyledFormSubmit } from './style';
+import * as S from './style';
 
 export interface Props extends HTMLAttributes<HTMLInputElement> {
   disabled?: boolean;
@@ -8,7 +8,7 @@ export interface Props extends HTMLAttributes<HTMLInputElement> {
 }
 
 const FormSubmit = (props: Props) => {
-  return <StyledFormSubmit {...props} />;
+  return <S.StyledFormSubmit {...props} />;
 };
 
 export default FormSubmit;

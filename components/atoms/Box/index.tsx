@@ -1,5 +1,5 @@
 import React, { InputHTMLAttributes } from 'react';
-import { StyledBox } from './style';
+import * as S from './style';
 
 export interface Props extends InputHTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
@@ -9,7 +9,7 @@ export interface Props extends InputHTMLAttributes<HTMLDivElement> {
 const Box = (props: Props) => {
   const { children } = props;
 
-  return <StyledBox {...props}>{children}</StyledBox>;
+  return <S.StyledBox {...props}>{children}</S.StyledBox>;
 };
 
 Box.defaultProps = {

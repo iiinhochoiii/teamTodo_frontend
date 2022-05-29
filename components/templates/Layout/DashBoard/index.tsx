@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import DashboardSidebar from './sidebar';
 import { DashboardHeader } from '@/components/organisms';
 import { Flex } from '@/components/atoms';
-import { StyledContainer } from './style';
+import * as S from './style';
 import { useRouter } from 'next/router';
 
 interface Props {
@@ -29,10 +29,10 @@ const MiniDrawer = (props: Props) => {
   return (
     <Flex>
       <DashboardSidebar />
-      <StyledContainer>
+      <S.StyledContainer>
         <DashboardHeader title={path} />
         <Flex width={1 / 2}>{children}</Flex>
-      </StyledContainer>
+      </S.StyledContainer>
     </Flex>
   );
 };

@@ -1,5 +1,5 @@
 import React, { HTMLAttributes } from 'react';
-import { StyledMenu } from './style';
+import * as S from './style';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
@@ -8,7 +8,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 const Menu = (props: Props) => {
   const { children } = props;
 
-  return <StyledMenu {...props}>{children}</StyledMenu>;
+  return <S.StyledMenu {...props}>{children}</S.StyledMenu>;
 };
 
 export default Menu;

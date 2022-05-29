@@ -1,5 +1,5 @@
 import React, { InputHTMLAttributes } from 'react';
-import { StyledImageFrame } from './style';
+import * as S from './style';
 
 export interface Props extends InputHTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
@@ -8,7 +8,7 @@ export interface Props extends InputHTMLAttributes<HTMLDivElement> {
 
 const ImageFrame = (props: Props) => {
   const { children } = props;
-  return <StyledImageFrame {...props}>{children}</StyledImageFrame>;
+  return <S.StyledImageFrame {...props}>{children}</S.StyledImageFrame>;
 };
 
 export default ImageFrame;

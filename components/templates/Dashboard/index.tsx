@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { DashboardCard } from '@/components/organisms';
-import { Container } from './style';
+import * as S from './style';
 
 const DashBoardComponent = () => {
   const [data] = useState(Array.from({ length: 10 }, (_, index) => index + 1));
@@ -142,7 +142,7 @@ const DashBoardComponent = () => {
   };
 
   return (
-    <Container>
+    <S.Container>
       {items.map((item) => (
         <DashboardCard
           key={item.id}
@@ -164,7 +164,7 @@ const DashBoardComponent = () => {
           }) => removeItems(data)}
         />
       ))}
-    </Container>
+    </S.Container>
   );
 };
 

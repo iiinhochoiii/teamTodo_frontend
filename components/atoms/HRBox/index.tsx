@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyledHRBox } from './style';
+import * as S from './style';
 
 export interface Props {
   style?: React.CSSProperties;
@@ -7,7 +7,7 @@ export interface Props {
 }
 
 const HRBox = (props: Props) => {
-  return <StyledHRBox {...props}></StyledHRBox>;
+  return <S.StyledHRBox {...props}></S.StyledHRBox>;
 };
 
 export default HRBox;

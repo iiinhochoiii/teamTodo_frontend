@@ -8,14 +8,14 @@ import ListItemText from '@mui/material/ListItemText';
 import { menu } from './menu';
 import { StyledLogo } from './style';
 import { Flex, Text, Box } from '@/components/atoms';
-import { StyledSidebar, StyledSidearContent } from './style';
+import * as S from './style';
 
 const DashboardSidebar = () => {
   const router = useRouter();
 
   return (
-    <StyledSidebar>
-      <StyledSidearContent>
+    <S.StyledSidebar>
+      <S.StyledSidearContent>
         <Flex
           justify="space-between"
           style={{ margin: '20px 0', padding: '0 20px' }}
@@ -54,8 +54,8 @@ const DashboardSidebar = () => {
             </Text>
           </Box>
         </List>
-      </StyledSidearContent>
-    </StyledSidebar>
+      </S.StyledSidearContent>
+    </S.StyledSidebar>
   );
 };
 

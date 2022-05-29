@@ -1,19 +1,19 @@
 import React from 'react';
 import Link from 'next/link';
-import { StyledHeader, HeaderContent, HeaderLink, StyledLogo } from './style';
+import * as S from './style';
 import { Button, Flex } from '@/components/atoms';
 
 const Header = () => {
   return (
-    <StyledHeader>
-      <HeaderContent>
+    <S.StyledHeader>
+      <S.HeaderContent>
         <Link href="/">
-          <StyledLogo>TeamTodo</StyledLogo>
+          <S.StyledLogo>TeamTodo</S.StyledLogo>
         </Link>
 
         <Flex>
           <Link href="/auth/signup">
-            <HeaderLink>Signup</HeaderLink>
+            <S.HeaderLink>Signup</S.HeaderLink>
           </Link>
           <Button
             color={'black'}
@@ -24,8 +24,8 @@ const Header = () => {
             Signin
           </Button>
         </Flex>
-      </HeaderContent>
-    </StyledHeader>
+      </S.HeaderContent>
+    </S.StyledHeader>
   );
 };
 

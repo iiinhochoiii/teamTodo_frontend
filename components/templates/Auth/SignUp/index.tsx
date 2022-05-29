@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  StyledSignUpContainer,
-  StyledSignUpContent,
-  StyledHeaderText,
-} from './style';
+import * as S from './style';
 import {
   Box,
   Flex,
@@ -32,9 +28,9 @@ const SignUpComponent = () => {
   };
 
   return (
-    <StyledSignUpContainer>
-      <StyledSignUpContent>
-        <StyledHeaderText>회원가입</StyledHeaderText>
+    <S.StyledSignUpContainer>
+      <S.StyledSignUpContent>
+        <S.StyledHeaderText>회원가입</S.StyledHeaderText>
         <Form onSubmit={handleSubmit(submit)}>
           <Box style={{ margin: '30px 0 0 0' }}>
             <Text font={{ size: 'S', weight: 300 }}>이메일</Text>
@@ -79,8 +75,8 @@ const SignUpComponent = () => {
 
           <FormSubmit type="submit" value="회원가입" />
         </Form>
-      </StyledSignUpContent>
-    </StyledSignUpContainer>
+      </S.StyledSignUpContent>
+    </S.StyledSignUpContainer>
   );
 };
 

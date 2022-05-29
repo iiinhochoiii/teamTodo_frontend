@@ -1,6 +1,6 @@
 import React from 'react';
 import CloseIcon from '@material-ui/icons/Close';
-import { StyledDialog, StyledDialogTitle, StyledDialogContent } from './style';
+import * as S from './style';
 import { Text, Button } from '@/components/atoms';
 
 interface Props {
@@ -15,8 +15,8 @@ const Dialogs = (props: Props) => {
   const { children, open, setOpen, title, footer } = props;
 
   return (
-    <StyledDialog onClose={() => setOpen(false)} open={open}>
-      <StyledDialogTitle onClick={() => setOpen(false)}>
+    <S.StyledDialog onClose={() => setOpen(false)} open={open}>
+      <S.StyledDialogTitle onClick={() => setOpen(false)}>
         <Text>{title}</Text>
         <Button
           onClick={() => setOpen(false)}
@@ -31,10 +31,10 @@ const Dialogs = (props: Props) => {
         >
           <CloseIcon />
         </Button>
-      </StyledDialogTitle>
-      <StyledDialogContent>{children}</StyledDialogContent>
+      </S.StyledDialogTitle>
+      <S.StyledDialogContent>{children}</S.StyledDialogContent>
       {footer}
-    </StyledDialog>
+    </S.StyledDialog>
   );
 };
 

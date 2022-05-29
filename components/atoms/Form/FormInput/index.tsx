@@ -1,5 +1,5 @@
 import React, { HTMLAttributes, forwardRef } from 'react';
-import { StyledFormInput } from './style';
+import * as S from './style';
 
 export interface Props extends HTMLAttributes<HTMLInputElement> {
   style?: React.CSSProperties;
@@ -14,7 +14,7 @@ export interface Props extends HTMLAttributes<HTMLInputElement> {
 const FormInput = forwardRef<HTMLInputElement, Props>((props, ref) => {
   return (
     <>
-      <StyledFormInput
+      <S.StyledFormInput
         {...props}
         ref={ref}
         readOnly={!!props.readonly}

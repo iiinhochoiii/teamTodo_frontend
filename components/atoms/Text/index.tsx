@@ -1,5 +1,5 @@
 import React, { InputHTMLAttributes } from 'react';
-import { StyledText } from './style';
+import * as S from './style';
 
 export interface Props extends InputHTMLAttributes<HTMLParagraphElement> {
   children?: React.ReactNode;
@@ -13,7 +13,7 @@ export interface Props extends InputHTMLAttributes<HTMLParagraphElement> {
 const Text = (props: Props) => {
   const { children } = props;
 
-  return <StyledText {...props}>{children}</StyledText>;
+  return <S.StyledText {...props}>{children}</S.StyledText>;
 };
 
 export default Text;

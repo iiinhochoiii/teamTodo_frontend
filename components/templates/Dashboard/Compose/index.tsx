@@ -1,16 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import {
-  Container,
-  Title,
-  Article,
-  ArticleIcon,
-  ArticleContent,
-  ArticleEditor,
-  IconButton,
-  AddItems,
-  AddItemIcon,
-  ArticleContainer,
-} from './style';
+import * as S from './style';
 import { Text, Box, FormTextarea } from '@/components/atoms';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
@@ -115,10 +104,10 @@ const ComposeComponent = () => {
     );
   };
 
-  console.log(items);
+  // console.log(items);
   return (
-    <Container>
-      <Title>작업 예정이거나, 완료한 일정을 팀원에게 공유해보세요.</Title>
+    <S.Container>
+      <S.Title>작업 예정이거나, 완료한 일정을 팀원에게 공유해보세요.</S.Title>
       <Box style={{ margin: '50px 0 0 0' }}>
         <Text font={{ size: 'M', weight: 600 }}>Plan</Text>
         <Box style={{ margin: '20px 0 0 0' }}>
@@ -126,9 +115,9 @@ const ComposeComponent = () => {
             items.map(
               (item) =>
                 !item.isDone && (
-                  <Article key={item.id} ref={contentRef}>
-                    <ArticleIcon onClick={() => doneItem(item.id)} />
-                    <ArticleContainer
+                  <S.Article key={item.id} ref={contentRef}>
+                    <S.ArticleIcon onClick={() => doneItem(item.id)} />
+                    <S.ArticleContainer
                       isContent={item.id === isContent}
                       onClick={() => {
                         setIsContent(item.id);
@@ -138,12 +127,12 @@ const ComposeComponent = () => {
                         });
                       }}
                     >
-                      <ArticleContent>
+                      <S.ArticleContent>
                         {isContent === item.id ? (
                           <Box>
                             <FormTextarea {...register('title')} />
-                            <ArticleEditor>
-                              <IconButton
+                            <S.ArticleEditor>
+                              <S.IconButton
                                 disabled={!watch('title')}
                                 onClick={() => {
                                   const title = watch('title');
@@ -151,36 +140,36 @@ const ComposeComponent = () => {
                                 }}
                               >
                                 <ChangeCircleIcon />
-                              </IconButton>
-                              <IconButton
+                              </S.IconButton>
+                              <S.IconButton
                                 disabled={!watch('title')}
                                 onClick={() => removeItem(item.id)}
                               >
                                 <DeleteIcon />
-                              </IconButton>
-                            </ArticleEditor>
+                              </S.IconButton>
+                            </S.ArticleEditor>
                           </Box>
                         ) : (
                           <Text font={{ size: 'S', weight: 300 }}>
                             {item.title}
                           </Text>
                         )}
-                      </ArticleContent>
-                    </ArticleContainer>
-                  </Article>
+                      </S.ArticleContent>
+                    </S.ArticleContainer>
+                  </S.Article>
                 )
             )}
           {isAdd && (
-            <Article isContent={true} ref={contentRef}>
-              <ArticleIcon />
-              <ArticleContent>
+            <S.Article isContent={true} ref={contentRef}>
+              <S.ArticleIcon />
+              <S.ArticleContent>
                 <Box>
                   <FormTextarea
                     placeholder={'What is most important to get done today?'}
                     {...register('title')}
                   />
-                  <ArticleEditor>
-                    <IconButton
+                  <S.ArticleEditor>
+                    <S.IconButton
                       disabled={!watch('title')}
                       onClick={() => {
                         const title = watch('title');
@@ -188,17 +177,17 @@ const ComposeComponent = () => {
                       }}
                     >
                       <AddCircleIcon />
-                    </IconButton>
-                    <IconButton disabled={!watch('title')}>
+                    </S.IconButton>
+                    <S.IconButton disabled={!watch('title')}>
                       <DeleteIcon />
-                    </IconButton>
-                  </ArticleEditor>
+                    </S.IconButton>
+                  </S.ArticleEditor>
                 </Box>
-              </ArticleContent>
-            </Article>
+              </S.ArticleContent>
+            </S.Article>
           )}
 
-          <AddItems
+          <S.AddItems
             onClick={() => {
               setIsAdd(true);
               setIsContent(-1);
@@ -207,11 +196,11 @@ const ComposeComponent = () => {
               });
             }}
           >
-            <AddItemIcon />
+            <S.AddItemIcon />
             <Text font={{ size: 'S', weight: 300 }} color="purple">
               Add Item
             </Text>
-          </AddItems>
+          </S.AddItems>
         </Box>
       </Box>
 
@@ -223,7 +212,7 @@ const ComposeComponent = () => {
             items.map(
               (item) =>
                 item.isDone && (
-                  <Article
+                  <S.Article
                     key={item.id}
                     isContent={item.id === isContent}
                     onClick={() => {
@@ -235,13 +224,13 @@ const ComposeComponent = () => {
                     }}
                     ref={contentRef}
                   >
-                    <ArticleIcon />
-                    <ArticleContent>
+                    <S.ArticleIcon />
+                    <S.ArticleContent>
                       {isContent === item.id ? (
                         <Box>
                           <FormTextarea {...register('title')} />
-                          <ArticleEditor>
-                            <IconButton
+                          <S.ArticleEditor>
+                            <S.IconButton
                               disabled={!watch('title')}
                               onClick={() => {
                                 const title = watch('title');
@@ -249,35 +238,35 @@ const ComposeComponent = () => {
                               }}
                             >
                               <ChangeCircleIcon />
-                            </IconButton>
-                            <IconButton
+                            </S.IconButton>
+                            <S.IconButton
                               disabled={!watch('title')}
                               onClick={() => removeItem(item.id)}
                             >
                               <DeleteIcon />
-                            </IconButton>
-                          </ArticleEditor>
+                            </S.IconButton>
+                          </S.ArticleEditor>
                         </Box>
                       ) : (
                         <Text font={{ size: 'S', weight: 300 }}>
                           {item.title}
                         </Text>
                       )}
-                    </ArticleContent>
-                  </Article>
+                    </S.ArticleContent>
+                  </S.Article>
                 )
             )}
           {isDone && (
-            <Article isContent={true} ref={contentRef}>
-              <ArticleIcon />
-              <ArticleContent>
+            <S.Article isContent={true} ref={contentRef}>
+              <S.ArticleIcon />
+              <S.ArticleContent>
                 <Box>
                   <FormTextarea
                     placeholder={'What is most important to get done today?'}
                     {...register('title')}
                   />
-                  <ArticleEditor>
-                    <IconButton
+                  <S.ArticleEditor>
+                    <S.IconButton
                       disabled={!watch('title')}
                       onClick={() => {
                         const title = watch('title');
@@ -285,17 +274,17 @@ const ComposeComponent = () => {
                       }}
                     >
                       <AddCircleIcon />
-                    </IconButton>
-                    <IconButton disabled={!watch('title')}>
+                    </S.IconButton>
+                    <S.IconButton disabled={!watch('title')}>
                       <DeleteIcon />
-                    </IconButton>
-                  </ArticleEditor>
+                    </S.IconButton>
+                  </S.ArticleEditor>
                 </Box>
-              </ArticleContent>
-            </Article>
+              </S.ArticleContent>
+            </S.Article>
           )}
 
-          <AddItems
+          <S.AddItems
             onClick={() => {
               setIsDone(true);
               setIsContent(-1);
@@ -304,14 +293,14 @@ const ComposeComponent = () => {
               });
             }}
           >
-            <AddItemIcon />
+            <S.AddItemIcon />
             <Text font={{ size: 'S', weight: 300 }} color="purple">
               Add Item
             </Text>
-          </AddItems>
+          </S.AddItems>
         </Box>
       </Box>
-    </Container>
+    </S.Container>
   );
 };
 

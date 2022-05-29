@@ -1,20 +1,16 @@
 import React from 'react';
 import Link from 'next/link';
-import {
-  StyledAuthHeader,
-  StyledAuthHeaderContent,
-  StyledAuthHeaderLink,
-} from './style';
+import * as S from './style';
 
 const AuthHeader = () => {
   return (
-    <StyledAuthHeader>
-      <StyledAuthHeaderContent>
+    <S.StyledAuthHeader>
+      <S.StyledAuthHeaderContent>
         <Link href="/">
-          <StyledAuthHeaderLink>Team Todo</StyledAuthHeaderLink>
+          <S.StyledAuthHeaderLink>Team Todo</S.StyledAuthHeaderLink>
         </Link>
-      </StyledAuthHeaderContent>
-    </StyledAuthHeader>
+      </S.StyledAuthHeaderContent>
+    </S.StyledAuthHeader>
   );
 };
 

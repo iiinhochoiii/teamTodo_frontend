@@ -1,5 +1,5 @@
 import React, { HTMLAttributes } from 'react';
-import { StyledButton } from './style';
+import * as S from './style';
 import { useRouter } from 'next/router';
 
 export interface Props extends HTMLAttributes<HTMLButtonElement> {
@@ -27,12 +27,12 @@ const Button = (props: Props) => {
 
   if (to) {
     return (
-      <StyledButton {...props} onClick={route}>
+      <S.StyledButton {...props} onClick={route}>
         {children}
-      </StyledButton>
+      </S.StyledButton>
     );
   } else {
-    return <StyledButton {...props}>{children}</StyledButton>;
+    return <S.StyledButton {...props}>{children}</S.StyledButton>;
   }
 };
 

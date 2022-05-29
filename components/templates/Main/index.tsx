@@ -1,7 +1,7 @@
 import React from 'react';
 import { Section, Text, Button, Flex, Box } from '@/components/atoms';
 import { ImageFrame } from '@/components/molecules';
-import { StyledTitle, StyledContent } from './style';
+import * as S from './style';
 
 const MainComponent = () => {
   return (
@@ -10,10 +10,10 @@ const MainComponent = () => {
         background="lightbrown_gradient"
         style={{ padding: '140px 0 0 0' }}
       >
-        <StyledContent>
-          <StyledTitle color="black">
+        <S.StyledContent>
+          <S.StyledTitle color="black">
             Better TeamWork, Share My Work
-          </StyledTitle>
+          </S.StyledTitle>
           <Text font={{ size: 'L', weight: 400 }} color="gray">
             TeamTodo는 실시간으로 어떤 업무를 진행하는지 공유를 하여 더욱
             효율적으로 협업을 할 수 있도록 도와줍니다.
@@ -26,15 +26,15 @@ const MainComponent = () => {
           >
             무료로 시작하기
           </Button>
-        </StyledContent>
+        </S.StyledContent>
       </Section>
       <Section style={{ padding: '100px 0 0 0' }}>
-        <StyledContent>
-          <StyledTitle>What is TeamTodo?</StyledTitle>
+        <S.StyledContent>
+          <S.StyledTitle>What is TeamTodo?</S.StyledTitle>
           <Text font={{ size: 'M', weight: '500' }} color="gray">
             TeamTodo는 개인과 팀을 연결하여 효율적인 업무를 돕습니다.
           </Text>
-        </StyledContent>
+        </S.StyledContent>
         <Flex justify="space-between" style={{ margin: '150px 0 0 0' }}>
           <Box width={0.98 / 2}>
             <ImageFrame background="lightbrown"></ImageFrame>
@@ -122,10 +122,10 @@ const MainComponent = () => {
         </Flex>
       </Section>
       <Section background="black" style={{ padding: '60px 0 0 0' }}>
-        <StyledContent>
-          <StyledTitle color="white">
+        <S.StyledContent>
+          <S.StyledTitle color="white">
             업무 내용을 팀원과 공유를 하고 팀 목표를 달성해보세요.
-          </StyledTitle>
+          </S.StyledTitle>
           <Text font={{ size: 'L', weight: 'bold' }} color="gray">
             지금 시작해보세요.
           </Text>
@@ -155,7 +155,7 @@ const MainComponent = () => {
               문의하기
             </Button>
           </Flex>
-        </StyledContent>
+        </S.StyledContent>
       </Section>
     </>
   );
