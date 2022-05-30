@@ -160,30 +160,32 @@ const ComposeComponent = () => {
                 )
             )}
           {isAdd && (
-            <S.Article isContent={true} ref={contentRef}>
+            <S.Article ref={contentRef}>
               <S.ArticleIcon />
-              <S.ArticleContent>
-                <Box>
-                  <FormTextarea
-                    placeholder={'What is most important to get done today?'}
-                    {...register('title')}
-                  />
-                  <S.ArticleEditor>
-                    <S.IconButton
-                      disabled={!watch('title')}
-                      onClick={() => {
-                        const title = watch('title');
-                        createItems(title, false);
-                      }}
-                    >
-                      <AddCircleIcon />
-                    </S.IconButton>
-                    <S.IconButton disabled={!watch('title')}>
-                      <DeleteIcon />
-                    </S.IconButton>
-                  </S.ArticleEditor>
-                </Box>
-              </S.ArticleContent>
+              <S.ArticleContainer isContent={true}>
+                <S.ArticleContent>
+                  <Box>
+                    <FormTextarea
+                      placeholder={'What is most important to get done today?'}
+                      {...register('title')}
+                    />
+                    <S.ArticleEditor>
+                      <S.IconButton
+                        disabled={!watch('title')}
+                        onClick={() => {
+                          const title = watch('title');
+                          createItems(title, false);
+                        }}
+                      >
+                        <AddCircleIcon />
+                      </S.IconButton>
+                      <S.IconButton disabled={!watch('title')}>
+                        <DeleteIcon />
+                      </S.IconButton>
+                    </S.ArticleEditor>
+                  </Box>
+                </S.ArticleContent>
+              </S.ArticleContainer>
             </S.Article>
           )}
 
@@ -212,75 +214,77 @@ const ComposeComponent = () => {
             items.map(
               (item) =>
                 item.isDone && (
-                  <S.Article
-                    key={item.id}
-                    isContent={item.id === isContent}
-                    onClick={() => {
-                      setIsContent(item.id);
-                      setIsDone(false);
-                      reset({
-                        title: item.title,
-                      });
-                    }}
-                    ref={contentRef}
-                  >
+                  <S.Article key={item.id} ref={contentRef}>
                     <S.ArticleIcon />
-                    <S.ArticleContent>
-                      {isContent === item.id ? (
-                        <Box>
-                          <FormTextarea {...register('title')} />
-                          <S.ArticleEditor>
-                            <S.IconButton
-                              disabled={!watch('title')}
-                              onClick={() => {
-                                const title = watch('title');
-                                updateItems(item.id, title);
-                              }}
-                            >
-                              <ChangeCircleIcon />
-                            </S.IconButton>
-                            <S.IconButton
-                              disabled={!watch('title')}
-                              onClick={() => removeItem(item.id)}
-                            >
-                              <DeleteIcon />
-                            </S.IconButton>
-                          </S.ArticleEditor>
-                        </Box>
-                      ) : (
-                        <Text font={{ size: 'S', weight: 300 }}>
-                          {item.title}
-                        </Text>
-                      )}
-                    </S.ArticleContent>
+                    <S.ArticleContainer
+                      isContent={item.id === isContent}
+                      onClick={() => {
+                        setIsContent(item.id);
+                        setIsDone(false);
+                        reset({
+                          title: item.title,
+                        });
+                      }}
+                    >
+                      <S.ArticleContent>
+                        {isContent === item.id ? (
+                          <Box>
+                            <FormTextarea {...register('title')} />
+                            <S.ArticleEditor>
+                              <S.IconButton
+                                disabled={!watch('title')}
+                                onClick={() => {
+                                  const title = watch('title');
+                                  updateItems(item.id, title);
+                                }}
+                              >
+                                <ChangeCircleIcon />
+                              </S.IconButton>
+                              <S.IconButton
+                                disabled={!watch('title')}
+                                onClick={() => removeItem(item.id)}
+                              >
+                                <DeleteIcon />
+                              </S.IconButton>
+                            </S.ArticleEditor>
+                          </Box>
+                        ) : (
+                          <Text font={{ size: 'S', weight: 300 }}>
+                            {item.title}
+                          </Text>
+                        )}
+                      </S.ArticleContent>
+                    </S.ArticleContainer>
                   </S.Article>
                 )
             )}
           {isDone && (
-            <S.Article isContent={true} ref={contentRef}>
+            <S.Article ref={contentRef}>
               <S.ArticleIcon />
-              <S.ArticleContent>
-                <Box>
-                  <FormTextarea
-                    placeholder={'What is most important to get done today?'}
-                    {...register('title')}
-                  />
-                  <S.ArticleEditor>
-                    <S.IconButton
-                      disabled={!watch('title')}
-                      onClick={() => {
-                        const title = watch('title');
-                        createItems(title, true);
-                      }}
-                    >
-                      <AddCircleIcon />
-                    </S.IconButton>
-                    <S.IconButton disabled={!watch('title')}>
-                      <DeleteIcon />
-                    </S.IconButton>
-                  </S.ArticleEditor>
-                </Box>
-              </S.ArticleContent>
+              <S.ArticleContainer isContent={true}>
+                <S.ArticleContent>
+                  <Box>
+                    <FormTextarea
+                      placeholder={'What is most important to get done today?'}
+                      {...register('title')}
+                    />
+                    <S.ArticleEditor>
+                      <S.IconButton
+                        disabled={!watch('title')}
+                        onClick={() => {
+                          const title = watch('title');
+                          createItems(title, true);
+                        }}
+                      >
+                        <AddCircleIcon />
+                      </S.IconButton>
+                      <S.IconButton disabled={!watch('title')}>
+                        <DeleteIcon />
+                      </S.IconButton>
+                    </S.ArticleEditor>
+                  </Box>
+                </S.ArticleContent>
+              </S.ArticleContainer>
             </S.Article>
           )}
 
