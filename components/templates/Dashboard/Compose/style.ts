@@ -41,15 +41,42 @@ export const ArticleContainer = styled.div<ArticleProps>`
   }}
 `;
 
-export const ArticleIcon = styled.div`
+interface ArticleIconProps {
+  isDone?: boolean;
+}
+
+export const ArticleIcon = styled.div<ArticleIconProps>`
+  ${(props) => {
+    if (props.isDone) {
+      return css`
+        background-color: ${palette('green')};
+        border: 2px solid ${palette('green')};
+        &::before {
+          content: '✔';
+          font-size: ${theme('font.size.XS')};
+          margin: -2px auto 0 auto;
+          color: ${palette('white')};
+        }
+      `;
+    } else {
+      return css`
+        border: 2px solid ${palette('lightgray')};
+
+        &:hover {
+          border: 2px solid ${palette('green')};
+        }
+      `;
+    }
+  }};
+  display: flex;
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  border: 2px solid ${palette('lightgray')};
   z-index: 10;
   position: absolute;
   top: 10px;
   left: 10px;
+  cursor: pointer;
 `;
 
 export const ArticleContent = styled.div`

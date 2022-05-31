@@ -91,7 +91,7 @@ const ComposeComponent = () => {
     }
   }, [items]);
 
-  const doneItem = (id: number) => {
+  const changeStatus = (id: number) => {
     setItems(
       items.map((item) =>
         item.id === id
@@ -116,7 +116,7 @@ const ComposeComponent = () => {
               (item) =>
                 !item.isDone && (
                   <S.Article key={item.id} ref={contentRef}>
-                    <S.ArticleIcon onClick={() => doneItem(item.id)} />
+                    <S.ArticleIcon onClick={() => changeStatus(item.id)} />
                     <S.ArticleContainer
                       isContent={item.id === isContent}
                       onClick={() => {
@@ -215,7 +215,10 @@ const ComposeComponent = () => {
               (item) =>
                 item.isDone && (
                   <S.Article key={item.id} ref={contentRef}>
-                    <S.ArticleIcon />
+                    <S.ArticleIcon
+                      onClick={() => changeStatus(item.id)}
+                      isDone={true}
+                    />
                     <S.ArticleContainer
                       isContent={item.id === isContent}
                       onClick={() => {
@@ -260,12 +263,14 @@ const ComposeComponent = () => {
             )}
           {isDone && (
             <S.Article ref={contentRef}>
-              <S.ArticleIcon />
+              <S.ArticleIcon isDone={true} />
               <S.ArticleContainer isContent={true}>
                 <S.ArticleContent>
                   <Box>
                     <FormTextarea
-                      placeholder={'What is most important to get done today?'}
+                      placeholder={
+                        'What was the most important thing that happened?'
+                      }
                       {...register('title')}
                     />
                     <S.ArticleEditor>
