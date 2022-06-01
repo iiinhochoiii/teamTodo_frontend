@@ -3,3 +3,4 @@ export { default as Footer } from './Footer';
 export { default as DashboardCard } from './Dashboard/Card';
 export { default as DashboardHeader } from './Dashboard/Header';
 export { default as Dialog } from './Dialog';
+export { default as ComposeCardItem } from './Dashboard/Compose/CardItem';

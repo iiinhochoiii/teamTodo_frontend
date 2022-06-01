@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import * as S from './style';
 import { Text, Box, FormTextarea } from '@/components/atoms';
+import { ComposeCardItem } from '@/components/organisms';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import { useForm } from 'react-hook-form';
 
 type Item = {
@@ -20,7 +20,6 @@ const ComposeComponent = () => {
 
   const [items, setItems] = useState<Item[]>([]);
   const [allClose, setAllClose] = useState(false);
-  const itemRef: React.MutableRefObject<Item[]> = useRef([]);
   const contentRef: React.MutableRefObject<HTMLDivElement | null> =
     useRef(null);
 
@@ -77,19 +76,11 @@ const ComposeComponent = () => {
           : item
       )
     );
-    itemRef.current = items;
   };
 
   const removeItem = (id: number) => {
     setItems((item) => item.filter((_, idx) => id !== idx));
-    itemRef.current = items;
   };
-
-  useEffect(() => {
-    if (items !== itemRef.current) {
-      setIsContent(-1);
-    }
-  }, [items]);
 
   const changeStatus = (id: number) => {
     setItems(
@@ -104,7 +95,6 @@ const ComposeComponent = () => {
     );
   };
 
-  // console.log(items);
   return (
     <S.Container>
       <S.Title>작업 예정이거나, 완료한 일정을 팀원에게 공유해보세요.</S.Title>
@@ -115,48 +105,15 @@ const ComposeComponent = () => {
             items.map(
               (item) =>
                 !item.isDone && (
-                  <S.Article key={item.id} ref={contentRef}>
-                    <S.ArticleIcon onClick={() => changeStatus(item.id)} />
-                    <S.ArticleContainer
-                      isContent={item.id === isContent}
-                      onClick={() => {
-                        setIsContent(item.id);
-                        setIsAdd(false);
-                        reset({
-                          title: item.title,
-                        });
-                      }}
-                    >
-                      <S.ArticleContent>
-                        {isContent === item.id ? (
-                          <Box>
-                            <FormTextarea {...register('title')} />
-                            <S.ArticleEditor>
-                              <S.IconButton
-                                disabled={!watch('title')}
-                                onClick={() => {
-                                  const title = watch('title');
-                                  updateItems(item.id, title);
-                                }}
-                              >
-                                <ChangeCircleIcon />
-                              </S.IconButton>
-                              <S.IconButton
-                                disabled={!watch('title')}
-                                onClick={() => removeItem(item.id)}
-                              >
-                                <DeleteIcon />
-                              </S.IconButton>
-                            </S.ArticleEditor>
-                          </Box>
-                        ) : (
-                          <Text font={{ size: 'S', weight: 300 }}>
-                            {item.title}
-                          </Text>
-                        )}
-                      </S.ArticleContent>
-                    </S.ArticleContainer>
-                  </S.Article>
+                  <ComposeCardItem
+                    key={item.id}
+                    item={item}
+                    changeStatus={(id: number) => changeStatus(id)}
+                    removeItem={(id: number) => removeItem(id)}
+                    updateItems={(id: number, title: string) =>
+                      updateItems(id, title)
+                    }
+                  />
                 )
             )}
           {isAdd && (
@@ -214,51 +171,15 @@ const ComposeComponent = () => {
             items.map(
               (item) =>
                 item.isDone && (
-                  <S.Article key={item.id} ref={contentRef}>
-                    <S.ArticleIcon
-                      onClick={() => changeStatus(item.id)}
-                      isDone={true}
-                    />
-                    <S.ArticleContainer
-                      isContent={item.id === isContent}
-                      onClick={() => {
-                        setIsContent(item.id);
-                        setIsDone(false);
-                        reset({
-                          title: item.title,
-                        });
-                      }}
-                    >
-                      <S.ArticleContent>
-                        {isContent === item.id ? (
-                          <Box>
-                            <FormTextarea {...register('title')} />
-                            <S.ArticleEditor>
-                              <S.IconButton
-                                disabled={!watch('title')}
-                                onClick={() => {
-                                  const title = watch('title');
-                                  updateItems(item.id, title);
-                                }}
-                              >
-                                <ChangeCircleIcon />
-                              </S.IconButton>
-                              <S.IconButton
-                                disabled={!watch('title')}
-                                onClick={() => removeItem(item.id)}
-                              >
-                                <DeleteIcon />
-                              </S.IconButton>
-                            </S.ArticleEditor>
-                          </Box>
-                        ) : (
-                          <Text font={{ size: 'S', weight: 300 }}>
-                            {item.title}
-                          </Text>
-                        )}
-                      </S.ArticleContent>
-                    </S.ArticleContainer>
-                  </S.Article>
+                  <ComposeCardItem
+                    key={item.id}
+                    item={item}
+                    changeStatus={(id: number) => changeStatus(id)}
+                    removeItem={(id: number) => removeItem(id)}
+                    updateItems={(id: number, title: string) =>
+                      updateItems(id, title)
+                    }
+                  />
                 )
             )}
           {isDone && (
