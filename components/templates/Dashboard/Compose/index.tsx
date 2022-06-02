@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import * as S from './style';
-import { Text, Box, FormTextarea } from '@/components/atoms';
-import { ComposeCardItem } from '@/components/organisms';
-import DeleteIcon from '@material-ui/icons/Delete';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
+import { Text, Box } from '@/components/atoms';
+import { ComposeCardItem, ComposeCardAddItem } from '@/components/organisms';
 import { useForm } from 'react-hook-form';
 
 type Item = {
@@ -15,11 +13,9 @@ type Item = {
 const ComposeComponent = () => {
   const [isAdd, setIsAdd] = useState(false);
   const [isDone, setIsDone] = useState(false);
-  const [isContent, setIsContent] = useState(-1);
   const { register, watch, reset } = useForm();
 
   const [items, setItems] = useState<Item[]>([]);
-  const [allClose, setAllClose] = useState(false);
   const contentRef: React.MutableRefObject<HTMLDivElement | null> =
     useRef(null);
 
@@ -31,23 +27,12 @@ const ComposeComponent = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (allClose) {
-      setIsContent(-1);
-    }
-  }, [allClose, items]);
-
-  useEffect(() => {
-    setAllClose(false);
-  }, [isContent]);
-
   const clickContentOutside = (
     event: React.BaseSyntheticEvent | MouseEvent
   ) => {
     if (contentRef.current && !contentRef.current.contains(event.target)) {
       setIsAdd(false);
       setIsDone(false);
-      setAllClose(true);
     }
   };
 
@@ -117,39 +102,17 @@ const ComposeComponent = () => {
                 )
             )}
           {isAdd && (
-            <S.Article ref={contentRef}>
-              <S.ArticleIcon />
-              <S.ArticleContainer isContent={true}>
-                <S.ArticleContent>
-                  <Box>
-                    <FormTextarea
-                      placeholder={'What is most important to get done today?'}
-                      {...register('title')}
-                    />
-                    <S.ArticleEditor>
-                      <S.IconButton
-                        disabled={!watch('title')}
-                        onClick={() => {
-                          const title = watch('title');
-                          createItems(title, false);
-                        }}
-                      >
-                        <AddCircleIcon />
-                      </S.IconButton>
-                      <S.IconButton disabled={!watch('title')}>
-                        <DeleteIcon />
-                      </S.IconButton>
-                    </S.ArticleEditor>
-                  </Box>
-                </S.ArticleContent>
-              </S.ArticleContainer>
-            </S.Article>
+            <ComposeCardAddItem
+              setIsAddCallback={(value: boolean) => setIsAdd(value)}
+              createItems={(title: string, isDone: boolean) =>
+                createItems(title, isDone)
+              }
+            />
           )}
 
           <S.AddItems
             onClick={() => {
               setIsAdd(true);
-              setIsContent(-1);
               reset({
                 title: '',
               });
@@ -183,41 +146,18 @@ const ComposeComponent = () => {
                 )
             )}
           {isDone && (
-            <S.Article ref={contentRef}>
-              <S.ArticleIcon isDone={true} />
-              <S.ArticleContainer isContent={true}>
-                <S.ArticleContent>
-                  <Box>
-                    <FormTextarea
-                      placeholder={
-                        'What was the most important thing that happened?'
-                      }
-                      {...register('title')}
-                    />
-                    <S.ArticleEditor>
-                      <S.IconButton
-                        disabled={!watch('title')}
-                        onClick={() => {
-                          const title = watch('title');
-                          createItems(title, true);
-                        }}
-                      >
-                        <AddCircleIcon />
-                      </S.IconButton>
-                      <S.IconButton disabled={!watch('title')}>
-                        <DeleteIcon />
-                      </S.IconButton>
-                    </S.ArticleEditor>
-                  </Box>
-                </S.ArticleContent>
-              </S.ArticleContainer>
-            </S.Article>
+            <ComposeCardAddItem
+              setIsAddCallback={(value: boolean) => setIsDone(value)}
+              createItems={(title: string, isDone: boolean) =>
+                createItems(title, isDone)
+              }
+              isDone={true}
+            />
           )}
 
           <S.AddItems
             onClick={() => {
               setIsDone(true);
-              setIsContent(-1);
               reset({
                 title: '',
               });
