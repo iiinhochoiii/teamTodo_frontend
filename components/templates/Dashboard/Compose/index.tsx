@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import * as S from './style';
 import { Text, Box } from '@/components/atoms';
-import { ComposeCardItem, ComposeCardAddItem } from '@/components/organisms';
+import {
+  ComposeCardItem,
+  ComposeCardAddItem,
+  ComposeAddItem,
+} from '@/components/organisms';
 import { useForm } from 'react-hook-form';
 
 type Item = {
@@ -13,7 +17,7 @@ type Item = {
 const ComposeComponent = () => {
   const [isAdd, setIsAdd] = useState(false);
   const [isDone, setIsDone] = useState(false);
-  const { register, watch, reset } = useForm();
+  const { reset } = useForm();
 
   const [items, setItems] = useState<Item[]>([]);
   const contentRef: React.MutableRefObject<HTMLDivElement | null> =
@@ -103,6 +107,7 @@ const ComposeComponent = () => {
             )}
           {isAdd && (
             <ComposeCardAddItem
+              placeholder="What is most important to get done today?"
               setIsAddCallback={(value: boolean) => setIsAdd(value)}
               createItems={(title: string, isDone: boolean) =>
                 createItems(title, isDone)
@@ -110,19 +115,14 @@ const ComposeComponent = () => {
             />
           )}
 
-          <S.AddItems
-            onClick={() => {
+          <ComposeAddItem
+            onClickHandler={() => {
               setIsAdd(true);
               reset({
                 title: '',
               });
             }}
-          >
-            <S.AddItemIcon />
-            <Text font={{ size: 'S', weight: 300 }} color="purple">
-              Add Item
-            </Text>
-          </S.AddItems>
+          />
         </Box>
       </Box>
 
@@ -147,6 +147,7 @@ const ComposeComponent = () => {
             )}
           {isDone && (
             <ComposeCardAddItem
+              placeholder="What was the most important thing that happened?"
               setIsAddCallback={(value: boolean) => setIsDone(value)}
               createItems={(title: string, isDone: boolean) =>
                 createItems(title, isDone)
@@ -155,19 +156,14 @@ const ComposeComponent = () => {
             />
           )}
 
-          <S.AddItems
-            onClick={() => {
+          <ComposeAddItem
+            onClickHandler={() => {
               setIsDone(true);
               reset({
                 title: '',
               });
             }}
-          >
-            <S.AddItemIcon />
-            <Text font={{ size: 'S', weight: 300 }} color="purple">
-              Add Item
-            </Text>
-          </S.AddItems>
+          />
         </Box>
       </Box>
     </S.Container>

@@ -9,9 +9,10 @@ interface Props {
   setIsAddCallback: (value: boolean) => void;
   createItems: (title: string, isDone: boolean) => void;
   isDone?: boolean;
+  placeholder?: string;
 }
 const CardAddItem = (props: Props) => {
-  const { setIsAddCallback, createItems, isDone } = props;
+  const { setIsAddCallback, createItems, isDone, placeholder } = props;
 
   const { register, watch } = useForm();
 
@@ -40,10 +41,7 @@ const CardAddItem = (props: Props) => {
       <S.ArticleContainer isContent={true}>
         <S.ArticleContent>
           <Box>
-            <FormTextarea
-              placeholder={'What is most important to get done today?'}
-              {...register('title')}
-            />
+            <FormTextarea placeholder={placeholder} {...register('title')} />
             <S.ArticleEditor>
               <S.IconButton
                 disabled={!watch('title')}
