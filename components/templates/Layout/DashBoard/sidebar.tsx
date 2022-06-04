@@ -7,7 +7,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { menu } from './menu';
 import { StyledLogo } from './style';
-import { Flex, Text, Box } from '@/components/atoms';
+import { Flex, Text, AddIcon } from '@/components/atoms';
 import * as S from './style';
 
 const DashboardSidebar = () => {
@@ -48,11 +48,19 @@ const DashboardSidebar = () => {
             );
           })}
 
-          <Box style={{ margin: '30px 0 0 20px' }} width="auto">
+          <Flex
+            justify="space-between"
+            style={{ margin: '30px 20px 0 20px' }}
+            width="auto"
+          >
             <Text color="gray" font={{ size: 'M', weight: 300 }}>
               My teams
             </Text>
-          </Box>
+            <AddIcon
+              sx={{ margin: 'auto 0' }}
+              onClick={() => router.push('/dashboard/team/create')}
+            />
+          </Flex>
         </List>
       </S.StyledSidearContent>
     </S.StyledSidebar>
