@@ -1,8 +1,15 @@
 import React from 'react';
-import { DashboardTemplates } from '@/components/templates';
+import {
+  DashboardTemplates,
+  TeamCreateComponent,
+} from '@/components/templates';
 
 const teamCreate = () => {
-  return <DashboardTemplates title="Create New Team"></DashboardTemplates>;
+  return (
+    <DashboardTemplates title="Create New Team">
+      <TeamCreateComponent />
+    </DashboardTemplates>
+  );
 };
 
 export default teamCreate;

@@ -8,12 +8,14 @@ export interface Props extends HTMLAttributes<HTMLInputElement> {
   readonly?: boolean;
   enabled?: boolean; // enterkey에 대한 활성화
   type?: string;
+  labelText?: string;
 }
 
 // eslint-disable-next-line react/display-name
 const FormInput = forwardRef<HTMLInputElement, Props>((props, ref) => {
   return (
     <>
+      {props.labelText && <S.StyledLabel>{props.labelText}</S.StyledLabel>}
       <S.StyledFormInput
         {...props}
         ref={ref}

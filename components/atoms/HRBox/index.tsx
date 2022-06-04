@@ -2,12 +2,13 @@ import React from 'react';
 import * as S from './style';
 
 export interface Props {
-  style?: React.CSSProperties;
+  sx?: React.CSSProperties;
   color?: string;
 }
 
 const HRBox = (props: Props) => {
-  return <S.StyledHRBox {...props}></S.StyledHRBox>;
+  const { sx } = props;
+  return <S.StyledHRBox {...props} style={sx}></S.StyledHRBox>;
 };
 
 export default HRBox;

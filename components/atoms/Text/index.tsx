@@ -8,12 +8,17 @@ export interface Props extends InputHTMLAttributes<HTMLParagraphElement> {
     weight?: string | number;
   };
   color?: string;
+  sx?: React.CSSProperties;
 }
 
 const Text = (props: Props) => {
-  const { children } = props;
+  const { children, sx } = props;
 
-  return <S.StyledText {...props}>{children}</S.StyledText>;
+  return (
+    <S.StyledText {...props} style={sx}>
+      {children}
+    </S.StyledText>
+  );
 };
 
 export default Text;

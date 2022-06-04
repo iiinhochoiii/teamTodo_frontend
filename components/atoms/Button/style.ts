@@ -25,7 +25,6 @@ const buttonStyles = css<Props>`
   ${({ theme, background, size }) => {
     const selectedBackground = theme.palette[background || 'black'];
     const selectedSize = theme.button.size[size || 'L'];
-
     return css`
       background-color: ${selectedBackground};
       width: ${selectedSize};
@@ -34,8 +33,7 @@ const buttonStyles = css<Props>`
 `;
 
 export const StyledButton = styled.button<Props>`
-  ${buttonStyles}
-
+  ${buttonStyles};
   border: none;
   cursor: pointer;
   border-radius: 5px;
