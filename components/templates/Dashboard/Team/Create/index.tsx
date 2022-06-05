@@ -1,9 +1,29 @@
 import React from 'react';
 import * as S from './style';
-import { FormInput, HRBox, Text, Button } from '@/components/atoms';
+import {
+  Form,
+  FormInput,
+  FormSubmit,
+  HRBox,
+  Text,
+  Button,
+} from '@/components/atoms';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/router';
+
+interface FormType {
+  teamName: string;
+}
 
 const TeamCreateComponent = () => {
+  const router = useRouter();
+  const { register, handleSubmit } = useForm<FormType>();
+
+  const checkTeamName = (form: FormType) => {
+    console.log(form);
+  };
+
   return (
     <S.Container>
       <S.CreateContent>
@@ -15,7 +35,15 @@ const TeamCreateComponent = () => {
           </S.ContentSubTitle>
         </S.ContentDescription>
         <S.ContentItem>
-          <FormInput type="text" labelText="Team name" />
+          <Form onSubmit={handleSubmit(checkTeamName)}>
+            <FormInput
+              type="text"
+              {...register('teamName')}
+              labelText="Team name"
+              placeholder="생성할 팀명을 입력해주세요"
+            />
+            <FormSubmit type="submit" value="중복 확인" />
+          </Form>
         </S.ContentItem>
       </S.CreateContent>
       <HRBox color="gray" sx={{ margin: '40px 0' }} />
@@ -53,6 +81,9 @@ const TeamCreateComponent = () => {
           background="white"
           font={{ color: 'purple' }}
           sx={{ margin: '0 0 0 10px', width: 'auto' }}
+          onClick={() => {
+            router.push('/dashboard/team/directory');
+          }}
         >
           Cancel
         </Button>

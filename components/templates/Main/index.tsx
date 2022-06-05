@@ -21,7 +21,7 @@ const MainComponent = () => {
           <Button
             size="XL"
             font={{ size: 'M', weight: 'bold' }}
-            style={{ margin: '50px 0 100px' }}
+            sx={{ margin: '50px 0 100px' }}
             to="/auth/signup"
           >
             무료로 시작하기
@@ -133,7 +133,7 @@ const MainComponent = () => {
             size="XL"
             font={{ size: 'M', weight: 'bold', color: 'black' }}
             background="white"
-            style={{ margin: '50px 0 100px' }}
+            sx={{ margin: '50px 0 100px' }}
             to="/auth/signup"
           >
             무료로 시작하기
@@ -150,7 +150,7 @@ const MainComponent = () => {
               background="white"
               font={{ color: 'black', weight: 'bold' }}
               to="mailto:dlsgh120@gmail.com"
-              style={{ margin: '0 0 0 20px' }}
+              sx={{ margin: '0 0 0 20px' }}
             >
               문의하기
             </Button>

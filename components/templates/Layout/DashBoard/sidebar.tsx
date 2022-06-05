@@ -5,6 +5,7 @@ import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { menu } from './menu';
 import { StyledLogo } from './style';
 import { Flex, Text, AddIcon } from '@/components/atoms';
@@ -61,6 +62,14 @@ const DashboardSidebar = () => {
               onClick={() => router.push('/dashboard/team/create')}
             />
           </Flex>
+          <S.TeamDirectoryWrap>
+            <Link href="/team/directory">
+              <a>
+                Team Directory
+                <ArrowForwardIosIcon />
+              </a>
+            </Link>
+          </S.TeamDirectoryWrap>
         </List>
       </S.StyledSidearContent>
     </S.StyledSidebar>

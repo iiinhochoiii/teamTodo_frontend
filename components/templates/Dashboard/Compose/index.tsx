@@ -87,9 +87,9 @@ const ComposeComponent = () => {
   return (
     <S.Container>
       <S.Title>작업 예정이거나, 완료한 일정을 팀원에게 공유해보세요.</S.Title>
-      <Box style={{ margin: '50px 0 0 0' }}>
+      <Box sx={{ margin: '50px 0 0 0' }}>
         <Text font={{ size: 'M', weight: 600 }}>Plan</Text>
-        <Box style={{ margin: '20px 0 0 0' }}>
+        <Box sx={{ margin: '20px 0 0 0' }}>
           {items.length > 0 &&
             items.map(
               (item) =>
@@ -127,9 +127,9 @@ const ComposeComponent = () => {
       </Box>
 
       {/* done */}
-      <Box style={{ margin: '50px 0 0 0' }}>
+      <Box sx={{ margin: '50px 0 0 0' }}>
         <Text font={{ size: 'M', weight: 600 }}>Happend</Text>
-        <Box style={{ margin: '20px 0 0 0' }}>
+        <Box sx={{ margin: '20px 0 0 0' }}>
           {items.length > 0 &&
             items.map(
               (item) =>

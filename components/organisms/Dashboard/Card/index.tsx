@@ -104,7 +104,7 @@ const Card = (props: Props) => {
         <Box width="30px">
           <S.CardBadge></S.CardBadge>
         </Box>
-        <Box style={{ margin: '0 0 0 20px' }}>
+        <Box sx={{ margin: '0 0 0 20px' }}>
           <Flex justify="space-between">
             <Text>
               {item.userName}

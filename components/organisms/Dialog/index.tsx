@@ -23,7 +23,7 @@ const Dialogs = (props: Props) => {
           background="white"
           font={{ color: 'gray' }}
           size="S"
-          style={{
+          sx={{
             position: 'absolute',
             right: 8,
             top: 8,

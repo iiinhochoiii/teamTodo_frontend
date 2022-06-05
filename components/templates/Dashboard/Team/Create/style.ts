@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { palette } from 'styled-tools';
+import { palette, theme } from 'styled-tools';
 
 export const Container = styled.div`
   padding: 50px 0 0 0;
@@ -18,12 +18,24 @@ export const ContentDescription = styled.div`
 
 export const ContentItem = styled.div`
   width: 45%;
-  & > input[type='text'] {
-    width: calc(100% - 20px);
-    height: 40px;
-    border-radius: 10px;
-    border: 1px solid ${palette('gray')};
-    padding: 0 10px;
+  & > form {
+    & > input[type='text'] {
+      width: calc(100% - 20px);
+      height: 40px;
+      border-radius: 10px;
+      border: 1px solid ${palette('gray')};
+      padding: 0 10px;
+    }
+    & > input[type='submit'] {
+      margin: 20px 0 0 0;
+      padding: 7.5px 15px;
+      border-radius: 5px;
+      background-color: ${palette('purple')};
+      color: ${palette('white')};
+      cursor: pointer;
+      font-size: ${theme('font.size.S')};
+      font-weight: 500;
+    }
   }
 `;
 

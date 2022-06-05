@@ -32,7 +32,7 @@ const SignUpComponent = () => {
       <S.StyledSignUpContent>
         <S.StyledHeaderText>회원가입</S.StyledHeaderText>
         <Form onSubmit={handleSubmit(submit)}>
-          <Box style={{ margin: '30px 0 0 0' }}>
+          <Box sx={{ margin: '30px 0 0 0' }}>
             <Text font={{ size: 'S', weight: 300 }}>이메일</Text>
             <Flex>
               <FormInput
@@ -40,10 +40,10 @@ const SignUpComponent = () => {
                 placeholder="이메일을 입력해주세요."
                 {...register('email')}
               />
-              <Button style={{ margin: '10px 0 0 20px' }}>중복 확인</Button>
+              <Button sx={{ margin: '10px 0 0 20px' }}>중복 확인</Button>
             </Flex>
           </Box>
-          <Box style={{ margin: '30px 0 0 0' }}>
+          <Box sx={{ margin: '30px 0 0 0' }}>
             <Text font={{ size: 'S', weight: 300 }}>비밀번호/확인</Text>
             <FormInput
               type="password"
@@ -56,7 +56,7 @@ const SignUpComponent = () => {
               {...register('passwordConfirm')}
             />
           </Box>
-          <Box style={{ margin: '30px 0 0 0' }}>
+          <Box sx={{ margin: '30px 0 0 0' }}>
             <Text font={{ size: 'S', weight: 300 }}>이름</Text>
             <FormInput
               type="text"
@@ -64,7 +64,7 @@ const SignUpComponent = () => {
               {...register('name')}
             />
           </Box>
-          <Box style={{ margin: '30px 0 0 0' }}>
+          <Box sx={{ margin: '30px 0 0 0' }}>
             <Text font={{ size: 'S', weight: 300 }}>전화번호</Text>
             <FormInput
               type="text"

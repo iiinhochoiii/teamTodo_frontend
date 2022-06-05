@@ -4,12 +4,17 @@ import * as S from './style';
 export interface Props extends InputHTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
   width?: number | string;
+  sx?: React.CSSProperties;
 }
 
 const Box = (props: Props) => {
-  const { children } = props;
+  const { children, sx } = props;
 
-  return <S.StyledBox {...props}>{children}</S.StyledBox>;
+  return (
+    <S.StyledBox {...props} style={sx}>
+      {children}
+    </S.StyledBox>
+  );
 };
 
 Box.defaultProps = {

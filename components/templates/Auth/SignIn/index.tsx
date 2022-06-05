@@ -28,7 +28,7 @@ const SignUpComponent = () => {
       <S.StyledSignInContent>
         <S.StyledHeaderText>로그인</S.StyledHeaderText>
         <Form onSubmit={handleSubmit(submit)}>
-          <Box style={{ margin: '30px 0 0 0' }}>
+          <Box sx={{ margin: '30px 0 0 0' }}>
             <Text font={{ size: 'S', weight: 300 }}>이메일</Text>
             <FormInput
               type="text"
@@ -36,7 +36,7 @@ const SignUpComponent = () => {
               {...register('email')}
             />
           </Box>
-          <Box style={{ margin: '30px 0 0 0' }}>
+          <Box sx={{ margin: '30px 0 0 0' }}>
             <Text font={{ size: 'S', weight: 300 }}>비밀번호</Text>
             <FormInput
               type="password"
@@ -46,7 +46,7 @@ const SignUpComponent = () => {
           </Box>
           <FormSubmit type="submit" value="로그인" />
         </Form>
-        <Box style={{ margin: '20px 0 0 0' }}>
+        <Box sx={{ margin: '20px 0 0 0' }}>
           <Link href="/auth/password-reset" font={{ size: 'S', weight: 200 }}>
             비밀번호 찾기
           </Link>
