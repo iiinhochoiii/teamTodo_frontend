@@ -31,6 +31,7 @@ export const ContentItem = styled.div`
       padding: 7.5px 15px;
       border-radius: 5px;
       background-color: ${palette('purple')};
+      border: 1px solid ${palette('purple')};
       color: ${palette('white')};
       cursor: pointer;
       font-size: ${theme('font.size.S')};

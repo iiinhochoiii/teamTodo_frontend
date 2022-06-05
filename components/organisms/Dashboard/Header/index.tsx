@@ -3,15 +3,16 @@ import * as S from './style';
 
 interface Props {
   title?: string;
+  header?: React.ReactNode;
 }
 
 const DashboardHeader = (props: Props) => {
-  const { title } = props;
+  const { title, header } = props;
 
   return (
     <S.HeaderContainer>
       <S.HeaderContent>
-        <S.HeaderText>{title || ''}</S.HeaderText>
+        {header ? header : <S.HeaderText>{title || ''}</S.HeaderText>}
         <S.HeaderBadge />
       </S.HeaderContent>
     </S.HeaderContainer>

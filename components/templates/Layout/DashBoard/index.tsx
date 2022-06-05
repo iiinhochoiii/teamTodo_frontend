@@ -8,10 +8,11 @@ import { useRouter } from 'next/router';
 interface Props {
   children?: React.ReactNode;
   title?: string;
+  header?: React.ReactNode;
 }
 
 const MiniDrawer = (props: Props) => {
-  const { children, title } = props;
+  const { children, title, header } = props;
   const [path, setPath] = useState(title || 'Home');
 
   const router = useRouter();
@@ -33,7 +34,7 @@ const MiniDrawer = (props: Props) => {
     <Flex>
       <DashboardSidebar />
       <S.StyledContainer>
-        <DashboardHeader title={path} />
+        <DashboardHeader title={path} header={header} />
         <Flex width={1 / 2}>{children}</Flex>
       </S.StyledContainer>
     </Flex>

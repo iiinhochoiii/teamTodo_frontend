@@ -63,7 +63,7 @@ const DashboardSidebar = () => {
             />
           </Flex>
           <S.TeamDirectoryWrap>
-            <Link href="/team/directory">
+            <Link href="/dashboard/team/directory">
               <a>
                 Team Directory
                 <ArrowForwardIosIcon />

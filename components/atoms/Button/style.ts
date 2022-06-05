@@ -35,7 +35,7 @@ const buttonStyles = css<Props>`
 export const StyledButton = styled.button<Props>`
   ${buttonStyles};
   border: none;
-  cursor: pointer;
+  cursor: ${(props) => (props.disabled ? 'auto' : 'pointer')};
   border-radius: 5px;
   height: 40px;
 `;

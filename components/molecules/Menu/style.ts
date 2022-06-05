@@ -3,12 +3,12 @@ import { palette } from 'styled-tools';
 
 export const StyledMenu = styled.div`
   position: absolute;
-  right: 0;
+  right: 370px;
   padding: 10px 0;
   border-radius: 5px;
   width: 200px;
   z-index: 200;
-  border: 1px solid ${palette('lightgray')};
+  box-shadow: 0 2px 2px rgb(0 0 0 / 5%), 0 4px 16px rgb(0 0 0 / 10%);
   background-color: ${palette('white')};
 
   & > div {
