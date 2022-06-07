@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as S from './style';
 import {
   Form,
@@ -11,6 +11,7 @@ import {
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
+import InviteDialog from './Dialog/invite';
 
 interface FormType {
   teamName: string;
@@ -19,6 +20,7 @@ interface FormType {
 const TeamCreateComponent = () => {
   const router = useRouter();
   const { register, handleSubmit } = useForm<FormType>();
+  const [isOpen, setIsOpen] = useState(false);
 
   const checkTeamName = (form: FormType) => {
     console.log(form);
@@ -65,7 +67,7 @@ const TeamCreateComponent = () => {
             </Text>
           </S.TeamMemberWrap>
           <S.InviteMemberItem>
-            <button>
+            <button onClick={() => setIsOpen(true)}>
               <PersonAddAltIcon />
               <Text color="purple" sx={{ margin: 'auto 0 auto 10px' }}>
                 Invite People
@@ -88,6 +90,7 @@ const TeamCreateComponent = () => {
           Cancel
         </Button>
       </S.ButtonContent>
+      {isOpen && <InviteDialog isOpen={isOpen} setIsOpen={setIsOpen} />}
     </S.Container>
   );
 };
