@@ -2,6 +2,8 @@ import React, { ChangeEvent, useState } from 'react';
 import CloseIcon from '@material-ui/icons/Close';
 import * as S from './style';
 import { Button, Text } from '@/components/atoms';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 interface Props {
   isOpen: boolean;
@@ -11,12 +13,17 @@ interface Props {
 const InviteDialog = (props: Props) => {
   const { isOpen, setIsOpen } = props;
   const [emails, setEmails] = useState<string[]>(['', '', '']);
+  const [selectTeam, setSelectTeam] = useState(0 || '');
+  const [teams] = useState([
+    { id: 1, name: 'Test Team' },
+    { id: 2, name: 'Choi Team' },
+  ]);
+
+  const [message, setMessage] = useState('');
 
   const updateHandler = (e: ChangeEvent<HTMLInputElement>, index: number) => {
     setEmails(emails.map((email, i) => (i === index ? e.target.value : email)));
   };
-
-  console.log(emails);
 
   return (
     <S.StyledDialog onClose={() => setIsOpen(false)} open={isOpen}>
@@ -41,25 +48,53 @@ const InviteDialog = (props: Props) => {
       </S.StyledDialogTitleWrap>
       <S.StyledDialogContentWrap>
         <Text sx={{ margin: '0 0 15px 0' }}>Email address</Text>
-        <S.StyledContentEmail
-          type="text"
-          placeholder="Example Name <name@example.com>"
-          value={emails[0]}
-          onChange={(e) => updateHandler(e, 0)}
-        />
-        <S.StyledContentEmail
-          type="text"
-          placeholder="Example Name <name@example.com>"
-          value={emails[1]}
-          onChange={(e) => updateHandler(e, 1)}
-        />
-        <S.StyledContentEmail
-          type="text"
-          placeholder="Example Name <name@example.com>"
-          value={emails[2]}
-          onChange={(e) => updateHandler(e, 2)}
+        {emails.map((email, index) => (
+          <S.StyledContentEmail
+            key={index}
+            type="text"
+            placeholder="Example Name <name@example.com>"
+            value={emails[index]}
+            onChange={(e) => updateHandler(e, index)}
+          />
+        ))}
+        <Button onClick={() => setEmails([...emails, ''])}>
+          Add another email
+        </Button>
+
+        <Text sx={{ margin: '30px 0 15px 0' }}>Select team</Text>
+        <S.StyledContentTeam>
+          <S.StyledFormControl focused={false}>
+            <Select
+              sx={{ outline: 'none' }}
+              value={selectTeam}
+              onChange={(e: SelectChangeEvent<string>) =>
+                setSelectTeam(e.target.value)
+              }
+              displayEmpty
+              inputProps={{ 'aria-label': 'Without label' }}
+            >
+              <MenuItem value="">
+                <em>No team selected</em>
+              </MenuItem>
+              {teams.map((team) => (
+                <MenuItem key={team.id} value={team.id}>
+                  {team.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </S.StyledFormControl>
+          <Button onClick={() => setSelectTeam('')}>Clear team</Button>
+        </S.StyledContentTeam>
+        <Text sx={{ margin: '30px 0 15px 0' }}>Message</Text>
+
+        <S.StyledContentTextarea
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
         />
       </S.StyledDialogContentWrap>
+      <S.StyledDialogFooterWrap>
+        <Button background={'purple'}>Send invite</Button>
+      </S.StyledDialogFooterWrap>
     </S.StyledDialog>
   );
 };

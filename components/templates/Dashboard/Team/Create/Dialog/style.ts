@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { theme, palette } from 'styled-tools';
 import Dialog from '@mui/material/Dialog';
+import FormControl from '@mui/material/FormControl';
 
 export const StyledDialog = styled(Dialog)`
   & > .MuiDialog-container {
@@ -26,6 +27,15 @@ export const Title = styled.h3`
 
 export const StyledDialogContentWrap = styled.div`
   margin: 20px 0 0 0;
+  border-bottom: 1px solid ${palette('lightgray')};
+  padding: 0 0 24px 0;
+
+  & > button {
+    background: none;
+    color: ${palette('purple')};
+    width: auto;
+    height: auto;
+  }
 `;
 
 export const StyledContentEmail = styled.input`
@@ -40,4 +50,40 @@ export const StyledContentEmail = styled.input`
     color: ${palette('lightgray')};
     font-weight: 300;
   }
+`;
+
+export const StyledContentTeam = styled.div`
+  display: flex;
+
+  & > button {
+    margin: 0 0 0 10px;
+    background: none;
+    color: ${palette('purple')};
+    width: auto;
+    height: auto;
+  }
+`;
+
+export const StyledFormControl = styled(FormControl)`
+  min-width: 200px;
+  & > .MuiInputBase-formControl {
+    border-radius: 10px;
+
+    & > .MuiSelect-select {
+      padding: 10px 15px;
+    }
+  }
+`;
+
+export const StyledContentTextarea = styled.textarea`
+  width: calc(100% - 30px);
+  padding: 15px;
+  border-radius: 10px;
+  min-height: 70px;
+  outline: none;
+  resize: none;
+`;
+
+export const StyledDialogFooterWrap = styled.div`
+  margin: 20px 0 0 0;
 `;
