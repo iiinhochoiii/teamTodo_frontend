@@ -7,6 +7,7 @@ export const StyledDialog = styled(Dialog)`
   & > .MuiDialog-container {
     & > .MuiPaper-root {
       min-height: 500px;
+      max-height: 800px;
       width: 700px;
       border-radius: 5px;
       padding: 20px;
@@ -86,4 +87,14 @@ export const StyledContentTextarea = styled.textarea`
 
 export const StyledDialogFooterWrap = styled.div`
   margin: 20px 0 0 0;
+
+  & > input[type='submit'] {
+    padding: 13px 25px;
+    background-color: ${palette('purple')};
+    color: ${palette('white')};
+    font-size: ${theme('font.size.M')};
+    cursor: pointer;
+    border: 1px solid ${palette('purple')};
+    border-radius: 10px;
+  }
 `;

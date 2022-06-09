@@ -14,10 +14,11 @@ export interface Props extends HTMLAttributes<HTMLButtonElement> {
   };
   to?: string;
   sx?: React.CSSProperties;
+  type?: 'button' | 'submit' | 'reset';
 }
 
 const Button = (props: Props) => {
-  const { children, to, sx } = props;
+  const { children, to, sx, type } = props;
   const router = useRouter();
 
   const route = () => {
@@ -28,13 +29,18 @@ const Button = (props: Props) => {
 
   if (to) {
     return (
-      <S.StyledButton {...props} onClick={route} style={sx}>
+      <S.StyledButton
+        {...props}
+        onClick={route}
+        style={sx}
+        type={type || 'button'}
+      >
         {children}
       </S.StyledButton>
     );
   } else {
     return (
-      <S.StyledButton {...props} style={sx}>
+      <S.StyledButton {...props} style={sx} type={type || 'button'}>
         {children}
       </S.StyledButton>
     );

@@ -1,28 +1,40 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CloseIcon from '@material-ui/icons/Close';
 import * as S from './style';
-import { Button, Text } from '@/components/atoms';
+import { Button, Text, Form, FormSubmit } from '@/components/atoms';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import { useForm } from 'react-hook-form';
 
 interface Props {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+interface FormType {
+  emails: string[];
+  message?: string;
+}
+
 const InviteDialog = (props: Props) => {
   const { isOpen, setIsOpen } = props;
-  const [emails, setEmails] = useState<string[]>(['', '', '']);
+  const { register, handleSubmit, reset, watch } = useForm<FormType>();
+
+  useEffect(() => {
+    reset({
+      emails: ['', '', ''],
+      message: '',
+    });
+  }, []);
+
   const [selectTeam, setSelectTeam] = useState(0 || '');
   const [teams] = useState([
     { id: 1, name: 'Test Team' },
     { id: 2, name: 'Choi Team' },
   ]);
 
-  const [message, setMessage] = useState('');
-
-  const updateHandler = (e: ChangeEvent<HTMLInputElement>, index: number) => {
-    setEmails(emails.map((email, i) => (i === index ? e.target.value : email)));
+  const submitHandler = (form: FormType) => {
+    console.log(form);
   };
 
   return (
@@ -46,55 +58,58 @@ const InviteDialog = (props: Props) => {
           <CloseIcon />
         </Button>
       </S.StyledDialogTitleWrap>
-      <S.StyledDialogContentWrap>
-        <Text sx={{ margin: '0 0 15px 0' }}>Email address</Text>
-        {emails.map((email, index) => (
-          <S.StyledContentEmail
-            key={index}
-            type="text"
-            placeholder="Example Name <name@example.com>"
-            value={emails[index]}
-            onChange={(e) => updateHandler(e, index)}
-          />
-        ))}
-        <Button onClick={() => setEmails([...emails, ''])}>
-          Add another email
-        </Button>
+      <Form onSubmit={handleSubmit(submitHandler)}>
+        <S.StyledDialogContentWrap>
+          <Text sx={{ margin: '0 0 15px 0' }}>Email address</Text>
+          {watch('emails')?.map((email, index) => (
+            <S.StyledContentEmail
+              key={index}
+              type="text"
+              placeholder="Example Name <name@example.com>"
+              {...register(`emails.${index}`)}
+            />
+          ))}
+          <Button
+            onClick={() =>
+              reset({
+                emails: [...watch('emails'), ''],
+              })
+            }
+          >
+            Add another email
+          </Button>
 
-        <Text sx={{ margin: '30px 0 15px 0' }}>Select team</Text>
-        <S.StyledContentTeam>
-          <S.StyledFormControl focused={false}>
-            <Select
-              sx={{ outline: 'none' }}
-              value={selectTeam}
-              onChange={(e: SelectChangeEvent<string>) =>
-                setSelectTeam(e.target.value)
-              }
-              displayEmpty
-              inputProps={{ 'aria-label': 'Without label' }}
-            >
-              <MenuItem value="">
-                <em>No team selected</em>
-              </MenuItem>
-              {teams.map((team) => (
-                <MenuItem key={team.id} value={team.id}>
-                  {team.name}
+          <Text sx={{ margin: '30px 0 15px 0' }}>Select team</Text>
+          <S.StyledContentTeam>
+            <S.StyledFormControl focused={false}>
+              <Select
+                value={selectTeam}
+                onChange={(e: SelectChangeEvent<string>) =>
+                  setSelectTeam(e.target.value)
+                }
+                displayEmpty
+              >
+                <MenuItem value={''}>
+                  <em>No team selected</em>
                 </MenuItem>
-              ))}
-            </Select>
-          </S.StyledFormControl>
-          <Button onClick={() => setSelectTeam('')}>Clear team</Button>
-        </S.StyledContentTeam>
-        <Text sx={{ margin: '30px 0 15px 0' }}>Message</Text>
-
-        <S.StyledContentTextarea
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-        />
-      </S.StyledDialogContentWrap>
-      <S.StyledDialogFooterWrap>
-        <Button background={'purple'}>Send invite</Button>
-      </S.StyledDialogFooterWrap>
+                {teams.map((team) => (
+                  <MenuItem key={team.id} value={team.id}>
+                    {team.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </S.StyledFormControl>
+            <Button type="button" onClick={() => setSelectTeam('')}>
+              Clear team
+            </Button>
+          </S.StyledContentTeam>
+          <Text sx={{ margin: '30px 0 15px 0' }}>Message</Text>
+          <S.StyledContentTextarea {...register('message')} />
+        </S.StyledDialogContentWrap>
+        <S.StyledDialogFooterWrap>
+          <FormSubmit type="submit" value="Send invite" />
+        </S.StyledDialogFooterWrap>
+      </Form>
     </S.StyledDialog>
   );
 };
