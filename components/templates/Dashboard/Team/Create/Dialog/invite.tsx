@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import CloseIcon from '@material-ui/icons/Close';
 import * as S from './style';
 import { Button, Text, Form, FormSubmit } from '@/components/atoms';
@@ -18,14 +18,12 @@ interface FormType {
 
 const InviteDialog = (props: Props) => {
   const { isOpen, setIsOpen } = props;
-  const { register, handleSubmit, reset, watch } = useForm<FormType>();
-
-  useEffect(() => {
-    reset({
+  const { register, handleSubmit, reset, watch } = useForm<FormType>({
+    defaultValues: {
       emails: ['', '', ''],
       message: '',
-    });
-  }, []);
+    },
+  });
 
   const [selectTeam, setSelectTeam] = useState(0 || '');
   const [teams] = useState([
