@@ -35,7 +35,7 @@ export const ItemBadgeWrap = styled.div`
   }
 `;
 
-export const ItemInfoWrap = styled.div`
+export const ItemInfoWrap = styled.a`
   cursor: pointer;
   margin: 0 0 0 30px;
   & > h4 {
@@ -45,6 +45,7 @@ export const ItemInfoWrap = styled.div`
 
   & > div {
     & > button {
+      z-index: 100;
       background: none;
       color: ${palette('purple')};
       width: auto;

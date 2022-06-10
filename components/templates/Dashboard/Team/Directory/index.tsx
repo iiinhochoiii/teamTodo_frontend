@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { useRouter } from 'next/router';
 import { Box, Text, Flex, Button } from '@/components/atoms';
 import * as S from './style';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import EditDialog from './Dialog/edit';
+import Link from 'next/link';
 
 const TeamDirectoryComponent = () => {
-  const router = useRouter();
   const [isMenu, setIsMenu] = useState(false);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
 
@@ -21,20 +20,27 @@ const TeamDirectoryComponent = () => {
           <S.ItemBadgeWrap>
             <span>😀</span>
           </S.ItemBadgeWrap>
-          <S.ItemInfoWrap
-            onClick={() => router.push('/dashboard/team/testteam/home')}
-          >
-            <h4>Test Team</h4>
-            <Text font={{ size: 'M', weight: 300 }}>1 member</Text>
-            <Flex>
-              <Text font={{ size: 'M', weight: 300 }} sx={{ margin: 'auto' }}>
-                What does this team do?
-              </Text>
-              <Button onClick={() => setIsOpenEdit(true)}>
-                Add Description
-              </Button>
-            </Flex>
-          </S.ItemInfoWrap>
+          <Link href="/dashboard/team/testteam/home">
+            <S.ItemInfoWrap>
+              <h4>Test Team</h4>
+              <Text font={{ size: 'M', weight: 300 }}>1 member</Text>
+              <Flex>
+                <Text font={{ size: 'M', weight: 300 }} sx={{ margin: 'auto' }}>
+                  What does this team do?
+                </Text>
+                <Button
+                  onClick={(
+                    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+                  ) => {
+                    e.preventDefault();
+                    setIsOpenEdit(true);
+                  }}
+                >
+                  Add Description
+                </Button>
+              </Flex>
+            </S.ItemInfoWrap>
+          </Link>
           <S.ItemAuthWrap>
             <Button sx={{ borderRadius: '10px 0 0 10px' }} disabled>
               Member
