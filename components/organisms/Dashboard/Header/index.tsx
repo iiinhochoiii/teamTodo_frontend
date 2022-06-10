@@ -1,5 +1,6 @@
 import React from 'react';
 import * as S from './style';
+import { Box } from '@/components/atoms';
 
 interface Props {
   title?: string;
@@ -12,7 +13,9 @@ const DashboardHeader = (props: Props) => {
   return (
     <S.HeaderContainer>
       <S.HeaderContent>
-        {header ? header : <S.HeaderText>{title || ''}</S.HeaderText>}
+        <Box width={'auto'}>
+          {header ? header : <S.HeaderText>{title || ''}</S.HeaderText>}
+        </Box>
         <S.HeaderBadge />
       </S.HeaderContent>
     </S.HeaderContainer>

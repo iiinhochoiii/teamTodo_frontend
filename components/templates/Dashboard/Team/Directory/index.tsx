@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import { Box, Text, Flex, Button } from '@/components/atoms';
 import * as S from './style';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import EditDialog from './Dialog/edit';
 
 const TeamDirectoryComponent = () => {
+  const router = useRouter();
   const [isMenu, setIsMenu] = useState(false);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
 
@@ -19,7 +21,9 @@ const TeamDirectoryComponent = () => {
           <S.ItemBadgeWrap>
             <span>😀</span>
           </S.ItemBadgeWrap>
-          <S.ItemInfoWrap>
+          <S.ItemInfoWrap
+            onClick={() => router.push('/dashboard/team/testteam/home')}
+          >
             <h4>Test Team</h4>
             <Text font={{ size: 'M', weight: 300 }}>1 member</Text>
             <Flex>
