@@ -2,6 +2,7 @@ export const theme = {
   palette: {
     black: '#000',
     white: '#fff',
+    red: '#d72b3f',
     whitesmoke: '#F8F8F8 ',
     gray: '#6A7B8F',
     lightgray: '#e5e5e5',

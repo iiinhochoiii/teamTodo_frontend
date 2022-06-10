@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { Box, Text, Flex, Button } from '@/components/atoms';
 import * as S from './style';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import EditDialog from './Dialog/edit';
 
 const TeamDirectoryComponent = () => {
   const [isMenu, setIsMenu] = useState(false);
+  const [isOpenEdit, setIsOpenEdit] = useState(false);
 
   return (
     <S.Container>
@@ -24,7 +26,9 @@ const TeamDirectoryComponent = () => {
               <Text font={{ size: 'M', weight: 300 }} sx={{ margin: 'auto' }}>
                 What does this team do?
               </Text>
-              <Button>Add Description</Button>
+              <Button onClick={() => setIsOpenEdit(true)}>
+                Add Description
+              </Button>
             </Flex>
           </S.ItemInfoWrap>
           <S.ItemAuthWrap>
@@ -46,6 +50,9 @@ const TeamDirectoryComponent = () => {
           </S.ItemAuthWrap>
         </S.DirectoryItem>
       </S.Content>
+      {isOpenEdit && (
+        <EditDialog isOpen={isOpenEdit} setIsOpen={setIsOpenEdit} />
+      )}
     </S.Container>
   );
 };
