@@ -10,3 +10,4 @@ export { default as DashboardComposeComponent } from './Dashboard/Compose';
 export { default as TeamCreateComponent } from './Dashboard/Team/Create';
 export { default as TeamDirectoryComponent } from './Dashboard/Team/Directory';
 export { default as TeamHomeComponent } from './Dashboard/Team/Home';
+export { default as TeamMembersComponent } from './Dashboard/Team/Members';
