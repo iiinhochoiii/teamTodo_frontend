@@ -9,3 +9,4 @@ export { default as DashboardTodosComponent } from './Dashboard/Todos';
 export { default as DashboardComposeComponent } from './Dashboard/Compose';
 export { default as TeamCreateComponent } from './Dashboard/Team/Create';
 export { default as TeamDirectoryComponent } from './Dashboard/Team/Directory';
+export { default as TeamHomeComponent } from './Dashboard/Team/Home';

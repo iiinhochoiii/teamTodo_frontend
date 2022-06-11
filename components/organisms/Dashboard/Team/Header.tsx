@@ -55,11 +55,19 @@ const TeamHeader = () => {
             <a
               style={
                 item.href === router.asPath
-                  ? { backgroundColor: '#ededff' }
+                  ? { borderBottom: '2px solid #4848d3' }
                   : undefined
               }
             >
-              {item.name}
+              <span
+                style={
+                  item.href === router.asPath
+                    ? { backgroundColor: '#ededff' }
+                    : undefined
+                }
+              >
+                {item.name}
+              </span>
             </a>
           </Link>
         ))}
