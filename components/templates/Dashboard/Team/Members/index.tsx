@@ -11,6 +11,13 @@ const TeamMembersComponent = () => {
       plan: 'test',
       happend: '',
     },
+    {
+      id: 2,
+      name: 'inho choi2',
+      status: 'Last write todo in 1days ago',
+      plan: 'this is plan',
+      happend: 'this is happend',
+    },
   ];
   return (
     <S.Container>
