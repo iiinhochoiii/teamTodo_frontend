@@ -1,6 +1,6 @@
 import React from 'react';
 import * as S from './style';
-import { TeamMembersCard } from '@/components/organisms';
+import { TeamMembersCard, TeamMembersInviteItem } from '@/components/organisms';
 
 const TeamMembersComponent = () => {
   const data = [
@@ -25,6 +25,7 @@ const TeamMembersComponent = () => {
         {data.map((item) => (
           <TeamMembersCard key={item.id} member={item} />
         ))}
+        <TeamMembersInviteItem />
       </S.StyledContent>
     </S.Container>
   );

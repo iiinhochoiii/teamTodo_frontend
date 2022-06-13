@@ -5,6 +5,7 @@ export const StyledWrap = styled.article`
   width: 48.5%;
   border: 1px solid ${palette('lightgray')};
   border-radius: 10px;
+  margin: 0 0 24px 0;
 `;
 
 export const StyledHeader = styled.header`
