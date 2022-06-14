@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import CloseIcon from '@material-ui/icons/Close';
 import * as S from './style';
 import { Button, Text, Form, FormSubmit } from '@/components/atoms';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 
 interface Props {
   isOpen: boolean;
@@ -14,22 +14,23 @@ interface Props {
 interface FormType {
   emails: string[];
   message?: string;
+  teams: string;
 }
 
 const InviteDialog = (props: Props) => {
   const { isOpen, setIsOpen } = props;
-  const { register, handleSubmit, reset, watch } = useForm<FormType>({
+  const { register, handleSubmit, reset, watch, control } = useForm<FormType>({
     defaultValues: {
       emails: ['', '', ''],
       message: '',
+      teams: 'undefined',
     },
   });
 
-  const [selectTeam, setSelectTeam] = useState(0 || '');
-  const [teams] = useState([
+  const mockTeams = [
     { id: 1, name: 'Test Team' },
     { id: 2, name: 'Choi Team' },
-  ]);
+  ];
 
   const submitHandler = (form: FormType) => {
     console.log(form);
@@ -80,24 +81,32 @@ const InviteDialog = (props: Props) => {
           <Text sx={{ margin: '30px 0 15px 0' }}>Select team</Text>
           <S.StyledContentTeam>
             <S.StyledFormControl focused={false}>
-              <Select
-                value={selectTeam}
-                onChange={(e: SelectChangeEvent<string>) =>
-                  setSelectTeam(e.target.value)
-                }
-                displayEmpty
-              >
-                <MenuItem value={''}>
-                  <em>No team selected</em>
-                </MenuItem>
-                {teams.map((team) => (
-                  <MenuItem key={team.id} value={team.id}>
-                    {team.name}
-                  </MenuItem>
-                ))}
-              </Select>
+              <Controller
+                name="teams"
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Select displayEmpty onChange={onChange} value={value}>
+                    <MenuItem value={'undefined'}>
+                      <em>No team selected</em>
+                    </MenuItem>
+                    {mockTeams.map((team) => (
+                      <MenuItem key={team.id} value={team.name || ''}>
+                        {team.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                )}
+              />
             </S.StyledFormControl>
-            <Button type="button" onClick={() => setSelectTeam('')}>
+            <Button
+              type="button"
+              onClick={() =>
+                reset({
+                  ...watch(),
+                  teams: 'undefined',
+                })
+              }
+            >
               Clear team
             </Button>
           </S.StyledContentTeam>
