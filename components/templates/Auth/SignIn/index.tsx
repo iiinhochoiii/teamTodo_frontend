@@ -10,6 +10,7 @@ import {
 } from '@/components/atoms';
 
 import { useForm } from 'react-hook-form';
+import axios from '@/utils/axios';
 
 interface FormProps {
   email: string;
@@ -19,8 +20,14 @@ interface FormProps {
 const SignUpComponent = () => {
   const { register, handleSubmit } = useForm<FormProps>();
 
-  const submit = (data: FormProps) => {
-    console.log(data);
+  const submit = async (data: FormProps): Promise<void> => {
+    try {
+      const res = await axios.post('/auth/login', data);
+
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
