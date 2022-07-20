@@ -10,7 +10,8 @@ import {
 } from '@/components/atoms';
 
 import { useForm } from 'react-hook-form';
-import axios from '@/utils/axios';
+import { useMutation } from '@tanstack/react-query';
+import { login } from '@/apis/auth';
 
 interface FormProps {
   email: string;
@@ -19,15 +20,17 @@ interface FormProps {
 
 const SignUpComponent = () => {
   const { register, handleSubmit } = useForm<FormProps>();
+  const { mutate } = useMutation(login);
 
-  const submit = async (data: FormProps): Promise<void> => {
-    try {
-      const res = await axios.post('/auth/login', data);
-
-      console.log(res);
-    } catch (err) {
-      console.log(err);
-    }
+  const submit = (form: FormProps): void => {
+    mutate(form, {
+      onSuccess: (data) => {
+        console.log(data);
+      },
+      onError: (err) => {
+        console.log(err);
+      },
+    });
   };
 
   return (
