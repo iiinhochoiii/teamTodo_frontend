@@ -12,6 +12,8 @@ import {
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import { login } from '@/apis/auth';
+import { setToken } from '@/utils/token';
+import { useRouter } from 'next/router';
 
 interface FormProps {
   email: string;
@@ -19,16 +21,31 @@ interface FormProps {
 }
 
 const SignUpComponent = () => {
+  const router = useRouter();
   const { register, handleSubmit } = useForm<FormProps>();
   const { mutate } = useMutation(login);
 
   const submit = (form: FormProps): void => {
     mutate(form, {
-      onSuccess: (data) => {
-        console.log(data);
+      onSuccess: (data: { status: boolean; token: string } | void) => {
+        const { status, token } = data as {
+          status: boolean;
+          token: string;
+        };
+        if (status) {
+          setToken(token);
+
+          if (router.query?.redirect) {
+            router.push(String(router.query.redirect));
+          } else {
+            router.push('/dashboard');
+          }
+        }
       },
-      onError: (err) => {
-        console.log(err);
+      onError: (err: any) => {
+        const { message, error } = err.response.data;
+        console.log(message || error);
+        alert(message || error);
       },
     });
   };
@@ -52,6 +69,7 @@ const SignUpComponent = () => {
               type="password"
               placeholder="비밀번호를 입력해주세요."
               {...register('password')}
+              enabled
             />
           </Box>
           <FormSubmit type="submit" value="로그인" />
