@@ -1,4 +1,4 @@
-import React, { useState, useEffect, HTMLAttributes } from 'react';
+import React, { useState, HTMLAttributes } from 'react';
 import * as S from './style';
 import {
   Box,
@@ -14,21 +14,11 @@ import AddIcon from '@material-ui/icons/Add';
 import { Dialog } from '@/components/organisms';
 import { useForm } from 'react-hook-form';
 import DialogActions from '@mui/material/DialogActions';
+import { Content } from '@/interfaces/models/content';
+import dayjs from 'dayjs';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
-  item: {
-    id: number;
-    userName: string;
-    createdAt: string;
-    data: {
-      t: {
-        title: string;
-      }[];
-      y: {
-        title: string;
-      }[];
-    };
-  };
+  item: Content;
 
   remove?: (id: number) => void;
   add?: (data: { id: number; dataType: string; title: string }) => void;
@@ -83,20 +73,20 @@ const Card = (props: Props) => {
     }
   };
 
-  useEffect(() => {
-    if (updateId >= 0) {
-      reset({
-        title:
-          dataType === 'today'
-            ? item.data.t[updateId]?.title
-            : item.data.y[updateId]?.title,
-      });
-    } else {
-      reset({
-        title: '',
-      });
-    }
-  }, [dataType, updateId]);
+  // useEffect(() => {
+  //   if (updateId >= 0) {
+  //     reset({
+  //       title:
+  //         dataType === 'today'
+  //           ? item.data.t[updateId]?.title
+  //           : item.data.y[updateId]?.title,
+  //     });
+  //   } else {
+  //     reset({
+  //       title: '',
+  //     });
+  //   }
+  // }, [dataType, updateId]);
 
   return (
     <S.StyledCard>
@@ -107,7 +97,7 @@ const Card = (props: Props) => {
         <Box sx={{ margin: '0 0 0 20px' }}>
           <Flex justify="space-between">
             <Text>
-              {item.userName}
+              {/* {item.userName} */}
               {item.id}
             </Text>
             <Box width="auto" style={{ position: 'relative' }}>
@@ -138,12 +128,12 @@ const Card = (props: Props) => {
             </Box>
           </Flex>
           <Text font={{ size: 'XS' }} color="gray">
-            {item.createdAt}
+            {dayjs(item.createdAt).format('YYYY-MM-DD HH:mm:ss')}
           </Text>
         </Box>
       </S.StyledCardHeader>
       <S.CardContent>
-        {item.data.t.map((i, index) => (
+        {item.plan.map((i, index) => (
           <S.CardContentItem
             key={index}
             onClick={() => {
@@ -154,7 +144,7 @@ const Card = (props: Props) => {
           >
             <S.CardContentIcon />
             <Box>
-              <Text font={{ size: 'M', weight: 300 }}>{i.title}</Text>
+              <Text font={{ size: 'M', weight: 300 }}>{i}</Text>
             </Box>
           </S.CardContentItem>
         ))}
@@ -177,7 +167,7 @@ const Card = (props: Props) => {
       </S.CardContent>
       <HRBox color="lightgray" />
       <S.CardContent>
-        {item.data.y.map((i, index) => (
+        {item.happend.map((i, index) => (
           <S.CardContentItem
             key={index}
             onClick={() => {
@@ -188,7 +178,7 @@ const Card = (props: Props) => {
           >
             <S.CardContentIcon type="done" />
             <Box>
-              <Text font={{ size: 'M', weight: 300 }}>{i.title}</Text>
+              <Text font={{ size: 'M', weight: 300 }}>{i}</Text>
             </Box>
           </S.CardContentItem>
         ))}
