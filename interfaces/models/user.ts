@@ -6,5 +6,5 @@ export interface User {
   prifile?: string; // profile image
   createdAt: Date | string;
   updatedAt?: Date | string;
-  lastLoginedAt: Date;
+  lastLoginedAt: Date | string;
 }

@@ -14,37 +14,6 @@ const DashBoardComponent = () => {
     }
   );
 
-  // const [data22] = useState(
-  //   Array.from({ length: 10 }, (_, index) => index + 1)
-  // );
-
-  // const test = {
-  //   id: 0,
-  //   userName: '최인호',
-  //   createdAt: '2022-04-25 09:00:00',
-  //   data: {
-  //     t: [
-  //       { title: 'today test data1' },
-  //       { title: 'today test data2' },
-  //       { title: 'today test data3' },
-  //     ],
-  //     y: [
-  //       { title: 'yesterday test data1' },
-  //       { title: 'yesterday test data2' },
-  //       { title: 'yesterday test data3' },
-  //     ],
-  //   },
-  // };
-
-  // const [items, setItems] = useState(
-  //   data22.map((d) => {
-  //     return {
-  //       ...test,
-  //       id: d,
-  //     };
-  //   })
-  // );
-
   // remove Card
   // const remove = (id: number) => {
   //   console.log(id);

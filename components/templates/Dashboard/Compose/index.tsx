@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import * as S from './style';
-import { Text, Box } from '@/components/atoms';
+import { Text, Box, Button } from '@/components/atoms';
 import {
   ComposeCardItem,
   ComposeCardAddItem,
@@ -84,6 +84,10 @@ const ComposeComponent = () => {
     );
   };
 
+  const createContent = () => {
+    console.log(items);
+  };
+
   return (
     <S.Container>
       <S.Title>작업 예정이거나, 완료한 일정을 팀원에게 공유해보세요.</S.Title>
@@ -165,6 +169,11 @@ const ComposeComponent = () => {
             }}
           />
         </Box>
+      </Box>
+      <Box sx={{ margin: '40px 0 0 0' }}>
+        <Button background="purple" onClick={() => createContent()}>
+          등록하기
+        </Button>
       </Box>
     </S.Container>
   );
