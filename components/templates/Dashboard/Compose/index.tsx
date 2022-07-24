@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import * as S from './style';
 import { Text, Box, Button } from '@/components/atoms';
 import {
@@ -7,6 +7,10 @@ import {
   ComposeAddItem,
 } from '@/components/organisms';
 import { useForm } from 'react-hook-form';
+import { AppContext } from '@/contexts';
+import { useMutation } from '@tanstack/react-query';
+import { createContent } from '@/apis/content';
+import { useRouter } from 'next/router';
 
 type Item = {
   id: number;
@@ -15,9 +19,12 @@ type Item = {
 };
 
 const ComposeComponent = () => {
+  const { user } = useContext(AppContext);
   const [isAdd, setIsAdd] = useState(false);
   const [isDone, setIsDone] = useState(false);
   const { reset } = useForm();
+  const { mutate } = useMutation(createContent);
+  const router = useRouter();
 
   const [items, setItems] = useState<Item[]>([]);
   const contentRef: React.MutableRefObject<HTMLDivElement | null> =
@@ -84,8 +91,25 @@ const ComposeComponent = () => {
     );
   };
 
-  const createContent = () => {
-    console.log(items);
+  const createHandler = () => {
+    if (!user?.id) {
+      return;
+    }
+
+    const content = {
+      creatorUserId: user?.id,
+      plan: items.filter((item) => !item.isDone).map((i) => i.title),
+      happend: items.filter((item) => item.isDone).map((i) => i.title),
+    };
+
+    mutate(content, {
+      onSuccess: () => {
+        router.push('/dashboard');
+      },
+      onError: () => {
+        console.log('error');
+      },
+    });
   };
 
   return (
@@ -171,7 +195,7 @@ const ComposeComponent = () => {
         </Box>
       </Box>
       <Box sx={{ margin: '40px 0 0 0' }}>
-        <Button background="purple" onClick={() => createContent()}>
+        <Button background="purple" onClick={() => createHandler()}>
           등록하기
         </Button>
       </Box>
