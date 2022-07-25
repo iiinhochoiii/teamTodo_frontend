@@ -1,18 +1,14 @@
 import React from 'react';
 import { DashboardCard } from '@/components/organisms';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery } from 'react-query';
 import { getContent } from '@/apis/content';
 import * as S from './style';
 
 const DashBoardComponent = () => {
-  const { isLoading, isError, data, error } = useQuery(
-    ['contents'],
-    getContent,
-    {
-      refetchOnWindowFocus: false,
-      retry: 0,
-    }
-  );
+  const { isLoading, isError, data, error } = useQuery('contents', getContent, {
+    refetchOnWindowFocus: false,
+    retry: 0,
+  });
 
   // remove Card
   // const remove = (id: number) => {

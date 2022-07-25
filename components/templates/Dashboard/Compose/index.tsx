@@ -8,7 +8,7 @@ import {
 } from '@/components/organisms';
 import { useForm } from 'react-hook-form';
 import { AppContext } from '@/contexts';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation } from 'react-query';
 import { createContent } from '@/apis/content';
 import { useRouter } from 'next/router';
 

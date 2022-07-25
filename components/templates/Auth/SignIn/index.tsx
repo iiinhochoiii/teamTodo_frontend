@@ -10,7 +10,7 @@ import {
 } from '@/components/atoms';
 
 import { useForm } from 'react-hook-form';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation } from 'react-query';
 import { login } from '@/apis/auth';
 import { setToken } from '@/utils/token';
 import { useRouter } from 'next/router';
