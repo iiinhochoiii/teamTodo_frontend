@@ -22,12 +22,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 
   remove?: (id: number) => void;
   add?: (data: { id: number; dataType: string; title: string }) => void;
-  update?: (data: {
-    id: number;
-    dataType: string;
-    title: string;
-    updateId: number;
-  }) => void;
+  update?: (data: { id: number; plan: string[]; happend: string[] }) => void;
   removeItems?: (data: {
     id: number;
     dataType: string;
@@ -43,6 +38,10 @@ const Card = (props: Props) => {
   const [isCreateDialog, setIsCreateDialog] = useState(false); // item 생성 다이어로그
   const [isUpdateDialog, setIsUpdateDialog] = useState(false); // item 변경 다이어로그
   const [updateId, setUpdateId] = useState<number>(-1);
+  const [updateInfo, setUpdateInfo] = useState<{
+    index: number;
+    type: string;
+  }>();
   const [dataType, setDataType] = useState('');
 
   const { register, watch, reset } = useForm();
@@ -58,7 +57,23 @@ const Card = (props: Props) => {
       if (type === 'add' && add) {
         add(data);
       } else if (type === 'update' && update) {
-        update({ ...data, updateId: updateId });
+        update({
+          id: item.id,
+          plan: item.plan.map((v, i) =>
+            updateInfo?.type === 'plan'
+              ? i === updateInfo.index
+                ? watch('title')
+                : v
+              : v
+          ),
+          happend: item.plan.map((v, i) =>
+            updateInfo?.type === 'happend'
+              ? i === updateInfo.index
+                ? watch('title')
+                : v
+              : v
+          ),
+        });
       } else if (type === 'remove' && removeItems) {
         removeItems({
           id: data.id,
@@ -138,8 +153,13 @@ const Card = (props: Props) => {
             key={index}
             onClick={() => {
               setIsUpdateDialog(true);
-              setDataType('today');
-              setUpdateId(index);
+              setUpdateInfo({
+                index: index,
+                type: 'plan',
+              });
+              reset({
+                title: i,
+              });
             }}
           >
             <S.CardContentIcon />
@@ -152,8 +172,6 @@ const Card = (props: Props) => {
           <S.CardContentItem
             onClick={() => {
               setIsCreateDialog(true);
-              setDataType('today');
-              setUpdateId(-1);
             }}
           >
             <AddIcon />
@@ -172,8 +190,13 @@ const Card = (props: Props) => {
             key={index}
             onClick={() => {
               setIsUpdateDialog(true);
-              setDataType('yesterday');
-              setUpdateId(index);
+              setUpdateInfo({
+                index: index,
+                type: 'happend',
+              });
+              reset({
+                title: i,
+              });
             }}
           >
             <S.CardContentIcon type="done" />

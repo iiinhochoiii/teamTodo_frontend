@@ -3,12 +3,16 @@ import { DashboardCard } from '@/components/organisms';
 import { useQuery } from 'react-query';
 import { getContent } from '@/apis/content';
 import * as S from './style';
+import { useMutation, useQueryClient } from 'react-query';
+import { updateContent } from '@/apis/content';
 
 const DashBoardComponent = () => {
+  const queryClient = useQueryClient();
   const { isLoading, isError, data, error } = useQuery('contents', getContent, {
     refetchOnWindowFocus: false,
-    retry: 0,
   });
+
+  const { mutate } = useMutation(updateContent);
 
   // remove Card
   // const remove = (id: number) => {
@@ -47,43 +51,16 @@ const DashBoardComponent = () => {
   //   }
   // };
 
-  // const update = (data: {
-  //   id: number;
-  //   dataType: string;
-  //   title: string;
-  //   updateId: number;
-  // }) => {
-  //   const { id, dataType, title, updateId } = data;
-  //   if (id) {
-  //     setItems(
-  //       items.map((item) => {
-  //         if (item.id === id) {
-  //           return {
-  //             ...item,
-  //             data: {
-  //               t:
-  //                 dataType === 'today'
-  //                   ? item.data.t.map((i, index) =>
-  //                       index === updateId ? { ...i, title: title } : { ...i }
-  //                     )
-  //                   : [...item.data.t],
-  //               y:
-  //                 dataType === 'yesterday'
-  //                   ? item.data.y.map((i, index) =>
-  //                       index === updateId ? { ...i, title: title } : { ...i }
-  //                     )
-  //                   : [...item.data.y],
-  //             },
-  //           };
-  //         } else {
-  //           return {
-  //             ...item,
-  //           };
-  //         }
-  //       })
-  //     );
-  //   }
-  // };
+  const update = (data: { id: number; plan: string[]; happend: string[] }) => {
+    mutate(data, {
+      onSuccess: () => {
+        queryClient.setQueryData(['contents', data.id], data);
+      },
+      onError: () => {
+        console.log('error');
+      },
+    });
+  };
 
   // const removeItems = (data: {
   //   id: number;
@@ -119,7 +96,7 @@ const DashBoardComponent = () => {
   //   }
   // };
 
-  if (!data) return <>test</>;
+  if (!data) return;
 
   return (
     <S.Container>
@@ -131,12 +108,9 @@ const DashBoardComponent = () => {
           add={(data: { id: number; dataType: string; title: string }) =>
             console.log(data)
           }
-          update={(data: {
-            id: number;
-            dataType: string;
-            title: string;
-            updateId: number;
-          }) => console.log(data)}
+          update={(data: { id: number; plan: string[]; happend: string[] }) =>
+            update(data)
+          }
           removeItems={(data: {
             id: number;
             dataType: string;

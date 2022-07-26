@@ -15,3 +15,13 @@ export const createContent = async (content: {
 
   return res.data;
 };
+
+export const updateContent = async (content: {
+  id: number;
+  plan: string[];
+  happend: string[];
+}): Promise<void> => {
+  const res = await axios.put('/contents', content);
+
+  return res.data;
+};
