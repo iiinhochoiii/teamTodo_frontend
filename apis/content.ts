@@ -25,3 +25,9 @@ export const updateContent = async (content: {
 
   return res.data;
 };
+
+export const deleteContent = async (id: number) => {
+  const res = await axios.delete(`/contents/${id}`);
+
+  return res.data;
+};

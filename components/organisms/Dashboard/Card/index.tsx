@@ -57,23 +57,22 @@ const Card = (props: Props) => {
       if (type === 'add' && add) {
         add(data);
       } else if (type === 'update' && update) {
-        update({
+        const data = {
           id: item.id,
-          plan: item.plan.map((v, i) =>
+          plan:
             updateInfo?.type === 'plan'
-              ? i === updateInfo.index
-                ? watch('title')
-                : v
-              : v
-          ),
-          happend: item.plan.map((v, i) =>
+              ? item.plan.map((v, i) =>
+                  i === updateInfo.index ? watch('title') : v
+                )
+              : item.plan,
+          happend:
             updateInfo?.type === 'happend'
-              ? i === updateInfo.index
-                ? watch('title')
-                : v
-              : v
-          ),
-        });
+              ? item.plan.map((v, i) =>
+                  i === updateInfo.index ? watch('title') : v
+                )
+              : item.happend,
+        };
+        update(data);
       } else if (type === 'remove' && removeItems) {
         removeItems({
           id: data.id,

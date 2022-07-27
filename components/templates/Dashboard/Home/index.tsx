@@ -4,23 +4,21 @@ import { useQuery } from 'react-query';
 import { getContent } from '@/apis/content';
 import * as S from './style';
 import { useMutation, useQueryClient } from 'react-query';
-import { updateContent } from '@/apis/content';
+import { updateContent, deleteContent } from '@/apis/content';
 
 const DashBoardComponent = () => {
   const queryClient = useQueryClient();
   const { isLoading, isError, data, error } = useQuery('contents', getContent, {
-    refetchOnWindowFocus: false,
+    refetchInterval: false,
   });
 
-  const { mutate } = useMutation(updateContent);
-
   // remove Card
-  // const remove = (id: number) => {
-  //   console.log(id);
-  //   if (window.confirm('작성하신 내용을 삭제하시겠습니까?')) {
-  //     setItems((item) => item.filter((i) => i.id !== id));
-  //   }
-  // };
+  const removeMutation = useMutation((id: number) => deleteContent(id), {
+    onSuccess: () => queryClient.invalidateQueries('contents'),
+    onError: () => {
+      console.log('err');
+    },
+  });
 
   // const add = (data: { id: number; dataType: string; title: string }) => {
   //   const { id, dataType, title } = data;
@@ -52,10 +50,10 @@ const DashBoardComponent = () => {
   // };
 
   const update = (data: { id: number; plan: string[]; happend: string[] }) => {
+    const { mutate } = useMutation(updateContent);
+
     mutate(data, {
-      onSuccess: () => {
-        queryClient.setQueryData(['contents', data.id], data);
-      },
+      onSuccess: () => queryClient.invalidateQueries('contents'),
       onError: () => {
         console.log('error');
       },
@@ -104,7 +102,11 @@ const DashBoardComponent = () => {
         <DashboardCard
           key={item.id}
           item={item}
-          remove={(id: number) => console.log(id)}
+          remove={(id: number) => {
+            if (window.confirm('작성하신 내용을 삭제하시겠습니까?')) {
+              removeMutation.mutate(id);
+            }
+          }}
           add={(data: { id: number; dataType: string; title: string }) =>
             console.log(data)
           }
