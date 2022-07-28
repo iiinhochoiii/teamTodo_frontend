@@ -8,7 +8,7 @@ import { updateContent, deleteContent } from '@/apis/content';
 
 const DashBoardComponent = () => {
   const queryClient = useQueryClient();
-  const { isLoading, isError, data, error } = useQuery('contents', getContent, {
+  const { data } = useQuery('contents', getContent, {
     refetchInterval: false,
   });
 
@@ -20,79 +20,17 @@ const DashBoardComponent = () => {
     },
   });
 
-  // const add = (data: { id: number; dataType: string; title: string }) => {
-  //   const { id, dataType, title } = data;
-  //   if (id) {
-  //     setItems(
-  //       items.map((item) => {
-  //         if (item.id === id) {
-  //           return {
-  //             ...item,
-  //             data: {
-  //               t:
-  //                 dataType === 'today'
-  //                   ? [...item.data.t, { title: title }]
-  //                   : [...item.data.t],
-  //               y:
-  //                 dataType === 'yesterday'
-  //                   ? [...item.data.y, { title: title }]
-  //                   : [...item.data.y],
-  //             },
-  //           };
-  //         } else {
-  //           return {
-  //             ...item,
-  //           };
-  //         }
-  //       })
-  //     );
-  //   }
-  // };
-
-  const update = (data: { id: number; plan: string[]; happend: string[] }) => {
-    const { mutate } = useMutation(updateContent);
-
-    mutate(data, {
+  // addItem, updateItem, removeItem
+  const updateMutation = useMutation(
+    (data: { id: number; plan: string[]; happend: string[] }) =>
+      updateContent(data),
+    {
       onSuccess: () => queryClient.invalidateQueries('contents'),
       onError: () => {
-        console.log('error');
+        console.log('err');
       },
-    });
-  };
-
-  // const removeItems = (data: {
-  //   id: number;
-  //   dataType: string;
-  //   updateId: number;
-  // }) => {
-  //   const { id, dataType, updateId } = data;
-
-  //   if (id) {
-  //     setItems(
-  //       items.map((item) => {
-  //         if (item.id === id) {
-  //           return {
-  //             ...item,
-  //             data: {
-  //               t:
-  //                 dataType === 'today'
-  //                   ? item.data.t.filter((_, index) => updateId !== index)
-  //                   : [...item.data.t],
-  //               y:
-  //                 dataType === 'yesterday'
-  //                   ? item.data.y.filter((_, index) => updateId !== index)
-  //                   : [...item.data.y],
-  //             },
-  //           };
-  //         } else {
-  //           return {
-  //             ...item,
-  //           };
-  //         }
-  //       })
-  //     );
-  //   }
-  // };
+    }
+  );
 
   if (!data) return;
 
@@ -107,17 +45,9 @@ const DashBoardComponent = () => {
               removeMutation.mutate(id);
             }
           }}
-          add={(data: { id: number; dataType: string; title: string }) =>
-            console.log(data)
-          }
           update={(data: { id: number; plan: string[]; happend: string[] }) =>
-            update(data)
+            updateMutation.mutate(data)
           }
-          removeItems={(data: {
-            id: number;
-            dataType: string;
-            updateId: number;
-          }) => console.log(data)}
         />
       ))}
     </S.Container>

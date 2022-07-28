@@ -21,42 +21,39 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   item: Content;
 
   remove?: (id: number) => void;
-  add?: (data: { id: number; dataType: string; title: string }) => void;
   update?: (data: { id: number; plan: string[]; happend: string[] }) => void;
-  removeItems?: (data: {
-    id: number;
-    dataType: string;
-    updateId: number;
-  }) => void;
 }
 
 const Card = (props: Props) => {
-  const { item, remove, add, update, removeItems } = props;
+  const { item, remove, update } = props;
 
   const [isOpen, setIsOpen] = useState(false); // 메뉴 open값
   const [isOpenItem, setIsOpenItem] = useState(false); // addiItem에 대한 값
   const [isCreateDialog, setIsCreateDialog] = useState(false); // item 생성 다이어로그
   const [isUpdateDialog, setIsUpdateDialog] = useState(false); // item 변경 다이어로그
-  const [updateId, setUpdateId] = useState<number>(-1);
   const [updateInfo, setUpdateInfo] = useState<{
-    index: number;
+    index?: number;
     type: string;
   }>();
-  const [dataType, setDataType] = useState('');
 
   const { register, watch, reset } = useForm();
 
   const onClickHandler = (type: string) => {
-    if (watch('title')) {
-      const data = {
-        id: item.id,
-        dataType: dataType,
-        title: watch('title'),
-      };
-
-      if (type === 'add' && add) {
-        add(data);
-      } else if (type === 'update' && update) {
+    if (watch('title') && update) {
+      if (type === 'add') {
+        const data = {
+          id: item.id,
+          plan:
+            updateInfo?.type === 'plan'
+              ? [...item.plan, watch('title')]
+              : item.plan,
+          happend:
+            updateInfo?.type === 'happend'
+              ? [...item.happend, watch('title')]
+              : item.happend,
+        };
+        update(data);
+      } else if (type === 'update') {
         const data = {
           id: item.id,
           plan:
@@ -67,40 +64,31 @@ const Card = (props: Props) => {
               : item.plan,
           happend:
             updateInfo?.type === 'happend'
-              ? item.plan.map((v, i) =>
+              ? item.happend.map((v, i) =>
                   i === updateInfo.index ? watch('title') : v
                 )
               : item.happend,
         };
         update(data);
-      } else if (type === 'remove' && removeItems) {
-        removeItems({
-          id: data.id,
-          dataType: dataType,
-          updateId: updateId,
-        });
+      } else if (type === 'remove') {
+        const data = {
+          id: item.id,
+          plan:
+            updateInfo?.type === 'plan'
+              ? item.plan.filter((_, i) => i !== updateInfo.index)
+              : item.plan,
+          happend:
+            updateInfo?.type === 'happend'
+              ? item.happend.filter((_, i) => i !== updateInfo.index)
+              : item.happend,
+        };
+        update(data);
       }
-      setDataType('');
       reset({
         title: '',
       });
     }
   };
-
-  // useEffect(() => {
-  //   if (updateId >= 0) {
-  //     reset({
-  //       title:
-  //         dataType === 'today'
-  //           ? item.data.t[updateId]?.title
-  //           : item.data.y[updateId]?.title,
-  //     });
-  //   } else {
-  //     reset({
-  //       title: '',
-  //     });
-  //   }
-  // }, [dataType, updateId]);
 
   return (
     <S.StyledCard>
@@ -170,6 +158,9 @@ const Card = (props: Props) => {
         {isOpenItem && (
           <S.CardContentItem
             onClick={() => {
+              setUpdateInfo({
+                type: 'plan',
+              });
               setIsCreateDialog(true);
             }}
           >
@@ -208,8 +199,9 @@ const Card = (props: Props) => {
           <S.CardContentItem
             onClick={() => {
               setIsCreateDialog(true);
-              setDataType('yesterday');
-              setUpdateId(-1);
+              setUpdateInfo({
+                type: 'happend',
+              });
             }}
           >
             <AddIcon />
@@ -229,6 +221,7 @@ const Card = (props: Props) => {
           footer={
             <DialogActions>
               <Button
+                background="purple"
                 size="M"
                 onClick={() => {
                   onClickHandler('add');
