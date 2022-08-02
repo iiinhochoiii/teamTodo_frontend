@@ -2,18 +2,14 @@ import styled from 'styled-components';
 import { palette, theme } from 'styled-tools';
 
 export const StyledSignInContainer = styled.div`
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
   display: flex;
   background-color: #f8f8f8;
+  min-height: calc(100vh - 76.5px);
 `;
 
 export const StyledSignInContent = styled.div`
   position: relative;
-  margin: auto;
+  margin: 100px auto auto auto;
   padding: 25px 15px;
   width: 596px;
   border: 1px solid ${palette('lightgray')};

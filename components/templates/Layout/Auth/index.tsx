@@ -1,6 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import { AuthHeader } from '@/components/molecules';
+import * as S from './style';
 
 interface Props {
   children?: React.ReactNode;
@@ -14,7 +15,7 @@ const BaseTemplates = (props: Props) => {
     <div>
       <Head>{title || 'Team Todo'}</Head>
       <AuthHeader />
-      <main>{children}</main>
+      <S.StyledMain>{children}</S.StyledMain>
     </div>
   );
 };

@@ -7,6 +7,7 @@ export const StyledAuthHeader = styled.header`
   background-color: ${theme('palette.black')};
   position: fixed;
   z-index: 100;
+  height: 76.5px;
 `;
 
 export const StyledAuthHeaderContent = styled.div`

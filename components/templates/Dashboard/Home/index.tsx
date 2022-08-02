@@ -1,9 +1,8 @@
 import React from 'react';
 import { DashboardCard } from '@/components/organisms';
-import { useQuery } from 'react-query';
 import { getContent } from '@/apis/content';
 import * as S from './style';
-import { useMutation, useQueryClient } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { updateContent, deleteContent } from '@/apis/content';
 
 const DashBoardComponent = () => {

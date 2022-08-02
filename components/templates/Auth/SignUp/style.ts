@@ -2,13 +2,9 @@ import styled from 'styled-components';
 import { palette, theme } from 'styled-tools';
 
 export const StyledSignUpContainer = styled.div`
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
   display: flex;
   background-color: #f8f8f8;
+  min-height: calc(100vh - 76.5px);
 `;
 
 export const StyledSignUpContent = styled.div`

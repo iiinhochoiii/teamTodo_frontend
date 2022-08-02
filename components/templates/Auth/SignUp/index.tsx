@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as S from './style';
 import {
   Box,
@@ -11,6 +11,9 @@ import {
 } from '@/components/atoms';
 
 import { useForm } from 'react-hook-form';
+import { useQuery, useMutation } from 'react-query';
+import { checkEmail, createUser } from '@/apis/auth';
+import { useRouter } from 'next/router';
 
 interface FormProps {
   email: string;
@@ -21,10 +24,64 @@ interface FormProps {
 }
 
 const SignUpComponent = () => {
-  const { register, handleSubmit } = useForm<FormProps>();
+  const router = useRouter();
+  const { register, handleSubmit, watch } = useForm<FormProps>();
+  const [isValidEmail, setIsValidEmail] = useState(false);
 
-  const submit = (data: FormProps) => {
-    console.log(data);
+  const { refetch } = useQuery('checkEmail', () => checkEmail(watch('email')), {
+    enabled: false,
+    onSuccess: (res) => {
+      setIsValidEmail(res?.result);
+      if (res?.message) {
+        alert(res?.message);
+      }
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
+
+  const createMutation = useMutation(
+    (form: FormProps) => {
+      const { email, name, password, phone } = form;
+      return createUser({
+        email,
+        name,
+        password,
+        phone,
+      });
+    },
+    {
+      onSuccess: (res) => {
+        if (res?.result) {
+          router.push('/auth/signin');
+        } else {
+          alert(res?.message || '회원가입 중 오류가 발생하였습니다.');
+        }
+      },
+      onError: (err) => {
+        console.log(err);
+      },
+    }
+  );
+  const submit = (form: FormProps) => {
+    const { email, name, password, passwordConfirm, phone } = form;
+    if (!email || !name || !phone || !password || !passwordConfirm) {
+      alert('정보를 입력해주세요.');
+      return;
+    }
+
+    if (!isValidEmail) {
+      alert('이메일 중복확인을 해주세요.');
+      return;
+    }
+
+    if (password !== passwordConfirm) {
+      alert('비밀번호가 일치하지 않습니다.');
+      return;
+    }
+
+    createMutation.mutate(form);
   };
 
   return (
@@ -39,8 +96,20 @@ const SignUpComponent = () => {
                 type="text"
                 placeholder="이메일을 입력해주세요."
                 {...register('email')}
+                readonly={isValidEmail}
               />
-              <Button sx={{ margin: '10px 0 0 20px' }}>중복 확인</Button>
+              <Button
+                sx={{ margin: '10px 0 0 20px' }}
+                onClick={() => {
+                  if (watch('email')) {
+                    refetch();
+                  } else {
+                    alert('이메일을 입력해주세요.');
+                  }
+                }}
+              >
+                중복 확인
+              </Button>
             </Flex>
           </Box>
           <Box sx={{ margin: '30px 0 0 0' }}>
