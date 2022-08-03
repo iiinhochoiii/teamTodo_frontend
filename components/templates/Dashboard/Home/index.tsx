@@ -31,7 +31,7 @@ const DashBoardComponent = () => {
     }
   );
 
-  if (!data) return;
+  if (!data) return <></>;
 
   return (
     <S.Container>
