@@ -1,41 +1,32 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { NextPageContext } from 'next';
 import cookies from 'next-cookies';
 import Router from 'next/router';
-import axios from '@/utils/axios';
 import { User } from '@/interfaces/models/user';
 import { AppContext } from '@/contexts';
+import { QueryClient, dehydrate, useQuery } from 'react-query';
+import { getMy } from '@/apis/user';
 
 const WrapComponent = (TargetComponent: any) => {
-  const AuthHOC = (props: { userInfo: User }): JSX.Element => {
-    const { userInfo } = props;
+  const AuthHOC = (): JSX.Element => {
+    const { data } = useQuery('users', getMy);
     const { setUserInfo } = useContext(AppContext);
 
     useEffect(() => {
-      setUserInfo(userInfo);
-    }, []);
+      if (data) {
+        setUserInfo(data);
+      }
+    }, [data]);
 
     return <TargetComponent />;
   };
 
   AuthHOC.getInitialProps = async ({ ...ctx }: NextPageContext) => {
     const token = cookies(ctx)['x-token'];
-    let userInfo = undefined;
+    const queryClient = new QueryClient();
+    await queryClient.prefetchQuery<User>(['users'], getMy);
 
-    if (token) {
-      try {
-        const [res] = await Promise.all([
-          axios.get('/users/my', {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }),
-        ]);
-        userInfo = res.data;
-      } catch (err) {
-        console.log(err);
-      }
-    } else {
+    if (!token) {
       if (ctx.req && ctx.res) {
         ctx.res.writeHead(302, { Location: '/' });
         ctx.res.end();
@@ -45,7 +36,9 @@ const WrapComponent = (TargetComponent: any) => {
     }
 
     return {
-      userInfo,
+      props: {
+        dehydratedState: dehydrate(queryClient),
+      },
     };
   };
 

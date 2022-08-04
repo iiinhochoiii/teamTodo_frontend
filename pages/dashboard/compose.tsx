@@ -3,13 +3,14 @@ import {
   DashboardTemplates,
   DashboardComposeComponent,
 } from '@/components/templates';
+import AuthHOC from '@/hoc/authHOC';
 
-const Compose = () => {
+const Compose = AuthHOC(() => {
   return (
     <DashboardTemplates>
       <DashboardComposeComponent />
     </DashboardTemplates>
   );
-};
+});
 
 export default Compose;
