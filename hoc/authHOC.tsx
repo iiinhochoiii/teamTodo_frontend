@@ -8,15 +8,21 @@ import { QueryClient, dehydrate, useQuery } from 'react-query';
 import { getMy } from '@/apis/user';
 
 const WrapComponent = (TargetComponent: any) => {
-  const AuthHOC = (): JSX.Element => {
-    const { data } = useQuery('users', getMy);
+  const AuthHOC = ({ props }: any): JSX.Element => {
+    const { dehydratedState } = props;
+    const { data } = useQuery('users', () => getMy());
     const { setUserInfo } = useContext(AppContext);
 
     useEffect(() => {
-      if (data) {
-        setUserInfo(data);
+      const { queries } = dehydratedState;
+      if (queries.length > 0 && queries[0]?.queryKey === 'users') {
+        setUserInfo(queries[0]?.state?.data);
+      } else {
+        if (data) {
+          setUserInfo(data);
+        }
       }
-    }, [data]);
+    }, [data, dehydratedState]);
 
     return <TargetComponent />;
   };
@@ -24,7 +30,8 @@ const WrapComponent = (TargetComponent: any) => {
   AuthHOC.getInitialProps = async ({ ...ctx }: NextPageContext) => {
     const token = cookies(ctx)['x-token'];
     const queryClient = new QueryClient();
-    await queryClient.prefetchQuery<User>(['users'], getMy);
+
+    await queryClient.prefetchQuery<User>('users', () => getMy(token));
 
     if (!token) {
       if (ctx.req && ctx.res) {

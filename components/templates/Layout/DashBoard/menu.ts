@@ -9,9 +9,9 @@ export const menu = [
     href: '/dashboard',
     svg: '/static/images/home.png',
   },
-  {
-    title: 'Todos',
-    href: '/dashboard/todos',
-    svg: '/static/images/my.png',
-  },
+  // {
+  //   title: 'Todos',
+  //   href: '/dashboard/todos',
+  //   svg: '/static/images/my.png',
+  // },
 ];

@@ -9,6 +9,7 @@ import Store from '@/contexts';
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   const [queryClient] = React.useState(() => new QueryClient());
+
   return (
     <Store>
       <ThemeProvider theme={theme}>
