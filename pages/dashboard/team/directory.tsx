@@ -5,8 +5,9 @@ import {
 } from '@/components/templates';
 import { Flex, Text } from '@/components/atoms';
 import GroupsIcon from '@mui/icons-material/Groups';
+import AuthHOC from '@/hoc/authHOC';
 
-const TeamDirectory = () => {
+const TeamDirectory = AuthHOC(() => {
   return (
     <DashboardTemplates
       header={
@@ -21,6 +22,6 @@ const TeamDirectory = () => {
       <TeamDirectoryComponent />
     </DashboardTemplates>
   );
-};
+});
 
 export default TeamDirectory;

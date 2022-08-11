@@ -9,3 +9,4 @@ export { default as ComposeAddItem } from './Dashboard/Compose/AddItem';
 export { default as TeamHeader } from './Dashboard/Team/Header';
 export { default as TeamMembersCard } from './Dashboard/Team/Members/Card';
 export { default as TeamMembersInviteItem } from './Dashboard/Team/Members/InviteItem';
+export { default as TeamDirectoryCard } from './Dashboard/Team/Directory/Card';
