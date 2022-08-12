@@ -12,6 +12,8 @@ import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import InviteDialog from './Dialog/invite';
+import { useMutation } from 'react-query';
+import { checkTeam, createTeam } from '@/apis/team';
 
 interface FormType {
   teamName: string;
@@ -19,11 +21,59 @@ interface FormType {
 
 const TeamCreateComponent = () => {
   const router = useRouter();
-  const { register, handleSubmit } = useForm<FormType>();
+  const { register, handleSubmit, watch } = useForm<FormType>();
   const [isOpen, setIsOpen] = useState(false);
+  const [isValidTeamName, setIsValidTeamName] = useState(false);
+
+  const createMutaion = useMutation(
+    () => {
+      const params = {
+        name: watch('teamName'),
+      };
+
+      return createTeam(params);
+    },
+    {
+      onSuccess: (data) => {
+        const { result, message } = data;
+
+        if (message) {
+          alert(message);
+        }
+
+        if (result) {
+          router.push('/dashboard/team/directory');
+        }
+      },
+      onError: (err) => {
+        console.log(err);
+        alert('팀 생성중 오류가 발생하였습니다.');
+      },
+    }
+  );
+  const checkTeamMutation = useMutation((name: string) => checkTeam(name), {
+    onSuccess: (data) => {
+      const { result, message } = data;
+
+      if (message) {
+        alert(message);
+      }
+      setIsValidTeamName(result);
+    },
+    onError: (err) => {
+      setIsValidTeamName(false);
+      console.log(err);
+    },
+  });
 
   const checkTeamName = (form: FormType) => {
-    console.log(form);
+    const { teamName } = form;
+    if (!teamName) {
+      alert('팀 명을 입력해주세요');
+      return;
+    }
+
+    checkTeamMutation.mutate(teamName);
   };
 
   return (
@@ -78,7 +128,18 @@ const TeamCreateComponent = () => {
       </S.CreateContent>
       <HRBox color="gray" sx={{ margin: '40px 0' }} />
       <S.ButtonContent>
-        <Button background="purple">Create</Button>
+        <Button
+          background="purple"
+          onClick={() => {
+            if (isValidTeamName) {
+              createMutaion.mutate();
+            } else {
+              alert('팀 이름 중복확인이 되지 않았습니다.');
+            }
+          }}
+        >
+          Create
+        </Button>
         <Button
           background="white"
           font={{ color: 'purple' }}

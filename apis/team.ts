@@ -6,3 +6,15 @@ export const getTeams = async (): Promise<Team[]> => {
 
   return res.data.data;
 };
+
+export const checkTeam = async (name: string) => {
+  const res = await axios.get(`/teams/checkTeam/${name}`);
+
+  return res.data;
+};
+
+export const createTeam = async (params: { name: string }) => {
+  const res = await axios.post('/teams', params);
+
+  return res.data;
+};
