@@ -51,6 +51,7 @@ const TeamCreateComponent = () => {
       },
     }
   );
+
   const checkTeamMutation = useMutation((name: string) => checkTeam(name), {
     onSuccess: (data) => {
       const { result, message } = data;

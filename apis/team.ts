@@ -18,3 +18,9 @@ export const createTeam = async (params: { name: string }) => {
 
   return res.data;
 };
+
+export const deleteTeam = async (id: number) => {
+  const res = await axios.delete(`/teams/${id}`);
+
+  return res.data;
+};

@@ -8,9 +8,10 @@ import EditDialog from '@/components/templates/Dashboard/Team/Directory/Dialog/e
 
 interface Props {
   team: Team;
+  deleteTeam: (id: number) => void;
 }
 const TeamDirectoryCard = (props: Props) => {
-  const { team } = props;
+  const { team, deleteTeam } = props;
   const [isMenu, setIsMenu] = useState(false);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
 
@@ -57,7 +58,16 @@ const TeamDirectoryCard = (props: Props) => {
           {isMenu && (
             <S.ItemMenuWrap>
               <Text>Edit team</Text>
-              <Text>Delete team</Text>
+              <Text
+                onClick={() => {
+                  if (window.confirm('삭제 하시겠습니까?')) {
+                    deleteTeam(team.team_id);
+                  }
+                  setIsMenu(false);
+                }}
+              >
+                Delete team
+              </Text>
             </S.ItemMenuWrap>
           )}
         </S.ItemAuthWrap>
