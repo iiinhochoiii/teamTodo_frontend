@@ -1,3 +1,5 @@
+import { Team } from './team';
+
 export interface User {
   id: number;
   email: string;
@@ -7,4 +9,5 @@ export interface User {
   createdAt: Date | string;
   updatedAt?: Date | string;
   lastLoginedAt: Date | string;
+  teamMember: Team[];
 }

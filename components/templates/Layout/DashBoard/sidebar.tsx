@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import List from '@mui/material/List';
@@ -10,9 +10,11 @@ import { menu } from './menu';
 import { StyledLogo } from './style';
 import { Flex, Text, AddIcon } from '@/components/atoms';
 import * as S from './style';
+import { AppContext } from '@/contexts';
 
 const DashboardSidebar = () => {
   const router = useRouter();
+  const { user } = useContext(AppContext);
 
   return (
     <S.StyledSidebar>
@@ -62,6 +64,18 @@ const DashboardSidebar = () => {
               onClick={() => router.push('/dashboard/team/create')}
             />
           </Flex>
+          <S.StyledTeamListWrap>
+            {user?.teamMember.map((teamMember) => (
+              <S.StyledTeamCard
+                key={teamMember.id}
+                isRoute={router.query.id === teamMember.team.name}
+              >
+                <Link href={`/dashboard/team/${teamMember.team.name}/home`}>
+                  <a>{teamMember.team.name}</a>
+                </Link>
+              </S.StyledTeamCard>
+            ))}
+          </S.StyledTeamListWrap>
           <S.TeamDirectoryWrap>
             <Link href="/dashboard/team/directory">
               <a>

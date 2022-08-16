@@ -22,6 +22,28 @@ export const StyledContainer = styled.main`
   width: calc(100% - 250px);
 `;
 
+export const StyledTeamListWrap = styled.div`
+  margin: 30px 20px;
+`;
+
+interface TeamCardProps {
+  isRoute?: boolean;
+}
+
+export const StyledTeamCard = styled.div<TeamCardProps>`
+  padding: 10px 0;
+  border-radius: 10px;
+  background-color: ${(props) => props.isRoute && palette('lightpurple')};
+  display: flex;
+
+  & > a {
+    margin: 0 10px;
+    width: 100%;
+    font-size: ${theme('font.size.S')};
+    color: ${(props) => props.isRoute && palette('purple')};
+  }
+`;
+
 export const TeamDirectoryWrap = styled.div`
   display: flex;
   margin: 30px 20px 0 20px;

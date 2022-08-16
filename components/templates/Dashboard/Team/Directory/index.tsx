@@ -4,8 +4,10 @@ import * as S from './style';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { getTeams, deleteTeam } from '@/apis/team';
 import { TeamDirectoryCard } from '@/components/organisms';
+import { useRouter } from 'next/router';
 
 const TeamDirectoryComponent = () => {
+  const router = useRouter();
   const queryClient = useQueryClient();
   const { data } = useQuery('teams', getTeams);
 
@@ -14,9 +16,9 @@ const TeamDirectoryComponent = () => {
       const { result, message } = data;
 
       alert(message || '삭제 되었습니다.');
-
       if (result) {
         queryClient.invalidateQueries('teams');
+        router.reload();
       }
     },
     onError: (err) => {
