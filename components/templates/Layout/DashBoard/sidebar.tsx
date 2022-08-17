@@ -11,6 +11,7 @@ import { StyledLogo } from './style';
 import { Flex, Text, AddIcon } from '@/components/atoms';
 import * as S from './style';
 import { AppContext } from '@/contexts';
+import { EMPTY_TEAM_MASKCOT } from '@/constants/emoji';
 
 const DashboardSidebar = () => {
   const router = useRouter();
@@ -71,7 +72,12 @@ const DashboardSidebar = () => {
                 isRoute={router.query.id === teamMember.team.name}
               >
                 <Link href={`/dashboard/team/${teamMember.team.name}/home`}>
-                  <a>{teamMember.team.name}</a>
+                  <a>
+                    <span className="team-emoji">
+                      {teamMember.team?.maskcot || EMPTY_TEAM_MASKCOT}
+                    </span>
+                    <span className="team-name">{teamMember.team.name}</span>
+                  </a>
                 </Link>
               </S.StyledTeamCard>
             ))}

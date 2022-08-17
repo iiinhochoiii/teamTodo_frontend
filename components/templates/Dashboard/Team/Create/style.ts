@@ -19,6 +19,8 @@ export const ContentDescription = styled.div`
 export const ContentItem = styled.div`
   width: 45%;
   & > form {
+    margin-bottom: 20px;
+
     & > input[type='text'] {
       width: calc(100% - 20px);
       height: 40px;
@@ -37,6 +39,31 @@ export const ContentItem = styled.div`
       font-size: ${theme('font.size.S')};
       font-weight: 500;
     }
+  }
+`;
+
+export const EmojiWrap = styled.div`
+  position: relative;
+  .emoji-content {
+    margin-top: 10px;
+    display: flex;
+    & > div {
+      margin-right: 10px;
+      font-size: 30px;
+    }
+    & > button {
+      background: none;
+      border: none;
+      color: ${palette('purple')};
+      font-size: ${theme('font.size.M')};
+      cursor: pointer;
+      padding: 0;
+    }
+  }
+
+  .emoji-picker-react {
+    position: absolute;
+    z-index: 100;
   }
 `;
 

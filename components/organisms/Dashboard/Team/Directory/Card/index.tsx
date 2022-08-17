@@ -5,6 +5,7 @@ import Link from 'next/link';
 import * as S from './style';
 import { Team } from '@/interfaces/models/team';
 import EditDialog from '@/components/templates/Dashboard/Team/Directory/Dialog/edit';
+import { EMPTY_TEAM_MASKCOT } from '@/constants/emoji';
 
 interface Props {
   team: Team;
@@ -19,7 +20,7 @@ const TeamDirectoryCard = (props: Props) => {
     <S.Content key={team.team.id}>
       <S.DirectoryItem>
         <S.ItemBadgeWrap>
-          <span>😀</span>
+          <span>{team.team?.maskcot || EMPTY_TEAM_MASKCOT}</span>
         </S.ItemBadgeWrap>
         <Link href={`/dashboard/team/${team.team.name}/home`}>
           <S.ItemInfoWrap>

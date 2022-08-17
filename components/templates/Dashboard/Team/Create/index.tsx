@@ -14,6 +14,10 @@ import { useRouter } from 'next/router';
 import InviteDialog from './Dialog/invite';
 import { useMutation } from 'react-query';
 import { checkTeam, createTeam } from '@/apis/team';
+import dynamic from 'next/dynamic';
+import { IEmojiData } from 'emoji-picker-react';
+import { EMPTY_TEAM_MASKCOT } from '@/constants/emoji';
+const Picker = dynamic(() => import('emoji-picker-react'), { ssr: false });
 
 interface FormType {
   teamName: string;
@@ -24,11 +28,14 @@ const TeamCreateComponent = () => {
   const { register, handleSubmit, watch } = useForm<FormType>();
   const [isOpen, setIsOpen] = useState(false);
   const [isValidTeamName, setIsValidTeamName] = useState(false);
+  const [isEmoji, setIsEmoji] = useState(false);
+  const [emojiData, setEmojiData] = useState<IEmojiData>();
 
   const createMutaion = useMutation(
     () => {
       const params = {
         name: watch('teamName'),
+        maskcot: emojiData?.emoji || EMPTY_TEAM_MASKCOT,
       };
 
       return createTeam(params);
@@ -77,6 +84,14 @@ const TeamCreateComponent = () => {
     checkTeamMutation.mutate(teamName);
   };
 
+  const onEmojiClick = (
+    event: React.MouseEvent<Element, MouseEvent>,
+    data: IEmojiData
+  ) => {
+    setEmojiData(data);
+    setIsEmoji(false);
+  };
+
   return (
     <S.Container>
       <S.CreateContent>
@@ -97,6 +112,15 @@ const TeamCreateComponent = () => {
             />
             <FormSubmit type="submit" value="중복 확인" />
           </Form>
+          <S.EmojiWrap>
+            <Text font={{ size: 'S', weight: 400 }}>Team mascot</Text>
+            <div className="emoji-content">
+              <div>{emojiData?.emoji || EMPTY_TEAM_MASKCOT}</div>
+              <button onClick={() => setIsEmoji(!isEmoji)}>edit</button>
+            </div>
+
+            {isEmoji && <Picker onEmojiClick={onEmojiClick} />}
+          </S.EmojiWrap>
         </S.ContentItem>
       </S.CreateContent>
       <HRBox color="gray" sx={{ margin: '40px 0' }} />

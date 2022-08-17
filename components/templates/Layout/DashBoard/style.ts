@@ -41,6 +41,16 @@ export const StyledTeamCard = styled.div<TeamCardProps>`
     width: 100%;
     font-size: ${theme('font.size.S')};
     color: ${(props) => props.isRoute && palette('purple')};
+    display: flex;
+
+    .team-emoji {
+      margin-right: 10px;
+      font-size: ${theme('font.size.ML')};
+    }
+
+    .team-name {
+      margin-top: 4px;
+    }
   }
 `;
 
