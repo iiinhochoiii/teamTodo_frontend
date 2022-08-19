@@ -1,31 +1,118 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CloseIcon from '@material-ui/icons/Close';
 import * as S from './style';
 import { Button, Text, Form, FormSubmit, Flex, Box } from '@/components/atoms';
 import { useForm } from 'react-hook-form';
+import { TeamEntity } from '@/interfaces/models/team';
+import { EMPTY_TEAM_MASKCOT } from '@/constants/emoji';
+import { IEmojiData } from 'emoji-picker-react';
+import dynamic from 'next/dynamic';
+import { useMutation, useQueryClient } from 'react-query';
+import { checkTeam, updateTeam } from '@/apis/team';
+
+const Picker = dynamic(() => import('emoji-picker-react'), { ssr: false });
 
 interface Props {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  team: TeamEntity;
 }
 
 interface FormType {
   teamName: string;
   description?: string;
+  maskcot?: string;
 }
 
 const EditDialog = (props: Props) => {
-  const { isOpen, setIsOpen } = props;
+  const { isOpen, setIsOpen, team } = props;
+  const [isEmoji, setIsEmoji] = useState(false);
+  const [isValidTeamName, setIsValidTeamName] = useState(false);
+  const queryClient = useQueryClient();
+
   const { register, handleSubmit, reset, watch } = useForm<FormType>({
     defaultValues: {
-      teamName: 'Inho choi',
-      description: '',
+      teamName: team.name,
+      description: team?.description,
+      maskcot: team?.maskcot || EMPTY_TEAM_MASKCOT,
     },
   });
 
   const submitHandler = (form: FormType) => {
-    console.log(form);
+    const { teamName, maskcot, description } = form;
+    let validate;
+
+    if (team.name !== teamName) {
+      if (isValidTeamName) {
+        validate = true;
+      } else {
+        validate = false;
+      }
+    } else {
+      validate = true;
+    }
+
+    if (validate) {
+      const params = {
+        id: team.id,
+        maskcot: maskcot,
+        description: description,
+        ...(team.name !== teamName && { name: teamName }),
+      };
+      updateTeamMutation.mutate(params);
+    } else {
+      alert('팀 이름 중복확인이 되지 않았습니다.');
+    }
   };
+
+  const onEmojiClick = (
+    event: React.MouseEvent<Element, MouseEvent>,
+    data: IEmojiData
+  ) => {
+    reset({
+      ...watch(),
+      maskcot: data.emoji,
+    });
+    setIsEmoji(false);
+  };
+
+  const checkTeamMutation = useMutation(() => checkTeam(watch('teamName')), {
+    onSuccess: (data) => {
+      const { result, message } = data;
+
+      if (message) {
+        alert(message);
+      }
+      setIsValidTeamName(result);
+    },
+    onError: (err) => {
+      setIsValidTeamName(false);
+      console.log(err);
+    },
+  });
+
+  const updateTeamMutation = useMutation(
+    (params: {
+      id: number;
+      name?: string;
+      maskcot?: string;
+      description?: string;
+    }) => updateTeam(params),
+    {
+      onSuccess: (response) => {
+        const { result, message } = response;
+        if (result) {
+          setIsOpen(false);
+        }
+
+        alert(message || '정보가 변경되었습니다.');
+        queryClient.invalidateQueries('teams');
+      },
+      onError: (err) => {
+        console.log(err);
+      },
+    }
+  );
 
   return (
     <S.StyledDialog onClose={() => setIsOpen(false)} open={isOpen}>
@@ -53,12 +140,17 @@ const EditDialog = (props: Props) => {
           <Text sx={{ margin: '0 0 15px 0' }}>Team name</Text>
           <Flex>
             <S.StyledContentTeamName {...register('teamName')} />
-            <Button
-              sx={{ margin: '0 0 0 15px', height: '45px' }}
-              background="purple"
-            >
-              중복확인
-            </Button>
+            {team.name !== watch('teamName') && (
+              <Button
+                sx={{ margin: '0 0 0 15px', height: '45px' }}
+                background="purple"
+                onClick={() => {
+                  checkTeamMutation.mutate();
+                }}
+              >
+                중복확인
+              </Button>
+            )}
           </Flex>
           <Text sx={{ margin: '30px 0 5px 0' }}>Team maskcot</Text>
           <Text
@@ -70,11 +162,12 @@ const EditDialog = (props: Props) => {
           </Text>
           <S.StyledContentMascot>
             <Box width={'auto'} sx={{ fontSize: '32px' }}>
-              🔴
+              {watch('maskcot')}
             </Box>
-            <Button type="button" onClick={() => console.log('emoji 띄우기')}>
+            <Button type="button" onClick={() => setIsEmoji(!isEmoji)}>
               Edit
             </Button>
+            {isEmoji && <Picker onEmojiClick={onEmojiClick} />}
           </S.StyledContentMascot>
           <Text sx={{ margin: '30px 0 5px 0' }}>Description</Text>
           <Text

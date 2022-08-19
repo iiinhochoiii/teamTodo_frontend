@@ -7,7 +7,7 @@ export interface Team {
   team: TeamEntity;
 }
 
-interface TeamEntity {
+export interface TeamEntity {
   createdAt: Date;
   creatorUserId: number;
   description?: string;

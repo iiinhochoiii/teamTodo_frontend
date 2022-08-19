@@ -54,6 +54,7 @@ export const StyledContentTeamName = styled.input`
 
 export const StyledContentMascot = styled.div`
   display: flex;
+  position: relative;
 
   & > button {
     margin: 15px 0 auto 10px;
@@ -61,6 +62,13 @@ export const StyledContentMascot = styled.div`
     color: ${palette('purple')};
     width: auto;
     height: auto;
+  }
+
+  .emoji-picker-react {
+    position: absolute;
+    z-index: 100;
+    top: 50px;
+    left: 50px;
   }
 `;
 

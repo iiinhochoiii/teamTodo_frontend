@@ -19,6 +19,17 @@ export const createTeam = async (params: { name: string }) => {
   return res.data;
 };
 
+export const updateTeam = async (params: {
+  id: number;
+  name?: string;
+  maskcot?: string;
+  description?: string;
+}) => {
+  const res = await axios.put('/teams', params);
+
+  return res.data;
+};
+
 export const deleteTeam = async (id: number) => {
   const res = await axios.delete(`/teams/${id}`);
 

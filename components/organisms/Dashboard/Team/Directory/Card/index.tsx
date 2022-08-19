@@ -58,7 +58,14 @@ const TeamDirectoryCard = (props: Props) => {
           </Button>
           {isMenu && (
             <S.ItemMenuWrap>
-              <Text>Edit team</Text>
+              <Text
+                onClick={() => {
+                  setIsOpenEdit(true);
+                  setIsMenu(false);
+                }}
+              >
+                Edit team
+              </Text>
               <Text
                 onClick={() => {
                   if (window.confirm('삭제 하시겠습니까?')) {
@@ -74,7 +81,11 @@ const TeamDirectoryCard = (props: Props) => {
         </S.ItemAuthWrap>
       </S.DirectoryItem>
       {isOpenEdit && (
-        <EditDialog isOpen={isOpenEdit} setIsOpen={setIsOpenEdit} />
+        <EditDialog
+          isOpen={isOpenEdit}
+          setIsOpen={setIsOpenEdit}
+          team={team.team}
+        />
       )}
     </S.Content>
   );

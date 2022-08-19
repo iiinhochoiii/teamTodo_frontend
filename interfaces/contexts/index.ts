@@ -1,6 +1,6 @@
 import { User } from '@/interfaces/models/user';
 
 export interface Context {
-  user: User;
+  user: User | null;
   setUserInfo: (user: User) => void;
 }
