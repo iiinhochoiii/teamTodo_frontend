@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import List from '@mui/material/List';
@@ -10,12 +10,13 @@ import { menu } from './menu';
 import { StyledLogo } from './style';
 import { Flex, Text, AddIcon } from '@/components/atoms';
 import * as S from './style';
-import { AppContext } from '@/contexts';
 import { EMPTY_TEAM_MASKCOT } from '@/constants/emoji';
+import { useQuery } from 'react-query';
+import { getTeams } from '@/apis/team';
 
 const DashboardSidebar = () => {
   const router = useRouter();
-  const { user } = useContext(AppContext);
+  const { data } = useQuery('teams', getTeams);
 
   return (
     <S.StyledSidebar>
@@ -66,7 +67,7 @@ const DashboardSidebar = () => {
             />
           </Flex>
           <S.StyledTeamListWrap>
-            {user?.teamMember.map((teamMember) => (
+            {data?.map((teamMember) => (
               <S.StyledTeamCard
                 key={teamMember.id}
                 isRoute={router.query.id === teamMember.team.name}
