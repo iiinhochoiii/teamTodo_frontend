@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as S from './style';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import Link from 'next/link';
@@ -6,10 +6,21 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { Flex, Text, Box } from '@/components/atoms';
 import { useRouter } from 'next/router';
 import EditDialog from '@/components/templates/Dashboard/Team/Directory/Dialog/edit';
+import { useQuery } from 'react-query';
+import { getTeamsByName } from '@/apis/team';
+import { EMPTY_TEAM_MASKCOT } from '@/constants/emoji';
 
 const TeamHeader = () => {
   const router = useRouter();
   const [isOpenEdit, setIsOpenEdit] = useState(false);
+
+  const { data, refetch } = useQuery('teamDetail', () =>
+    getTeamsByName(String(router.query.id))
+  );
+
+  useEffect(() => {
+    refetch();
+  }, [router.query.id]);
 
   const menu = [
     { id: 1, href: `/dashboard/team/${router.query.id}/home`, name: 'home' },
@@ -19,6 +30,10 @@ const TeamHeader = () => {
       name: 'members',
     },
   ];
+
+  if (!data) {
+    return <></>;
+  }
 
   return (
     <React.Fragment>
@@ -30,7 +45,9 @@ const TeamHeader = () => {
         <Text font={{ size: 'S', weight: 700 }}>{router.query.id}</Text>
       </Flex>
       <Flex sx={{ margin: '15px 0' }}>
-        <Box sx={{ fontSize: '32px' }}>🔴</Box>
+        <Box sx={{ fontSize: '32px' }}>
+          {data.maskcot || EMPTY_TEAM_MASKCOT}
+        </Box>
         <Text
           sx={{ margin: 'auto 0 auto 10px' }}
           font={{ size: 'L', weight: 500 }}
@@ -73,7 +90,7 @@ const TeamHeader = () => {
         ))}
       </S.LinkWrap>
       {isOpenEdit && (
-        <EditDialog isOpen={isOpenEdit} setIsOpen={setIsOpenEdit} />
+        <EditDialog isOpen={isOpenEdit} setIsOpen={setIsOpenEdit} team={data} />
       )}
     </React.Fragment>
   );
