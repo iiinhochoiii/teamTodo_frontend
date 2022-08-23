@@ -3,7 +3,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import * as S from './style';
 import { Button, Text, Form, FormSubmit, Flex, Box } from '@/components/atoms';
 import { useForm } from 'react-hook-form';
-import { TeamEntity, TeamDetail } from '@/interfaces/models/team';
+import { Team } from '@/interfaces/models/team';
 import { EMPTY_TEAM_MASKCOT } from '@/constants/emoji';
 import { IEmojiData } from 'emoji-picker-react';
 import dynamic from 'next/dynamic';
@@ -15,7 +15,7 @@ const Picker = dynamic(() => import('emoji-picker-react'), { ssr: false });
 interface Props {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  team: TeamEntity | TeamDetail;
+  team: Team;
 }
 
 interface FormType {

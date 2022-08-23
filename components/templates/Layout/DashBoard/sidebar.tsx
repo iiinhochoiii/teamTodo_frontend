@@ -67,17 +67,17 @@ const DashboardSidebar = () => {
             />
           </Flex>
           <S.StyledTeamListWrap>
-            {data?.map((teamMember) => (
+            {data?.map((team) => (
               <S.StyledTeamCard
-                key={teamMember.id}
-                isRoute={router.query.id === teamMember.team.name}
+                key={team.id}
+                isRoute={router.query.id === team.name}
               >
-                <Link href={`/dashboard/team/${teamMember.team.name}/home`}>
+                <Link href={`/dashboard/team/${team.name}/home`}>
                   <a>
                     <span className="team-emoji">
-                      {teamMember.team?.maskcot || EMPTY_TEAM_MASKCOT}
+                      {team?.maskcot || EMPTY_TEAM_MASKCOT}
                     </span>
-                    <span className="team-name">{teamMember.team.name}</span>
+                    <span className="team-name">{team.name}</span>
                   </a>
                 </Link>
               </S.StyledTeamCard>

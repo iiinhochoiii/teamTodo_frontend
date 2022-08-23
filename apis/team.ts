@@ -1,5 +1,5 @@
 import axios from '@/utils/axios';
-import { Team, TeamDetail } from '@/interfaces/models/team';
+import { Team } from '@/interfaces/models/team';
 
 export const getTeams = async (): Promise<Team[]> => {
   const res = await axios.get('/teams');
@@ -7,7 +7,7 @@ export const getTeams = async (): Promise<Team[]> => {
   return res.data.data;
 };
 
-export const getTeamsByName = async (teamName: string): Promise<TeamDetail> => {
+export const getTeamsByName = async (teamName: string): Promise<Team> => {
   const res = await axios.get(`/teams/${teamName}`);
 
   return res.data.data;
