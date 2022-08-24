@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import * as S from './style';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import Link from 'next/link';
@@ -9,10 +9,12 @@ import EditDialog from '@/components/templates/Dashboard/Team/Directory/Dialog/e
 import { useQuery } from 'react-query';
 import { getTeamsByName } from '@/apis/team';
 import { EMPTY_TEAM_MASKCOT } from '@/constants/emoji';
+import { AppContext } from '@/contexts';
 
 const TeamHeader = () => {
   const router = useRouter();
   const [isOpenEdit, setIsOpenEdit] = useState(false);
+  const { user } = useContext(AppContext);
 
   const { data, refetch } = useQuery('teamDetail', () =>
     getTeamsByName(String(router.query.id))
@@ -54,17 +56,19 @@ const TeamHeader = () => {
         >
           {router.query.id}
         </Text>
-        <Flex sx={{ margin: '17px 0 auto 15px', cursor: 'pointer' }}>
-          <EditOutlinedIcon sx={{ color: '#4848d3' }} />
-          <Text
-            sx={{ margin: '0 0 0 5px' }}
-            font={{ size: 'S', weight: 500 }}
-            color="purple"
-            onClick={() => setIsOpenEdit(true)}
-          >
-            Edit
-          </Text>
-        </Flex>
+        {user?.id === data.creatorUserId && (
+          <Flex sx={{ margin: '17px 0 auto 15px', cursor: 'pointer' }}>
+            <EditOutlinedIcon sx={{ color: '#4848d3' }} />
+            <Text
+              sx={{ margin: '0 0 0 5px' }}
+              font={{ size: 'S', weight: 500 }}
+              color="purple"
+              onClick={() => setIsOpenEdit(true)}
+            >
+              Edit
+            </Text>
+          </Flex>
+        )}
       </Flex>
       <S.LinkWrap>
         {menu.map((item) => (
@@ -90,7 +94,12 @@ const TeamHeader = () => {
         ))}
       </S.LinkWrap>
       {isOpenEdit && (
-        <EditDialog isOpen={isOpenEdit} setIsOpen={setIsOpenEdit} team={data} />
+        <EditDialog
+          isOpen={isOpenEdit}
+          setIsOpen={setIsOpenEdit}
+          team={data}
+          isRefresh={true}
+        />
       )}
     </React.Fragment>
   );

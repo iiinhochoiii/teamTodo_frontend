@@ -28,8 +28,10 @@ const TeamDirectoryCard = (props: Props) => {
           <S.ItemInfoWrap>
             <h4>{team.name}</h4>
             <Text font={{ size: 'M', weight: 300 }}>1 member</Text>
-            {team.members.find((m) => m.user_id === user?.id)?.role ===
-              'owner' && (
+            {team.description ? (
+              <Text>{team.description}</Text>
+            ) : team.members.find((m) => m.user_id === user?.id)?.role ===
+              'owner' ? (
               <Flex>
                 <Text font={{ size: 'M', weight: 300 }} sx={{ margin: 'auto' }}>
                   What does this team do?
@@ -45,7 +47,7 @@ const TeamDirectoryCard = (props: Props) => {
                   Add Description
                 </Button>
               </Flex>
-            )}
+            ) : null}
           </S.ItemInfoWrap>
         </Link>
         <S.ItemAuthWrap>

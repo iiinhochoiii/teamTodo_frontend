@@ -9,6 +9,7 @@ import { IEmojiData } from 'emoji-picker-react';
 import dynamic from 'next/dynamic';
 import { useMutation, useQueryClient } from 'react-query';
 import { checkTeam, updateTeam } from '@/apis/team';
+import { useRouter } from 'next/router';
 
 const Picker = dynamic(() => import('emoji-picker-react'), { ssr: false });
 
@@ -16,6 +17,7 @@ interface Props {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   team: Team;
+  isRefresh?: boolean;
 }
 
 interface FormType {
@@ -25,7 +27,8 @@ interface FormType {
 }
 
 const EditDialog = (props: Props) => {
-  const { isOpen, setIsOpen, team } = props;
+  const { isOpen, setIsOpen, team, isRefresh } = props;
+  const router = useRouter();
   const [isEmoji, setIsEmoji] = useState(false);
   const [isValidTeamName, setIsValidTeamName] = useState(false);
   const queryClient = useQueryClient();
@@ -100,13 +103,18 @@ const EditDialog = (props: Props) => {
     }) => updateTeam(params),
     {
       onSuccess: (response) => {
-        const { result, message } = response;
+        const { result, message, data } = response;
         if (result) {
           setIsOpen(false);
         }
 
         alert(message || '정보가 변경되었습니다.');
         queryClient.invalidateQueries('teams');
+        if (isRefresh && router.query.id !== data.name) {
+          const path =
+            router.pathname.split('/')[router.pathname.split('/').length - 1];
+          router.push(`/dashboard/team/${data.name}/${path}`);
+        }
       },
       onError: (err) => {
         console.log(err);
