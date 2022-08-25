@@ -1,4 +1,4 @@
-interface Members {
+export interface Members {
   id: number;
   isActive: boolean;
   role: string;

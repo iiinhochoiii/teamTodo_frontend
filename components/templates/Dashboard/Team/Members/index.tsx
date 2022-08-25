@@ -1,28 +1,20 @@
 import React from 'react';
 import * as S from './style';
 import { TeamMembersCard, TeamMembersInviteItem } from '@/components/organisms';
+import { useQuery } from 'react-query';
+import { getTeamsByName } from '@/apis/team';
+import { useRouter } from 'next/router';
 
 const TeamMembersComponent = () => {
-  const data = [
-    {
-      id: 1,
-      name: 'inho choi',
-      status: 'Last write todo in 3days ago',
-      plan: 'test',
-      happend: '',
-    },
-    {
-      id: 2,
-      name: 'inho choi2',
-      status: 'Last write todo in 1days ago',
-      plan: 'this is plan',
-      happend: 'this is happend',
-    },
-  ];
+  const router = useRouter();
+  const { data: team } = useQuery('teamDetail', () =>
+    getTeamsByName(String(router.query.id))
+  );
+
   return (
     <S.Container>
       <S.StyledContent>
-        {data.map((item) => (
+        {team?.members.map((item) => (
           <TeamMembersCard key={item.id} member={item} />
         ))}
         <TeamMembersInviteItem />
