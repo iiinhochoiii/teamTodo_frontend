@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { palette, theme } from 'styled-tools';
 
 export const StyledWrap = styled.article`
@@ -58,11 +58,7 @@ export const SectionItemTitle = styled.p`
   width: 107px;
 `;
 
-interface InfoProps {
-  isItem?: boolean;
-}
-
-export const SectionItemInfo = styled.div<InfoProps>`
+export const SectionItemInfo = styled.div`
   display: flex;
 
   & > svg {
@@ -76,40 +72,5 @@ export const SectionItemInfo = styled.div<InfoProps>`
     font-size: ${theme('font.size.S')};
     font-weight: 300;
     color: ${palette('gray')};
-
-    ${(props) => {
-      if (!props.isItem) {
-        return css`
-          font-style: italic;
-        `;
-      }
-    }}
   }
-`;
-
-interface IconProps {
-  isDone?: boolean;
-}
-
-export const SectionItemIcon = styled.div<IconProps>`
-  margin: auto 10px auto 0;
-  width: 12px;
-  height: 12px;
-  border: 2px solid ${palette('gray')};
-  border-radius: 50%;
-
-  ${(props) => {
-    if (props.isDone) {
-      return css`
-        display: flex;
-        background-color: ${palette('gray')};
-        &::before {
-          content: '✔';
-          font-size: 10px;
-          margin: -2px auto 0 auto;
-          color: ${palette('white')};
-        }
-      `;
-    }
-  }}
 `;
