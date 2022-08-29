@@ -23,4 +23,5 @@ export const HeaderBadge = styled.div`
   width: 30px;
   height: 30px;
   margin: 0 0 auto 0;
+  cursor: pointer;
 `;
