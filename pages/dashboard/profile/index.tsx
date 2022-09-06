@@ -4,6 +4,7 @@ import AuthHOC from '@/hoc/authHOC';
 import { Flex, Text } from '@/components/atoms';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import { AppContext } from '@/contexts';
+import { DashboardProfileComponent } from '@/components/templates';
 
 const Profile = AuthHOC(() => {
   const { user } = useContext(AppContext);
@@ -18,7 +19,7 @@ const Profile = AuthHOC(() => {
         </Flex>
       }
     >
-      test
+      <DashboardProfileComponent />
     </DashboardTemplates>
   );
 });

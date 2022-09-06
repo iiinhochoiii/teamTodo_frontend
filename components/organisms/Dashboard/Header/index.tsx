@@ -1,8 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import * as S from './style';
 import { Box } from '@/components/atoms';
 import { useRouter } from 'next/router';
-import { AppContext } from '@/contexts';
 
 interface Props {
   title?: string;
@@ -12,7 +11,6 @@ interface Props {
 const DashboardHeader = (props: Props) => {
   const { title, header } = props;
   const router = useRouter();
-  const { user } = useContext(AppContext);
 
   return (
     <S.HeaderContainer>
@@ -22,7 +20,7 @@ const DashboardHeader = (props: Props) => {
         </Box>
         <S.HeaderBadge
           onClick={() => {
-            router.push(`/dashboard/profile/${user?.id}`);
+            router.push(`/dashboard/profile`);
           }}
         />
       </S.HeaderContent>
