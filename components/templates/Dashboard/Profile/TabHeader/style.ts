@@ -2,30 +2,70 @@ import styled from 'styled-components';
 import { palette, theme } from 'styled-tools';
 
 export const Container = styled.div`
-  min-height: 400px;
   border-bottom: 1px solid ${palette('lightgray')};
   width: 100%;
-  display: flex;
   background-color: ${palette('whitesmoke')};
 `;
 
 export const Content = styled.div`
   width: 80%;
-  display: flex;
-  justify-content: space-around;
-  margin: auto;
+  grid-column-gap: 30px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0 auto;
+  padding: 40px 0;
 `;
 
 export const AvatarWrap = styled.div`
+  position: relative;
   width: 280px;
   height: 280px;
   border: 2px solid ${palette('gray')};
   border-radius: 10px;
+  display: flex;
 
   & > svg {
     width: 100%;
     height: 100%;
     color: ${palette('lightgray')};
+  }
+
+  .avatar-emoji {
+    margin: auto;
+    font-size: 150px;
+  }
+
+  .emoji-upload {
+    display: none;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(30, 31, 33, 0.75);
+    width: 40%;
+    border-radius: 5px;
+    height: 30px;
+    border: none;
+    color: ${palette('white')};
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .emoji-picker-react {
+    position: absolute;
+    top: 50px;
+    left: 100px;
+  }
+
+  .emoji-save-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+  }
+
+  &:hover {
+    .emoji-upload {
+      display: block;
+    }
   }
 `;
 
@@ -38,20 +78,31 @@ export const InfoWrap = styled.div`
 `;
 
 export const InfoHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
+  & > a {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
 
-  & > div {
-    & > p {
-      margin: 0;
+    &:hover {
+      & > div > p,
+      svg {
+        color: ${palette('purple')};
+      }
     }
-  }
 
-  & > svg {
-    width: 15px;
-    height: 15px;
-    margin: auto 0;
+    & > div {
+      & > p {
+        margin: 0;
+        font-size: ${theme('font.size.S')};
+        font-weight: 400;
+      }
+    }
+
+    & > svg {
+      width: 15px;
+      height: 15px;
+      margin: auto 0;
+    }
   }
 `;
 
@@ -89,5 +140,27 @@ export const InfoContent = styled.div<InfoContentProps>`
 
   .row-empty {
     margin: 0 10px;
+  }
+`;
+
+export const TabWrap = styled.ul`
+  display: flex;
+  width: 80%;
+  margin: 0 auto;
+  list-style: none;
+
+  & > li {
+    background-color: ${palette('lightgray')};
+    border-radius: 8px 8px 0 0;
+    min-width: 120px;
+    height: 40px;
+    margin-right: 20px;
+    display: flex;
+
+    & > a {
+      margin: auto;
+      font-size: ${theme('font.size.S')};
+      font-weight: 400;
+    }
   }
 `;
