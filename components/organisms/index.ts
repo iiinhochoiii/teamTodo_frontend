@@ -10,3 +10,6 @@ export { default as TeamHeader } from './Dashboard/Team/Header';
 export { default as TeamMembersCard } from './Dashboard/Team/Members/Card';
 export { default as TeamMembersInviteItem } from './Dashboard/Team/Members/InviteItem';
 export { default as TeamDirectoryCard } from './Dashboard/Team/Directory/Card';
+export { default as ProfileTabHeader } from './Dashboard/Profile/TabHeader';
+export { default as ProfileHeader } from './Dashboard/Profile/Header';
+export { default as ProfilePasswordContent } from './Dashboard/Profile/PasswordContent';

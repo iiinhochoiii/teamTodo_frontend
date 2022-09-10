@@ -148,14 +148,22 @@ export const TabWrap = styled.ul`
   width: 80%;
   margin: 0 auto;
   list-style: none;
+  position: relative;
+  bottom: -1px;
 
   & > li {
     background-color: ${palette('lightgray')};
     border-radius: 8px 8px 0 0;
     min-width: 120px;
-    height: 40px;
+    height: 45px;
     margin-right: 20px;
     display: flex;
+    border: 1px solid ${palette('lightgray')};
+
+    &.isRouted {
+      background-color: ${palette('white')};
+      border-bottom: 1px solid white;
+    }
 
     & > a {
       margin: auto;

@@ -9,12 +9,14 @@ import dayjs from 'dayjs';
 import { IEmojiData } from 'emoji-picker-react';
 import { Button } from '@/components/atoms';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 const Picker = dynamic(() => import('emoji-picker-react'), { ssr: false });
 
 const ProfileTabHeader = () => {
   const { data: user } = useQuery('users', () => getMy());
   const [isEmoji, setIsEmoji] = useState(false);
   const [emojiData, setEmojiData] = useState<IEmojiData>();
+  const router = useRouter();
 
   const onEmojiClick = (
     _: React.MouseEvent<Element, MouseEvent>,
@@ -45,10 +47,10 @@ const ProfileTabHeader = () => {
         </S.AvatarWrap>
         <S.InfoWrap>
           <S.InfoHeader>
-            <Link href="/dashboard/profile/infomation">
+            <Link href="/dashboard/profile/information">
               <a>
                 <div>
-                  <p>Infomation</p>
+                  <p>Information</p>
                 </div>
                 <ArrowForwardIosIcon />
               </a>
@@ -92,12 +94,14 @@ const ProfileTabHeader = () => {
         </S.InfoWrap>
       </S.Content>
       <S.TabWrap>
-        <li>
+        <li
+          className={router.pathname.includes('/infomation') ? 'isRouted' : ''}
+        >
           <Link href="/dashboard/profile/infomation">
             <a>Infomation</a>
           </Link>
         </li>
-        <li>
+        <li className={router.pathname.includes('/password') ? 'isRouted' : ''}>
           <Link href="/dashboard/profile/password">
             <a>password</a>
           </Link>

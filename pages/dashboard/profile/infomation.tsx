@@ -4,7 +4,7 @@ import AuthHOC from '@/hoc/authHOC';
 import { DashboardProfileComponent } from '@/components/templates';
 import { ProfileHeader } from '@/components/organisms';
 
-const Profile = AuthHOC(() => {
+const ProfileInformation = AuthHOC(() => {
   return (
     <DashboardTemplates header={<ProfileHeader />}>
       <DashboardProfileComponent />
@@ -12,4 +12,4 @@ const Profile = AuthHOC(() => {
   );
 });
 
-export default Profile;
+export default ProfileInformation;

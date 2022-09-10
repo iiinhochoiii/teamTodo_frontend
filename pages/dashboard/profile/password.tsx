@@ -2,14 +2,14 @@ import React from 'react';
 import { DashboardTemplates } from '@/components/templates';
 import AuthHOC from '@/hoc/authHOC';
 import { DashboardProfileComponent } from '@/components/templates';
-import { ProfileHeader } from '@/components/organisms';
+import { ProfileHeader, ProfilePasswordContent } from '@/components/organisms';
 
-const Profile = AuthHOC(() => {
+const ProfilePassword = AuthHOC(() => {
   return (
     <DashboardTemplates header={<ProfileHeader />}>
-      <DashboardProfileComponent />
+      <DashboardProfileComponent content={<ProfilePasswordContent />} />
     </DashboardTemplates>
   );
 });
 
-export default Profile;
+export default ProfilePassword;
