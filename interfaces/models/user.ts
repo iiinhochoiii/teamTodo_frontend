@@ -24,3 +24,10 @@ export interface User {
     }[];
   }[];
 }
+
+export interface UserParams {
+  password?: string;
+  name?: string;
+  phone?: string;
+  profile?: string;
+}
