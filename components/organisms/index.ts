@@ -12,4 +12,5 @@ export { default as TeamMembersInviteItem } from './Dashboard/Team/Members/Invit
 export { default as TeamDirectoryCard } from './Dashboard/Team/Directory/Card';
 export { default as ProfileTabHeader } from './Dashboard/Profile/TabHeader';
 export { default as ProfileHeader } from './Dashboard/Profile/Header';
-export { default as ProfilePasswordContent } from './Dashboard/Profile/PasswordContent';
+export { default as ProfilePasswordContent } from './Dashboard/Profile/Content/password';
+export { default as ProfileInformationContent } from './Dashboard/Profile/Content/information';

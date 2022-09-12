@@ -23,7 +23,8 @@ export const Content = styled.div`
     border: 1px solid ${palette('gray')};
     border-radius: 10px;
 
-    & > input[type='password'] {
+    & > input[type='password'],
+    input[type='text'] {
       margin: 30px 0 0 0;
       padding: 0 10px;
       border: 1px solid ${palette('lightgray')};
