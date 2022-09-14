@@ -3,7 +3,8 @@ export interface User {
   email: string;
   name: string;
   phone: string;
-  prifile?: string; // profile image
+  profile?: string; // profile image
+  position?: string;
   createdAt: Date | string;
   updatedAt?: Date | string;
   lastLoginedAt: Date | string;
@@ -30,4 +31,5 @@ export interface UserParams {
   name?: string;
   phone?: string;
   profile?: string;
+  position?: string;
 }

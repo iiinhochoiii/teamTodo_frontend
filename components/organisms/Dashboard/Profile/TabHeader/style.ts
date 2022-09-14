@@ -52,14 +52,22 @@ export const AvatarWrap = styled.div`
 
   .emoji-picker-react {
     position: absolute;
-    top: 50px;
-    left: 100px;
+    top: 15px;
+    left: 130px;
+    z-index: 100;
   }
 
-  .emoji-save-btn {
+  .emoji-btn-wrap {
     position: absolute;
+    display: flex;
+    justify-content: space-between;
     bottom: 10px;
-    right: 10px;
+    width: calc(100% - 20px);
+    margin: 0 10px;
+
+    & > button {
+      width: 100px;
+    }
   }
 
   &:hover {

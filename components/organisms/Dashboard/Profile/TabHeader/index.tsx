@@ -10,10 +10,15 @@ import { IEmojiData } from 'emoji-picker-react';
 import { Button } from '@/components/atoms';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useMutation, useQueryClient } from 'react-query';
+import { updateUser } from '@/apis/user';
+
 const Picker = dynamic(() => import('emoji-picker-react'), { ssr: false });
 
 const ProfileTabHeader = () => {
   const { data: user } = useQuery('users', () => getMy());
+  const queryClient = useQueryClient();
+
   const [isEmoji, setIsEmoji] = useState(false);
   const [emojiData, setEmojiData] = useState<IEmojiData>();
   const router = useRouter();
@@ -26,6 +31,31 @@ const ProfileTabHeader = () => {
     setIsEmoji(false);
   };
 
+  const uploadProfile = () => {
+    if (!emojiData) {
+      alert('프로필을 설정해주세요.');
+      return;
+    }
+
+    updateMutaion.mutate();
+  };
+
+  const updateMutaion = useMutation(
+    () => updateUser({ profile: emojiData?.emoji }),
+    {
+      onSuccess: (res) => {
+        if (res.result) {
+          alert('프로필이 변경 되었습니다.');
+          queryClient.invalidateQueries('users');
+          setEmojiData(undefined);
+        }
+      },
+      onError: () => {
+        console.log('err');
+      },
+    }
+  );
+
   return (
     <S.Container>
       <S.Content>
@@ -33,16 +63,23 @@ const ProfileTabHeader = () => {
           {emojiData ? (
             <p className="avatar-emoji">{emojiData.emoji}</p>
           ) : (
-            <AccountBoxIcon />
+            <p className="avatar-emoji">{user?.profile}</p> || (
+              <AccountBoxIcon />
+            )
           )}
           <button className="emoji-upload" onClick={() => setIsEmoji(!isEmoji)}>
             Change Emoji
           </button>
           {isEmoji && <Picker onEmojiClick={onEmojiClick} />}
-          {user?.prifile !== emojiData?.emoji && (
-            <Button className="emoji-save-btn" background="purple">
-              Save
-            </Button>
+          {emojiData?.emoji && (
+            <div className="emoji-btn-wrap">
+              <Button background="red" onClick={() => setEmojiData(undefined)}>
+                cancel
+              </Button>
+              <Button background="purple" onClick={() => uploadProfile()}>
+                save
+              </Button>
+            </div>
           )}
         </S.AvatarWrap>
         <S.InfoWrap>

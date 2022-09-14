@@ -35,7 +35,7 @@ const ProfilePassowrdContent = () => {
     {
       onSuccess: (res) => {
         if (res.result) {
-          alert(res?.message || '비밀번호가 변경되었습니다.');
+          alert('비밀번호가 변경되었습니다.');
           queryClient.invalidateQueries('users');
           reset({
             password: '',
