@@ -5,7 +5,6 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useQuery } from 'react-query';
 import { getMy } from '@/apis/user';
-import dayjs from 'dayjs';
 import { IEmojiData } from 'emoji-picker-react';
 import { Button } from '@/components/atoms';
 import Link from 'next/link';
@@ -94,8 +93,12 @@ const ProfileTabHeader = () => {
             </Link>
           </S.InfoHeader>
           <S.InfoContent isNotBorder={true}>
+            <div className="row-label">Email</div>
+            <div className="row-content">{user?.email}</div>
+          </S.InfoContent>
+          <S.InfoContent>
             <div className="row-label">Position</div>
-            <div className="row-content">-</div>
+            <div className="row-content">{user?.position}</div>
           </S.InfoContent>
           <S.InfoContent>
             <div className="row-label">name</div>
@@ -104,14 +107,6 @@ const ProfileTabHeader = () => {
           <S.InfoContent>
             <div className="row-label">Phone</div>
             <div className="row-content">{user?.phone}</div>
-          </S.InfoContent>
-          <S.InfoContent>
-            <div className="row-label">Last Logined</div>
-            <div className="row-content">
-              {user?.lastLoginedAt
-                ? dayjs(user?.lastLoginedAt).format('YYYY-MM-DD HH:mm:ss')
-                : null}
-            </div>
           </S.InfoContent>
         </S.InfoWrap>
         <S.InfoWrap>

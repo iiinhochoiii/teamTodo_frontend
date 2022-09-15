@@ -1,9 +1,13 @@
 import styled from 'styled-components';
-import { theme } from 'styled-tools';
+import { palette, theme } from 'styled-tools';
 import { Props } from './index';
 
 export const StyledFormInput = styled.input<Props>`
   outline: none;
+
+  &:read-only {
+    background-color: ${palette('lightgray')};
+  }
 `;
 
 export const StyledLabel = styled.label`
