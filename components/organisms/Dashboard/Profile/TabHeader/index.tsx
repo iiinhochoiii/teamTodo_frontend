@@ -36,11 +36,29 @@ const ProfileTabHeader = () => {
       return;
     }
 
-    updateMutaion.mutate();
+    const params = {
+      name: user?.name,
+      phone: user?.phone,
+      profile: emojiData.emoji,
+    };
+
+    updateMutaion.mutate(params);
+  };
+
+  const deleteEmoji = () => {
+    if (window.confirm('프로필 이미지를 삭제하시겠습니까?')) {
+      const params = {
+        name: user?.name,
+        phone: user?.phone,
+        profile: '',
+      };
+      updateMutaion.mutate(params);
+    }
   };
 
   const updateMutaion = useMutation(
-    () => updateUser({ profile: emojiData?.emoji }),
+    (params: { name?: string; phone?: string; profile?: string }) =>
+      updateUser(params),
     {
       onSuccess: (res) => {
         if (res.result) {
@@ -59,16 +77,33 @@ const ProfileTabHeader = () => {
     <S.Container>
       <S.Content>
         <S.AvatarWrap>
-          {emojiData ? (
+          {user?.profile ? (
+            emojiData ? (
+              <p className="avatar-emoji">{emojiData.emoji}</p>
+            ) : (
+              <p className="avatar-emoji">{user?.profile}</p>
+            )
+          ) : emojiData ? (
             <p className="avatar-emoji">{emojiData.emoji}</p>
           ) : (
-            <p className="avatar-emoji">{user?.profile}</p> || (
-              <AccountBoxIcon />
-            )
+            <AccountBoxIcon />
           )}
-          <button className="emoji-upload" onClick={() => setIsEmoji(!isEmoji)}>
+          <button
+            className="emoji-btn emoji-upload"
+            onClick={() => setIsEmoji(!isEmoji)}
+          >
             Change Emoji
           </button>
+
+          {user?.profile && (
+            <button
+              className="emoji-btn emoji-delete"
+              onClick={() => deleteEmoji()}
+            >
+              delete
+            </button>
+          )}
+
           {isEmoji && <Picker onEmojiClick={onEmojiClick} />}
           {emojiData?.emoji && (
             <div className="emoji-btn-wrap">

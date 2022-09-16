@@ -18,10 +18,25 @@ export const HeaderText = styled.h1`
 `;
 
 export const HeaderBadge = styled.div`
-  background-color: ${palette('black')};
   border-radius: 50%;
   width: 30px;
   height: 30px;
-  margin: 0 0 auto 0;
+  margin: auto 0;
   cursor: pointer;
+  display: flex;
+  border: 1px solid ${palette('gray')};
+  padding: 2px;
+
+  & > p {
+    margin: 0 1px 0 1px;
+    font-size: 28px;
+    line-height: 28px;
+  }
+
+  & > svg {
+    width: 100%;
+    height: 100%;
+    color: ${palette('lightgray')};
+    z-index: 100;
+  }
 `;

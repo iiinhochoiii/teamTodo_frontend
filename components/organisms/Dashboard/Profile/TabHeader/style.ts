@@ -35,12 +35,10 @@ export const AvatarWrap = styled.div`
     font-size: 150px;
   }
 
-  .emoji-upload {
+  .emoji-btn {
     display: none;
     position: absolute;
     top: 10px;
-    left: 10px;
-    background: rgba(30, 31, 33, 0.75);
     width: 40%;
     border-radius: 5px;
     height: 30px;
@@ -48,6 +46,16 @@ export const AvatarWrap = styled.div`
     color: ${palette('white')};
     font-weight: bold;
     cursor: pointer;
+
+    &.emoji-upload {
+      left: 10px;
+      background: rgba(30, 31, 33, 0.75);
+    }
+
+    &.emoji-delete {
+      right: 10px;
+      background: rgba(255, 0, 0, 0.75);
+    }
   }
 
   .emoji-picker-react {
@@ -71,7 +79,8 @@ export const AvatarWrap = styled.div`
   }
 
   &:hover {
-    .emoji-upload {
+    .emoji-upload,
+    .emoji-delete {
       display: block;
     }
   }
