@@ -176,7 +176,9 @@ const TeamCreateComponent = () => {
           Cancel
         </Button>
       </S.ButtonContent>
-      {isOpen && <InviteDialog isOpen={isOpen} setIsOpen={setIsOpen} />}
+      {isOpen && (
+        <InviteDialog isOpen={isOpen} setIsOpen={setIsOpen} type="create" />
+      )}
     </S.Container>
   );
 };

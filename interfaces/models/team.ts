@@ -13,6 +13,7 @@ export interface Members {
     createdAt: Date | string;
     updatedAt?: Date | string;
     lastLoginedAt: Date | string;
+    position?: string;
   };
 }
 

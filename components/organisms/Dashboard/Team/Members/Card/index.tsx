@@ -25,7 +25,7 @@ const TeamMembersCard = (props: Props) => {
             {member.user.name} {!member.isActive && '(Invited)'}
           </S.HeaderContentTitle>
           <Text font={{ size: 'S', weight: 400 }} color="gray">
-            Frontend Developer
+            {member.user?.position}
           </Text>
           <S.HeaderContentGroup>
             <GroupsOutlinedIcon />

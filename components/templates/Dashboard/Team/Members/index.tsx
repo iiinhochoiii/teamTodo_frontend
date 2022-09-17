@@ -17,7 +17,7 @@ const TeamMembersComponent = () => {
         {team?.members.map((item) => (
           <TeamMembersCard key={item.id} member={item} />
         ))}
-        <TeamMembersInviteItem />
+        <TeamMembersInviteItem team={team} />
       </S.StyledContent>
     </S.Container>
   );

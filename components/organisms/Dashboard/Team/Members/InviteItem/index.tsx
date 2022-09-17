@@ -3,8 +3,14 @@ import * as S from './style';
 import GroupsIcon from '@mui/icons-material/Groups';
 import { Text, Button } from '@/components/atoms';
 import TeamInviteDialog from '@/components/templates/Dashboard/Team/Create/Dialog/invite';
+import { Team } from '@/interfaces/models/team';
 
-const TeamMembersInviteItem = () => {
+interface Props {
+  team?: Team;
+}
+
+const TeamMembersInviteItem = (props: Props) => {
+  const { team } = props;
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -26,7 +32,14 @@ const TeamMembersInviteItem = () => {
       >
         Invite your team
       </Button>
-      {isOpen && <TeamInviteDialog isOpen={isOpen} setIsOpen={setIsOpen} />}
+      {isOpen && (
+        <TeamInviteDialog
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          type="invite"
+          team={team}
+        />
+      )}
     </S.Container>
   );
 };

@@ -5,32 +5,30 @@ import { Button, Text, Form, FormSubmit } from '@/components/atoms';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { useForm, Controller } from 'react-hook-form';
+import { Team } from '@/interfaces/models/team';
 
 interface Props {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  type: 'create' | 'invite';
+  team?: Team;
 }
 
 interface FormType {
   emails: string[];
   message?: string;
-  teams: string;
+  teamId: number;
 }
 
 const InviteDialog = (props: Props) => {
-  const { isOpen, setIsOpen } = props;
+  const { isOpen, setIsOpen, type, team } = props;
   const { register, handleSubmit, reset, watch, control } = useForm<FormType>({
     defaultValues: {
       emails: ['', '', ''],
       message: '',
-      teams: 'undefined',
+      teamId: team?.id || 0,
     },
   });
-
-  const mockTeams = [
-    { id: 1, name: 'Test Team' },
-    { id: 2, name: 'Choi Team' },
-  ];
 
   const submitHandler = (form: FormType) => {
     console.log(form);
@@ -60,7 +58,7 @@ const InviteDialog = (props: Props) => {
       <Form onSubmit={handleSubmit(submitHandler)}>
         <S.StyledDialogContentWrap>
           <Text sx={{ margin: '0 0 15px 0' }}>Email address</Text>
-          {watch('emails')?.map((email, index) => (
+          {watch('emails')?.map((_, index) => (
             <S.StyledContentEmail
               key={index}
               type="text"
@@ -82,33 +80,23 @@ const InviteDialog = (props: Props) => {
           <S.StyledContentTeam>
             <S.StyledFormControl focused={false}>
               <Controller
-                name="teams"
+                name="teamId"
                 control={control}
                 render={({ field: { onChange, value } }) => (
-                  <Select displayEmpty onChange={onChange} value={value}>
-                    <MenuItem value={'undefined'}>
+                  <Select
+                    displayEmpty
+                    onChange={onChange}
+                    value={team?.id || value}
+                    disabled={type === 'invite'}
+                  >
+                    <MenuItem value={0}>
                       <em>No team selected</em>
                     </MenuItem>
-                    {mockTeams.map((team) => (
-                      <MenuItem key={team.id} value={team.name || ''}>
-                        {team.name}
-                      </MenuItem>
-                    ))}
+                    {team && <MenuItem value={team?.id}>{team?.name}</MenuItem>}
                   </Select>
                 )}
               />
             </S.StyledFormControl>
-            <Button
-              type="button"
-              onClick={() =>
-                reset({
-                  ...watch(),
-                  teams: 'undefined',
-                })
-              }
-            >
-              Clear team
-            </Button>
           </S.StyledContentTeam>
           <Text sx={{ margin: '30px 0 15px 0' }}>Message</Text>
           <S.StyledContentTextarea {...register('message')} />
