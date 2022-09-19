@@ -1,14 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { DashboardCard } from '@/components/organisms';
 import * as S from './style';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
-import { getContent, updateContent, deleteContent } from '@/apis/content';
+import { getContentByTeam, updateContent, deleteContent } from '@/apis/content';
+import { useRouter } from 'next/router';
 
 const TeamHomeComponent = () => {
+  const router = useRouter();
+
   const queryClient = useQueryClient();
-  const { data } = useQuery('contents', getContent, {
-    refetchInterval: false,
-  });
+  const { data, refetch } = useQuery(
+    'contents',
+    () => getContentByTeam(String(router.query.id)),
+    {
+      enabled: !!router.query.id,
+    }
+  );
+
+  useEffect(() => {
+    refetch();
+  }, [router]);
 
   // remove Card
   const removeMutation = useMutation((id: number) => deleteContent(id), {

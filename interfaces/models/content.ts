@@ -5,4 +5,5 @@ export interface Content {
   updatedAt?: Date | string;
   plan: string[];
   happend: string[];
+  teamId?: number;
 }
