@@ -4,7 +4,7 @@ import { getTeamsByName } from './team';
 
 export const getContent = async (): Promise<Content[]> => {
   const res = await axios.get('/contents');
-  return res.data;
+  return res.data.data;
 };
 
 export const getContentByTeam = async (
@@ -13,7 +13,7 @@ export const getContentByTeam = async (
   const team = await getTeamsByName(teamName);
 
   const res = await axios.get(`/contents/${team.id}`);
-  return res.data;
+  return res.data.data;
 };
 
 export const createContent = async (content: {

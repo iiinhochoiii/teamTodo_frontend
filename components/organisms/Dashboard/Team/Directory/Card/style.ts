@@ -26,6 +26,12 @@ export const ItemBadgeWrap = styled.div`
 export const ItemInfoWrap = styled.a`
   cursor: pointer;
   margin: 0 0 0 30px;
+  max-width: 500px;
+
+  .team-diriectory-description {
+    word-wrap: break-word;
+  }
+
   & > h4 {
     margin: 0;
     font-size: ${theme('font.size.ML')};

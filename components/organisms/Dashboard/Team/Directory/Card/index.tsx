@@ -29,7 +29,9 @@ const TeamDirectoryCard = (props: Props) => {
             <h4>{team.name}</h4>
             <Text font={{ size: 'M', weight: 300 }}>1 member</Text>
             {team.description ? (
-              <Text>{team.description}</Text>
+              <Text className="team-diriectory-description">
+                {team.description}
+              </Text>
             ) : team.members.find((m) => m.user_id === user?.id)?.role ===
               'owner' ? (
               <Flex>

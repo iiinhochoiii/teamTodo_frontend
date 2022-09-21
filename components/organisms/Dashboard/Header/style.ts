@@ -24,11 +24,11 @@ export const HeaderBadge = styled.div`
   margin: auto 0;
   cursor: pointer;
   display: flex;
-  border: 1px solid ${palette('gray')};
+  border: 2px solid ${palette('gray')};
   padding: 2px;
 
   & > p {
-    margin: 0 1px 0 1px;
+    margin: 0 auto 0 auto;
     font-size: 28px;
     line-height: 28px;
   }

@@ -20,8 +20,22 @@ export const StyledCardHeader = styled.div`
 export const CardBadge = styled.div`
   width: 30px;
   height: 30px;
-  background-color: ${palette('black')};
   border-radius: 50%;
+  border: 2px solid ${palette('gray')};
+  display: flex;
+
+  & > p {
+    margin: 0 auto 0 auto;
+    font-size: 28px;
+    line-height: 28px;
+  }
+
+  & > svg {
+    width: 100%;
+    height: 100%;
+    color: ${palette('lightgray')};
+    z-index: 100;
+  }
 `;
 
 export const CardContent = styled.div`

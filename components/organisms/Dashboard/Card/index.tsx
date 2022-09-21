@@ -16,6 +16,7 @@ import { useForm } from 'react-hook-form';
 import DialogActions from '@mui/material/DialogActions';
 import { Content } from '@/interfaces/models/content';
 import dayjs from 'dayjs';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   item: Content;
@@ -26,7 +27,6 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 
 const Card = (props: Props) => {
   const { item, remove, update } = props;
-
   const [isOpen, setIsOpen] = useState(false); // 메뉴 open값
   const [isOpenItem, setIsOpenItem] = useState(false); // addiItem에 대한 값
   const [isCreateDialog, setIsCreateDialog] = useState(false); // item 생성 다이어로그
@@ -94,14 +94,17 @@ const Card = (props: Props) => {
     <S.StyledCard>
       <S.StyledCardHeader>
         <Box width="30px">
-          <S.CardBadge></S.CardBadge>
+          <S.CardBadge>
+            {item.user.profile ? (
+              <p>{item.user?.profile}</p>
+            ) : (
+              <AccountCircleIcon />
+            )}
+          </S.CardBadge>
         </Box>
         <Box sx={{ margin: '0 0 0 20px' }}>
           <Flex justify="space-between">
-            <Text>
-              {/* {item.userName} */}
-              {item.id}
-            </Text>
+            <Text>{item.user.name}</Text>
             <Box width="auto" style={{ position: 'relative' }}>
               <MoreHoriz onClick={() => setIsOpen(!isOpen)} />
               {isOpen && (
