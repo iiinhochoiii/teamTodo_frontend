@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import List from '@mui/material/List';
@@ -8,15 +8,17 @@ import ListItemText from '@mui/material/ListItemText';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { menu } from './menu';
 import { StyledLogo } from './style';
-import { Flex, Text, AddIcon } from '@/components/atoms';
+import { Flex, Text, AddIcon, Button } from '@/components/atoms';
 import * as S from './style';
 import { EMPTY_TEAM_MASKCOT } from '@/constants/emoji';
 import { useQuery } from 'react-query';
 import { getTeams } from '@/apis/team';
+import { AppContext } from '@/contexts';
 
 const DashboardSidebar = () => {
   const router = useRouter();
   const { data } = useQuery('teams', getTeams);
+  const { logout } = useContext(AppContext);
 
   return (
     <S.StyledSidebar>
@@ -92,6 +94,16 @@ const DashboardSidebar = () => {
             </Link>
           </S.TeamDirectoryWrap>
         </List>
+        <S.SidebarFooterWrap>
+          <Button
+            onClick={() => {
+              logout();
+              router.push('/auth/signin');
+            }}
+          >
+            Sign out
+          </Button>
+        </S.SidebarFooterWrap>
       </S.StyledSidearContent>
     </S.StyledSidebar>
   );

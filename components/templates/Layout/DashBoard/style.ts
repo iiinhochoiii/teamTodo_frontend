@@ -70,3 +70,24 @@ export const TeamDirectoryWrap = styled.div`
     }
   }
 `;
+
+export const SidebarFooterWrap = styled.div`
+  position: absolute;
+  border-top: 1px solid ${palette('lightgray')};
+  width: calc(100% - 40px);
+  bottom: 100px;
+  padding: 20px 20px 0 20px;
+
+  & > button {
+    width: 100%;
+    background: none;
+    color: ${palette('gray')};
+    border: 1px solid ${palette('gray')};
+
+    &:hover {
+      color: ${palette('white')};
+      border: 1px solid ${palette('purple')};
+      background-color: ${palette('purple')};
+    }
+  }
+`;
