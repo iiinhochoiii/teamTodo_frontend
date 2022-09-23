@@ -16,14 +16,10 @@ const DashboardHeader = (props: Props) => {
   const router = useRouter();
   const { data: user } = useQuery('users', () => getMy());
 
-  if (!user) {
-    return;
-  }
-
   return (
     <S.HeaderContainer>
       <S.HeaderContent>
-        <Box width={'auto'}>
+        <Box>
           {header ? header : <S.HeaderText>{title || ''}</S.HeaderText>}
         </Box>
         <S.HeaderBadge
@@ -31,7 +27,7 @@ const DashboardHeader = (props: Props) => {
             router.push(`/dashboard/profile`);
           }}
         >
-          {user.profile ? <p>{user?.profile}</p> : <AccountCircleIcon />}
+          {user?.profile ? <p>{user?.profile}</p> : <AccountCircleIcon />}
         </S.HeaderBadge>
       </S.HeaderContent>
     </S.HeaderContainer>

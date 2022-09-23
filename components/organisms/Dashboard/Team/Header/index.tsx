@@ -44,10 +44,12 @@ const TeamHeader = () => {
           <a style={{ fontSize: '14px' }}>dlsgh120’s Workspace</a>
         </Link>
         <ChevronRightIcon />
-        <Text font={{ size: 'S', weight: 700 }}>{router.query.id}</Text>
+        <Text font={{ size: 'S', weight: 700 }} width="100%">
+          {router.query.id}
+        </Text>
       </Flex>
       <Flex sx={{ margin: '15px 0' }}>
-        <Box sx={{ fontSize: '32px' }}>
+        <Box width="auto" sx={{ fontSize: '32px' }}>
           {data.maskcot || EMPTY_TEAM_MASKCOT}
         </Box>
         <Text

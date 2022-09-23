@@ -21,7 +21,6 @@ export const HeaderBadge = styled.div`
   border-radius: 50%;
   width: 30px;
   height: 30px;
-  margin: auto 0;
   cursor: pointer;
   display: flex;
   border: 2px solid ${palette('gray')};
