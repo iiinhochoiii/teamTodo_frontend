@@ -8,7 +8,7 @@ import { EMPTY_TEAM_MASKCOT } from '@/constants/emoji';
 import { IEmojiData } from 'emoji-picker-react';
 import dynamic from 'next/dynamic';
 import { useMutation, useQueryClient } from 'react-query';
-import { checkTeam, updateTeam } from '@/apis/team';
+import { checkTeam, updateTeam, deleteTeam } from '@/apis/team';
 import { useRouter } from 'next/router';
 
 const Picker = dynamic(() => import('emoji-picker-react'), { ssr: false });
@@ -122,6 +122,23 @@ const EditDialog = (props: Props) => {
     }
   );
 
+  const deleteMutation = useMutation((id: number) => deleteTeam(id), {
+    onSuccess: (data) => {
+      const { result, message } = data;
+
+      if (result) {
+        alert(message || '삭제 되었습니다.');
+        setIsOpen(false);
+        queryClient.invalidateQueries('teams');
+        router.push('/dashboard/team/directory');
+      }
+    },
+    onError: (err) => {
+      console.log(err);
+      alert('팀 삭제중 오류가 발생하였습니다.');
+    },
+  });
+
   return (
     <S.StyledDialog onClose={() => setIsOpen(false)} open={isOpen}>
       <S.StyledDialogTitleWrap>
@@ -189,7 +206,15 @@ const EditDialog = (props: Props) => {
         </S.StyledDialogContentWrap>
         <S.StyledDialogFooterWrap>
           <FormSubmit type="submit" value="Save" />
-          <Button>Delete team</Button>
+          <Button
+            onClick={() => {
+              if (window.confirm('삭제 하시겠습니까?')) {
+                deleteMutation.mutate(team.id);
+              }
+            }}
+          >
+            Delete team
+          </Button>
         </S.StyledDialogFooterWrap>
       </Form>
     </S.StyledDialog>
