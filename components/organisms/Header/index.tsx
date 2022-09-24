@@ -16,9 +16,10 @@ const Header = () => {
             <S.HeaderLink>Signup</S.HeaderLink>
           </Link>
           <Button
-            color={'black'}
+            background="purple"
+            color="white"
             size={'L'}
-            font={{ size: 'M', weight: 'bold' }}
+            font={{ size: 'M', weight: '600' }}
             to={'/auth/signin'}
           >
             Signin

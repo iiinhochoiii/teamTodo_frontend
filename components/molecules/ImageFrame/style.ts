@@ -5,6 +5,15 @@ export const StyledImageFrame = styled.div<Props>`
   background-color: ${(props) =>
     props.theme.palette[props.background || 'white']};
   width: 100%;
-  height: 250px;
+  height: 350px;
   border-radius: 20px;
+  position: relative;
+
+  & > span {
+    top: 10px !important;
+    bottom: 10px !important;
+    left: 10px !important;
+    right: 10px !important;
+    border-radius: 10px;
+  }
 `;

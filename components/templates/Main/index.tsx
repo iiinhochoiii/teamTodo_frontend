@@ -2,14 +2,12 @@ import React from 'react';
 import { Section, Text, Button, Flex, Box } from '@/components/atoms';
 import { ImageFrame } from '@/components/molecules';
 import * as S from './style';
+import Image from 'next/image';
 
 const MainComponent = () => {
   return (
     <>
-      <Section
-        background="lightbrown_gradient"
-        style={{ padding: '140px 0 0 0' }}
-      >
+      <Section background="lightpurple" style={{ padding: '200px 0 0 0' }}>
         <S.StyledContent>
           <S.StyledTitle color="black">
             Better TeamWork, Share My Work
@@ -36,103 +34,109 @@ const MainComponent = () => {
           </Text>
         </S.StyledContent>
         <Flex justify="space-between" style={{ margin: '150px 0 0 0' }}>
-          <Box width={0.98 / 2}>
-            <ImageFrame background="lightbrown"></ImageFrame>
+          <Box width={1.98 / 3}>
+            <ImageFrame background="purple">
+              <Image src="/images/write-plan.png" layout="fill" />
+            </ImageFrame>
           </Box>
-          <Box width={0.98 / 2}>
+          <Box width={0.98 / 3}>
             <Text
               font={{ size: 'M' }}
               color="lightred"
-              style={{ margin: '15px 0 0 0' }}
+              sx={{ margin: '15px 0 0 0' }}
             >
-              Share My Todo List
+              Write my plan and happend
             </Text>
             <Text
-              font={{ size: 'XL', weight: 'bold' }}
-              style={{ margin: '30px 0 0 0 ' }}
+              font={{ size: 'L', weight: '600' }}
+              sx={{ margin: '15px 0 0 0 ' }}
             >
-              더 편리하게 작성합니다.
+              개인의 일정을 관리합니다.
             </Text>
             <Text
-              font={{ size: 'ML' }}
+              font={{ size: 'M' }}
               color="gray"
-              style={{ margin: '30px 0 0 0' }}
+              sx={{ margin: '15px 0 0 0' }}
             >
-              오늘 예정되었거나, 완료된 일에 대해서, 같은 팀원에게 공유 합니다.
-              누가 어떠한 작업을 진행중인지 쉽게 파악할 수 있습니다.
+              오늘 예정되었거나 완료된 일에 대해서 기록 합니다. <br />
+              어떠한 작업을 진행중인지 쉽게 파악할 수 있습니다.
             </Text>
           </Box>
         </Flex>
         <Flex justify="space-between" style={{ margin: '150px 0 0 0' }}>
-          <Box width={0.98 / 2}>
+          <Box width={0.98 / 3}>
             <Text
               font={{ size: 'M' }}
               color="lightred"
-              style={{ margin: '15px 0 0 0' }}
+              sx={{ margin: '15px 0 0 0' }}
             >
-              Set a Goals
+              Set a teams
             </Text>
             <Text
-              font={{ size: 'XL', weight: 'bold' }}
-              style={{ margin: '30px 0 0 0 ' }}
+              font={{ size: 'L', weight: '600' }}
+              sx={{ margin: '15px 0 0 0 ' }}
             >
-              팀의 목표를 설정합니다.
+              팀을 생성하고 관리 합니다.
             </Text>
             <Text
-              font={{ size: 'ML' }}
+              font={{ size: 'M' }}
               color="gray"
-              style={{ margin: '30px 0 0 0' }}
+              sx={{ margin: '15px 0 0 0' }}
             >
-              팀의 목표를 설정하여, 해당 목표가 어디까지 진행중인지, 잘
-              진행중인지 쉽게 파악하고 구성원끼리 목표를 달성하기 위해 돕습니다.
+              팀을 생성하고 구성원들을 관리 합니다. <br />
+              팀의 뚜렷한 목표를 달성하기 위해 돕습니다
             </Text>
           </Box>
-          <Box width={0.98 / 2}>
-            <ImageFrame background="lightbrown"></ImageFrame>
+          <Box width={1.98 / 3}>
+            <ImageFrame background="purple">
+              <Image src="/images/set-teams.png" layout="fill" priority />
+            </ImageFrame>
           </Box>
         </Flex>
 
         <Flex justify="space-between" style={{ margin: '150px 0 150px 0' }}>
-          <Box width={0.98 / 2}>
-            <ImageFrame background="lightbrown"></ImageFrame>
+          <Box width={1.98 / 3}>
+            <ImageFrame background="purple">
+              <Image src="/images/share-plan.png" layout="fill" />
+            </ImageFrame>
           </Box>
-          <Box width={0.98 / 2}>
+          <Box width={0.98 / 3}>
             <Text
               font={{ size: 'M' }}
               color="lightred"
-              style={{ margin: '15px 0 0 0' }}
+              sx={{ margin: '15px 0 0 0' }}
             >
-              Vote and check the results.
+              Share plan to teams
             </Text>
             <Text
-              font={{ size: 'XL', weight: 'bold' }}
-              style={{ margin: '30px 0 0 0 ' }}
+              font={{ size: 'XL', weight: '600' }}
+              sx={{ margin: '15px 0 0 0 ' }}
             >
-              우리의 만족도를 체크합니다.
+              팀에 소속된 구성원들끼리 일정을 공유합니다.
             </Text>
             <Text
-              font={{ size: 'ML' }}
+              font={{ size: 'M' }}
               color="gray"
-              style={{ margin: '30px 0 0 0' }}
+              sx={{ margin: '15px 0 0 0' }}
             >
-              쉽게 결정을하기 어렵거나, 팀원의 의견이 필요할 때, 투표를 진행하여
-              더 나은 결과물을 만들도록 합니다.
+              구성원들과 일정을 공유합니다. 또한, 팀의 목표를 달성하기 위해 잘
+              진행 중인지 한 눈에 쉽게 파악하도록 돕습니다.
             </Text>
           </Box>
         </Flex>
       </Section>
-      <Section background="black" style={{ padding: '60px 0 0 0' }}>
+      <Section background="lightpurple" style={{ padding: '60px 0 0 0' }}>
         <S.StyledContent>
-          <S.StyledTitle color="white">
+          <S.StyledTitle color="black">
             업무 내용을 팀원과 공유를 하고 팀 목표를 달성해보세요.
           </S.StyledTitle>
-          <Text font={{ size: 'L', weight: 'bold' }} color="gray">
+          <Text font={{ size: 'L', weight: 'bold' }} color="black">
             지금 시작해보세요.
           </Text>
           <Button
             size="XL"
-            font={{ size: 'M', weight: 'bold', color: 'black' }}
-            background="white"
+            font={{ size: 'M', weight: 'bold', color: 'white' }}
+            background="purple"
             sx={{ margin: '50px 0 100px' }}
             to="/auth/signup"
           >
@@ -140,15 +144,15 @@ const MainComponent = () => {
           </Button>
           <Flex justify="center" style={{ margin: '0 0 60px 0' }}>
             <Text
-              color="white"
-              font={{ size: 'L', weight: 'bold' }}
+              color="black"
+              font={{ size: 'L', weight: '600' }}
               style={{ margin: 'auto 0' }}
             >
               혹시 궁금한 점이 있으신가요?
             </Text>
             <Button
-              background="white"
-              font={{ color: 'black', weight: 'bold' }}
+              background="purple"
+              font={{ color: 'white', weight: 'bold' }}
               to="mailto:dlsgh120@gmail.com"
               sx={{ margin: '0 0 0 20px' }}
             >

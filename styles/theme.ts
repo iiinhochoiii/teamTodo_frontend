@@ -8,14 +8,11 @@ export const theme = {
     lightgray: '#e5e5e5',
     purple: '#4848d3',
     lightpurple: '#ededff',
+    lightblue: '#f2f9ff',
     green: '#00bf99',
     lightgreen: '#d9fcf5',
     lightred: '#b01c2d',
     lightbrown: '#F8F6F1',
-    lightbrown_gradient:
-      'linear-gradient( 0deg,rgb(248,246,241) 0%,rgba(238,245,255,0) 100% ),rgb(255,255,255)',
-    skyblue_gradient:
-      'linear-gradient( 0deg,rgb(225,242,255) 0%,rgba(238,245,255,0) 100% ),rgb(255,255,255)',
   },
 
   button: {

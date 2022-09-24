@@ -9,6 +9,7 @@ export const StyledHeader = styled.header`
   position: fixed;
   left: 0;
   right: 0;
+  z-index: 100;
 `;
 
 export const HeaderContent = styled.div`
@@ -27,5 +28,5 @@ export const StyledLogo = styled.a`
 export const HeaderLink = styled.a`
   margin: auto 20px auto 0;
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 500;
 `;
