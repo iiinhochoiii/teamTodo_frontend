@@ -77,14 +77,16 @@ const TeamHeader = () => {
           <Link key={item.id} href={item.href}>
             <a
               style={
-                item.href === router.asPath
+                item.href ===
+                router.pathname.replace('[id]', String(router.query.id))
                   ? { borderBottom: '2px solid #4848d3' }
                   : undefined
               }
             >
               <span
                 style={
-                  item.href === router.asPath
+                  item.href ===
+                  router.pathname.replace('[id]', String(router.query.id))
                     ? { backgroundColor: '#ededff' }
                     : undefined
                 }
