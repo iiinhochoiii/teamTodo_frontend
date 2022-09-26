@@ -7,24 +7,28 @@ import Image from 'next/image';
 const MainComponent = () => {
   return (
     <>
-      <Section background="lightpurple" style={{ padding: '200px 0 0 0' }}>
-        <S.StyledContent>
-          <S.StyledTitle color="black">
-            Better TeamWork, Share My Work
-          </S.StyledTitle>
-          <Text font={{ size: 'L', weight: 400 }} color="gray">
-            TeamTodo는 실시간으로 어떤 업무를 진행하는지 공유를 하여 더욱
-            효율적으로 협업을 할 수 있도록 도와줍니다.
-          </Text>
-          <Button
-            size="XL"
-            font={{ size: 'M', weight: 'bold' }}
-            sx={{ margin: '50px 0 100px' }}
-            to="/auth/signup"
-          >
-            무료로 시작하기
-          </Button>
-        </S.StyledContent>
+      <Section background="lightpurple" style={{ padding: '200px 0 100px 0' }}>
+        <S.MainBanner>
+          <S.MainBannerContentWrap>
+            <S.StyledTitle>Better TeamWork, Share My Work</S.StyledTitle>
+            <Text font={{ size: 'M', weight: 400 }} color="gray">
+              TeamTodo는 실시간으로 어떤 업무를 진행하는지 공유를 하여 <br />
+              더욱 효율적으로 협업을 할 수 있도록 도와줍니다.
+            </Text>
+            <Button
+              size="XL"
+              background="purple"
+              font={{ size: 'M', weight: 'bold' }}
+              sx={{ margin: '50px 0 100px' }}
+              to="/auth/signup"
+            >
+              무료로 시작하기
+            </Button>
+          </S.MainBannerContentWrap>
+          <S.MainBannerImageWrap>
+            <Image src="/images/banner.png" layout="fill" />
+          </S.MainBannerImageWrap>
+        </S.MainBanner>
       </Section>
       <Section style={{ padding: '100px 0 0 0' }}>
         <S.StyledContent>
@@ -127,10 +131,10 @@ const MainComponent = () => {
       </Section>
       <Section background="lightpurple" style={{ padding: '60px 0 0 0' }}>
         <S.StyledContent>
-          <S.StyledTitle color="black">
+          <S.StyledTitle>
             업무 내용을 팀원과 공유를 하고 팀 목표를 달성해보세요.
           </S.StyledTitle>
-          <Text font={{ size: 'L', weight: 'bold' }} color="black">
+          <Text font={{ size: 'L', weight: '600' }} color="black">
             지금 시작해보세요.
           </Text>
           <Button
