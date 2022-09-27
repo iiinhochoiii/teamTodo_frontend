@@ -10,6 +10,7 @@ interface createUserProps {
   password: string;
   name: string;
   phone: string;
+  position?: string;
 }
 
 export const login = async (params: loginProps): Promise<void> => {

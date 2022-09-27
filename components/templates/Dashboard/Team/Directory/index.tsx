@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Box, Text } from '@/components/atoms';
 import * as S from './style';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { getTeams, deleteTeam } from '@/apis/team';
 import { TeamDirectoryCard } from '@/components/organisms';
+import { AppContext } from '@/contexts';
 
 const TeamDirectoryComponent = () => {
   const queryClient = useQueryClient();
+  const { user } = useContext(AppContext);
   const { data } = useQuery('teams', getTeams);
 
   const deleteMutation = useMutation((id: number) => deleteTeam(id), {
@@ -31,7 +33,7 @@ const TeamDirectoryComponent = () => {
   return (
     <S.Container>
       <Box sx={{ margin: '20px 0 0 0' }}>
-        <S.Title>{`dlsgh120's WorkSpace`}</S.Title>
+        <S.Title>{`${user?.name}'s WorkSpace`}</S.Title>
         <Text font={{ size: 'M', weight: 300 }}>WorkSpace</Text>
       </Box>
       {data.map((team) => (

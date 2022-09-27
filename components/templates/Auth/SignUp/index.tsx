@@ -21,6 +21,7 @@ interface FormProps {
   passwordConfirm: string;
   name: string;
   phone: string;
+  position?: string;
 }
 
 const SignUpComponent = () => {
@@ -43,12 +44,13 @@ const SignUpComponent = () => {
 
   const createMutation = useMutation(
     (form: FormProps) => {
-      const { email, name, password, phone } = form;
+      const { email, name, password, phone, position } = form;
       return createUser({
         email,
         name,
         password,
         phone,
+        position,
       });
     },
     {
@@ -139,6 +141,15 @@ const SignUpComponent = () => {
               type="text"
               placeholder="전화번호를 입력해주세요."
               {...register('phone')}
+            />
+          </Box>
+
+          <Box sx={{ margin: '30px 0 0 0' }}>
+            <Text font={{ size: 'S', weight: 300 }}>직책</Text>
+            <FormInput
+              type="text"
+              placeholder="직책을 입력해주세요."
+              {...register('position')}
             />
           </Box>
 
