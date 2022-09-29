@@ -7,9 +7,17 @@ import { getContent } from '@/apis/content';
 
 const TodosComponent = () => {
   const queryClient = useQueryClient();
-  const { data } = useQuery('contents', getContent, {
-    refetchInterval: false,
-  });
+  const { data } = useQuery(
+    'contents',
+    () =>
+      getContent({
+        page: 1,
+        pageSize: 10,
+      }),
+    {
+      refetchInterval: false,
+    }
+  );
 
   // remove Card
   const removeMutation = useMutation((id: number) => deleteContent(id), {

@@ -16,3 +16,13 @@ export interface Content {
     lastLoginedAt: Date | string;
   };
 }
+
+export interface responseContent {
+  data: Content[];
+  page?: {
+    hasNext: boolean;
+    limit: number;
+    offset: number;
+    total: number;
+  };
+}

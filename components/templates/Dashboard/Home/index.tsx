@@ -1,15 +1,28 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { DashboardCard } from '@/components/organisms';
-import { getContent } from '@/apis/content';
 import * as S from './style';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { updateContent, deleteContent } from '@/apis/content';
+import useInfiniteScroll from '@/hooks/useInfiniteScroll';
+import useContentListData from '@/hooks/queries/content/useContentListData';
 
 const DashBoardComponent = () => {
   const queryClient = useQueryClient();
-  const { data } = useQuery('contents', getContent, {
-    refetchInterval: false,
+
+  const { data, hasNextPage, isFetching, fetchNextPage } =
+    useContentListData(10);
+
+  const ref = useInfiniteScroll(async (entry, observer) => {
+    observer.unobserve(entry.target);
+    if (hasNextPage && !isFetching) {
+      fetchNextPage();
+    }
   });
+
+  const contents = useMemo(
+    () => (data ? data.pages.flatMap((data) => data.contents.data) : []),
+    [data]
+  );
 
   // remove Card
   const removeMutation = useMutation((id: number) => deleteContent(id), {
@@ -33,9 +46,13 @@ const DashBoardComponent = () => {
 
   if (!data) return <></>;
 
+  if (isFetching) {
+    return <div>정보를 불러오는중 입니다.</div>;
+  }
+
   return (
     <S.Container>
-      {data.map((item) => (
+      {contents.map((item) => (
         <DashboardCard
           key={item.id}
           item={item}
@@ -49,6 +66,7 @@ const DashBoardComponent = () => {
           }
         />
       ))}
+      {hasNextPage && <div ref={ref} />}
     </S.Container>
   );
 };
