@@ -1,17 +1,26 @@
 import { useInfiniteQuery } from 'react-query';
-import { getContent } from '@/apis/content';
+import { getContentByTeam } from '@/apis/content';
 
 interface OptionProps {
+  pageSize: number;
+  teamName: string;
   options?: {
     enabled?: boolean;
   };
 }
 
-const useContentListData = (pageSize: number, { options }: OptionProps) => {
+const useContentByTeamListData = ({
+  pageSize,
+  teamName,
+  options,
+}: OptionProps) => {
   return useInfiniteQuery(
     'contents',
     async ({ pageParam = 1 }) => {
-      const contents = await getContent({ page: pageParam, pageSize });
+      const contents = await getContentByTeam(teamName, {
+        page: pageParam,
+        pageSize,
+      });
 
       return {
         contents,
@@ -29,4 +38,4 @@ const useContentListData = (pageSize: number, { options }: OptionProps) => {
   );
 };
 
-export default useContentListData;
+export default useContentByTeamListData;

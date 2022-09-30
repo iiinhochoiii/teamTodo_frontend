@@ -9,8 +9,10 @@ import useContentListData from '@/hooks/queries/content/useContentListData';
 const DashBoardComponent = () => {
   const queryClient = useQueryClient();
 
-  const { data, hasNextPage, isFetching, fetchNextPage } =
-    useContentListData(10);
+  const { data, hasNextPage, isFetching, fetchNextPage } = useContentListData(
+    10,
+    {}
+  );
 
   const ref = useInfiniteScroll(async (entry, observer) => {
     observer.unobserve(entry.target);
