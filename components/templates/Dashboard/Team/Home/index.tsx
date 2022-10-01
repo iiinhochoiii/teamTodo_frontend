@@ -1,16 +1,15 @@
 import React, { useEffect, useMemo } from 'react';
 import { DashboardCard } from '@/components/organisms';
 import * as S from './style';
-import { useMutation, useQueryClient } from 'react-query';
-import { updateContent, deleteContent } from '@/apis/content';
 import { useRouter } from 'next/router';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import useContentByTeamListData from '@/hooks/queries/content/useContentByTeamListData';
+import useContentMutation from '@/hooks/queries/content/useContentMutation';
 
 const TeamHomeComponent = () => {
   const router = useRouter();
+  const { removeMutation, updateMutation } = useContentMutation();
 
-  const queryClient = useQueryClient();
   const { data, hasNextPage, isFetching, fetchNextPage, refetch } =
     useContentByTeamListData({
       pageSize: 10,
@@ -35,26 +34,6 @@ const TeamHomeComponent = () => {
   useEffect(() => {
     refetch();
   }, [router]);
-
-  // remove Card
-  const removeMutation = useMutation((id: number) => deleteContent(id), {
-    onSuccess: () => queryClient.invalidateQueries('contents'),
-    onError: () => {
-      console.log('err');
-    },
-  });
-
-  // addItem, updateItem, removeItem
-  const updateMutation = useMutation(
-    (data: { id: number; plan: string[]; happend: string[] }) =>
-      updateContent(data),
-    {
-      onSuccess: () => queryClient.invalidateQueries('contents'),
-      onError: () => {
-        console.log('err');
-      },
-    }
-  );
 
   if (!data) return <></>;
 

@@ -7,7 +7,10 @@ import Image from 'next/image';
 const MainComponent = () => {
   return (
     <>
-      <Section background="lightpurple" style={{ padding: '200px 0 100px 0' }}>
+      <Section
+        background="lightpurple"
+        style={{ padding: '200px 0 100px 0', overflow: 'hidden' }}
+      >
         <S.MainBanner>
           <S.MainBannerContentWrap>
             <S.StyledTitle>Better TeamWork, Share My Work</S.StyledTitle>
@@ -26,7 +29,7 @@ const MainComponent = () => {
             </Button>
           </S.MainBannerContentWrap>
           <S.MainBannerImageWrap>
-            <Image src="/images/banner.png" layout="fill" />
+            <Image src="/images/banner.png" layout="fill" priority />
           </S.MainBannerImageWrap>
         </S.MainBanner>
       </Section>

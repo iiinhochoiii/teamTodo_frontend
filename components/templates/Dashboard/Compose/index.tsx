@@ -8,9 +8,7 @@ import {
 } from '@/components/organisms';
 import { useForm } from 'react-hook-form';
 import { AppContext } from '@/contexts';
-import { useMutation } from 'react-query';
-import { createContent } from '@/apis/content';
-import { useRouter } from 'next/router';
+import useContentMutation from '@/hooks/queries/content/useContentMutation';
 
 type Item = {
   id: number;
@@ -23,8 +21,7 @@ const ComposeComponent = () => {
   const [isAdd, setIsAdd] = useState(false);
   const [isDone, setIsDone] = useState(false);
   const { reset } = useForm();
-  const { mutate } = useMutation(createContent);
-  const router = useRouter();
+  const { createMutation } = useContentMutation();
 
   const [items, setItems] = useState<Item[]>([]);
   const contentRef: React.MutableRefObject<HTMLDivElement | null> =
@@ -102,14 +99,7 @@ const ComposeComponent = () => {
       happend: items.filter((item) => item.isDone).map((i) => i.title),
     };
 
-    mutate(content, {
-      onSuccess: () => {
-        router.push('/dashboard');
-      },
-      onError: () => {
-        console.log('error');
-      },
-    });
+    createMutation.mutate(content);
   };
 
   return (

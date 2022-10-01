@@ -1,18 +1,15 @@
 import React, { useMemo } from 'react';
 import { DashboardCard } from '@/components/organisms';
 import * as S from './style';
-import { useMutation, useQueryClient } from 'react-query';
-import { updateContent, deleteContent } from '@/apis/content';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import useContentListData from '@/hooks/queries/content/useContentListData';
+import useContentMutation from '@/hooks/queries/content/useContentMutation';
 
 const DashBoardComponent = () => {
-  const queryClient = useQueryClient();
+  const { removeMutation, updateMutation } = useContentMutation();
 
-  const { data, hasNextPage, isFetching, fetchNextPage } = useContentListData(
-    10,
-    {}
-  );
+  const { data, hasNextPage, isFetching, fetchNextPage } =
+    useContentListData(10);
 
   const ref = useInfiniteScroll(async (entry, observer) => {
     observer.unobserve(entry.target);
@@ -26,31 +23,7 @@ const DashBoardComponent = () => {
     [data]
   );
 
-  // remove Card
-  const removeMutation = useMutation((id: number) => deleteContent(id), {
-    onSuccess: () => queryClient.invalidateQueries('contents'),
-    onError: () => {
-      console.log('err');
-    },
-  });
-
-  // addItem, updateItem, removeItem
-  const updateMutation = useMutation(
-    (data: { id: number; plan: string[]; happend: string[] }) =>
-      updateContent(data),
-    {
-      onSuccess: () => queryClient.invalidateQueries('contents'),
-      onError: () => {
-        console.log('err');
-      },
-    }
-  );
-
   if (!data) return <></>;
-
-  if (isFetching) {
-    return <div>정보를 불러오는중 입니다.</div>;
-  }
 
   return (
     <S.Container>

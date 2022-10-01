@@ -1,13 +1,7 @@
 import { useInfiniteQuery } from 'react-query';
 import { getContent } from '@/apis/content';
 
-interface OptionProps {
-  options?: {
-    enabled?: boolean;
-  };
-}
-
-const useContentListData = (pageSize: number, { options }: OptionProps) => {
+const useContentListData = (pageSize: number) => {
   return useInfiniteQuery(
     'contents',
     async ({ pageParam = 1 }) => {
@@ -20,11 +14,10 @@ const useContentListData = (pageSize: number, { options }: OptionProps) => {
     },
     {
       getNextPageParam: (data) => {
-        if (data.contents.page?.hasNext) {
-          return data.nextPage;
-        }
+        const { contents, nextPage } = data;
+        return contents.page?.hasNext ? nextPage : undefined;
       },
-      ...options,
+      refetchInterval: false,
     }
   );
 };
