@@ -7,9 +7,7 @@ import { Team } from '@/interfaces/models/team';
 import { EMPTY_TEAM_MASKCOT } from '@/constants/emoji';
 import { IEmojiData } from 'emoji-picker-react';
 import dynamic from 'next/dynamic';
-import { useMutation, useQueryClient } from 'react-query';
-import { checkTeam, updateTeam, deleteTeam } from '@/apis/team';
-import { useRouter } from 'next/router';
+import useTeamMutation from '@/hooks/queries/team/useTeamMutation';
 
 const Picker = dynamic(() => import('emoji-picker-react'), { ssr: false });
 
@@ -28,10 +26,9 @@ interface FormType {
 
 const EditDialog = (props: Props) => {
   const { isOpen, setIsOpen, team, isRefresh } = props;
-  const router = useRouter();
   const [isEmoji, setIsEmoji] = useState(false);
-  const [isValidTeamName, setIsValidTeamName] = useState(false);
-  const queryClient = useQueryClient();
+  const { isValid, checkTeamMutation, deleteMutation, updateTeamMutation } =
+    useTeamMutation(isRefresh);
 
   const { register, handleSubmit, reset, watch } = useForm<FormType>({
     defaultValues: {
@@ -46,7 +43,7 @@ const EditDialog = (props: Props) => {
     let validate;
 
     if (team.name !== teamName) {
-      if (isValidTeamName) {
+      if (isValid) {
         validate = true;
       } else {
         validate = false;
@@ -63,6 +60,7 @@ const EditDialog = (props: Props) => {
         ...(team.name !== teamName && { name: teamName }),
       };
       updateTeamMutation.mutate(params);
+      setIsOpen(false);
     } else {
       alert('팀 이름 중복확인이 되지 않았습니다.');
     }
@@ -78,66 +76,6 @@ const EditDialog = (props: Props) => {
     });
     setIsEmoji(false);
   };
-
-  const checkTeamMutation = useMutation(() => checkTeam(watch('teamName')), {
-    onSuccess: (data) => {
-      const { result, message } = data;
-
-      if (message) {
-        alert(message);
-      }
-      setIsValidTeamName(result);
-    },
-    onError: (err) => {
-      setIsValidTeamName(false);
-      console.log(err);
-    },
-  });
-
-  const updateTeamMutation = useMutation(
-    (params: {
-      id: number;
-      name?: string;
-      maskcot?: string;
-      description?: string;
-    }) => updateTeam(params),
-    {
-      onSuccess: (response) => {
-        const { result, message, data } = response;
-        if (result) {
-          setIsOpen(false);
-        }
-
-        alert(message || '정보가 변경되었습니다.');
-        queryClient.invalidateQueries('teams');
-        if (isRefresh && router.query.id !== data.name) {
-          const path =
-            router.pathname.split('/')[router.pathname.split('/').length - 1];
-          router.push(`/dashboard/team/${data.name}/${path}`);
-        }
-      },
-      onError: (err) => {
-        console.log(err);
-      },
-    }
-  );
-
-  const deleteMutation = useMutation((id: number) => deleteTeam(id), {
-    onSuccess: (data) => {
-      const { result, message } = data;
-
-      if (result) {
-        alert(message || '삭제 되었습니다.');
-        setIsOpen(false);
-        queryClient.invalidateQueries('teams');
-        router.push('/dashboard/team/directory');
-      }
-    },
-    onError: (err) => {
-      console.log(err);
-      alert('팀 삭제중 오류가 발생하였습니다.');
-    },
-  });
 
   return (
     <S.StyledDialog onClose={() => setIsOpen(false)} open={isOpen}>
@@ -170,7 +108,7 @@ const EditDialog = (props: Props) => {
                 sx={{ margin: '0 0 0 15px', height: '45px' }}
                 background="purple"
                 onClick={() => {
-                  checkTeamMutation.mutate();
+                  checkTeamMutation.mutate(watch('teamName'));
                 }}
               >
                 중복확인

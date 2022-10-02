@@ -11,13 +11,12 @@ import { StyledLogo } from './style';
 import { Flex, Text, AddIcon, Button } from '@/components/atoms';
 import * as S from './style';
 import { EMPTY_TEAM_MASKCOT } from '@/constants/emoji';
-import { useQuery } from 'react-query';
-import { getTeams } from '@/apis/team';
 import { AppContext } from '@/contexts';
+import useTeamsData from '@/hooks/queries/team/useTeamsData';
 
 const DashboardSidebar = () => {
   const router = useRouter();
-  const { data } = useQuery('teams', getTeams);
+  const { data } = useTeamsData();
   const { logout } = useContext(AppContext);
 
   return (

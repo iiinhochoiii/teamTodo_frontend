@@ -12,11 +12,10 @@ import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import InviteDialog from './Dialog/invite';
-import { useMutation } from 'react-query';
-import { checkTeam, createTeam } from '@/apis/team';
 import dynamic from 'next/dynamic';
 import { IEmojiData } from 'emoji-picker-react';
 import { EMPTY_TEAM_MASKCOT } from '@/constants/emoji';
+import useTeamMutation from '@/hooks/queries/team/useTeamMutation';
 const Picker = dynamic(() => import('emoji-picker-react'), { ssr: false });
 
 interface FormType {
@@ -27,52 +26,21 @@ const TeamCreateComponent = () => {
   const router = useRouter();
   const { register, handleSubmit, watch } = useForm<FormType>();
   const [isOpen, setIsOpen] = useState(false);
-  const [isValidTeamName, setIsValidTeamName] = useState(false);
   const [isEmoji, setIsEmoji] = useState(false);
   const [emojiData, setEmojiData] = useState<IEmojiData>();
+  const { isValid, checkTeamMutation, createMutaion } = useTeamMutation();
 
-  const createMutaion = useMutation(
-    () => {
+  const create = () => {
+    if (isValid) {
       const params = {
         name: watch('teamName'),
         maskcot: emojiData?.emoji || EMPTY_TEAM_MASKCOT,
       };
-
-      return createTeam(params);
-    },
-    {
-      onSuccess: (data) => {
-        const { result, message } = data;
-
-        if (message) {
-          alert(message);
-        }
-
-        if (result) {
-          router.push('/dashboard/team/directory');
-        }
-      },
-      onError: (err) => {
-        console.log(err);
-        alert('팀 생성중 오류가 발생하였습니다.');
-      },
+      createMutaion.mutate(params);
+    } else {
+      alert('팀 이름 중복확인이 되지 않았습니다.');
     }
-  );
-
-  const checkTeamMutation = useMutation((name: string) => checkTeam(name), {
-    onSuccess: (data) => {
-      const { result, message } = data;
-
-      if (message) {
-        alert(message);
-      }
-      setIsValidTeamName(result);
-    },
-    onError: (err) => {
-      setIsValidTeamName(false);
-      console.log(err);
-    },
-  });
+  };
 
   const checkTeamName = (form: FormType) => {
     const { teamName } = form;
@@ -156,11 +124,7 @@ const TeamCreateComponent = () => {
         <Button
           background="purple"
           onClick={() => {
-            if (isValidTeamName) {
-              createMutaion.mutate();
-            } else {
-              alert('팀 이름 중복확인이 되지 않았습니다.');
-            }
+            create();
           }}
         >
           Create

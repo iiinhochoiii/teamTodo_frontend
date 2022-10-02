@@ -41,7 +41,7 @@ const TeamHeader = () => {
     <React.Fragment>
       <Flex>
         <Link href="/dashboard/team/directory">
-          <a style={{ fontSize: '14px' }}>dlsgh120’s Workspace</a>
+          <a style={{ fontSize: '14px' }}>{user?.name}’s Workspace</a>
         </Link>
         <ChevronRightIcon />
         <Text font={{ size: 'S', weight: 700 }} width="100%">
