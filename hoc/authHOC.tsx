@@ -4,13 +4,14 @@ import cookies from 'next-cookies';
 import Router from 'next/router';
 import { User } from '@/interfaces/models/user';
 import { AppContext } from '@/contexts';
-import { QueryClient, dehydrate, useQuery } from 'react-query';
+import { QueryClient, dehydrate } from 'react-query';
 import { getMy } from '@/apis/user';
+import useUsersData from '@/hooks/queries/user/useUsersData';
 
 const WrapComponent = (TargetComponent: any) => {
   const AuthHOC = ({ props }: any): JSX.Element => {
     const { dehydratedState } = props;
-    const { data } = useQuery('users', () => getMy());
+    const { data } = useUsersData();
     const { setUserInfo } = useContext(AppContext);
 
     useEffect(() => {

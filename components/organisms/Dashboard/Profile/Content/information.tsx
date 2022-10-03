@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react';
 import * as S from './style';
 import { Form, FormInput, FormSubmit } from '@/components/atoms';
-import { useQuery } from 'react-query';
-import { getMy } from '@/apis/user';
 import { useForm } from 'react-hook-form';
-import { useMutation, useQueryClient } from 'react-query';
-import { updateUser } from '@/apis/user';
+import useUserMutation from '@/hooks/queries/user/useUserMutation';
+import useUsersData from '@/hooks/queries/user/useUsersData';
 
 interface FormProps {
   email: string;
@@ -16,9 +14,8 @@ interface FormProps {
 
 const ProfileInformationContent = () => {
   const { register, handleSubmit, reset } = useForm<FormProps>();
-  const queryClient = useQueryClient();
-
-  const { data: user } = useQuery('users', () => getMy());
+  const { updateMutaion } = useUserMutation();
+  const { data: user } = useUsersData();
 
   useEffect(() => {
     if (user) {
@@ -49,22 +46,6 @@ const ProfileInformationContent = () => {
 
     updateMutaion.mutate(params);
   };
-
-  const updateMutaion = useMutation(
-    (params: { name?: string; phone?: string; position?: string }) =>
-      updateUser(params),
-    {
-      onSuccess: (res) => {
-        if (res.result) {
-          alert(res?.message || '정보가 변경되었습니다.');
-          queryClient.invalidateQueries('users');
-        }
-      },
-      onError: () => {
-        console.log('err');
-      },
-    }
-  );
 
   return (
     <S.Container>

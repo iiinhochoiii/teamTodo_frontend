@@ -10,44 +10,19 @@ import {
 } from '@/components/atoms';
 
 import { useForm } from 'react-hook-form';
-import { useMutation } from 'react-query';
-import { login } from '@/apis/auth';
-import { setToken } from '@/utils/token';
-import { useRouter } from 'next/router';
+import useUsersMutation from '@/hooks/queries/user/useUserMutation';
 
 interface FormProps {
   email: string;
   password: string;
 }
 
-const SignUpComponent = () => {
-  const router = useRouter();
+const SignInComponent = () => {
   const { register, handleSubmit } = useForm<FormProps>();
-  const { mutate } = useMutation(login);
+  const { loginMutation } = useUsersMutation();
 
   const submit = (form: FormProps): void => {
-    mutate(form, {
-      onSuccess: (data: { status: boolean; token: string } | void) => {
-        const { status, token } = data as {
-          status: boolean;
-          token: string;
-        };
-        if (status) {
-          setToken(token);
-
-          if (router.query?.redirect) {
-            router.push(String(router.query.redirect));
-          } else {
-            router.push('/dashboard');
-          }
-        }
-      },
-      onError: (err: any) => {
-        const { message, error } = err.response.data;
-        console.log(message || error);
-        alert(message || error);
-      },
-    });
+    loginMutation.mutate(form);
   };
 
   return (
@@ -91,4 +66,4 @@ const SignUpComponent = () => {
   );
 };
 
-export default SignUpComponent;
+export default SignInComponent;

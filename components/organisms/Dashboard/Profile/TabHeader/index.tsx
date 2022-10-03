@@ -3,20 +3,18 @@ import * as S from './style';
 import dynamic from 'next/dynamic';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { useQuery } from 'react-query';
-import { getMy } from '@/apis/user';
 import { IEmojiData } from 'emoji-picker-react';
 import { Button } from '@/components/atoms';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useMutation, useQueryClient } from 'react-query';
-import { updateUser } from '@/apis/user';
+import useUsersData from '@/hooks/queries/user/useUsersData';
+import useUserMutation from '@/hooks/queries/user/useUserMutation';
 
 const Picker = dynamic(() => import('emoji-picker-react'), { ssr: false });
 
 const ProfileTabHeader = () => {
-  const { data: user } = useQuery('users', () => getMy());
-  const queryClient = useQueryClient();
+  const { data: user } = useUsersData();
+  const { updateMutaion } = useUserMutation();
 
   const [isEmoji, setIsEmoji] = useState(false);
   const [emojiData, setEmojiData] = useState<IEmojiData>();
@@ -41,8 +39,8 @@ const ProfileTabHeader = () => {
       phone: user?.phone,
       profile: emojiData.emoji,
     };
-
     updateMutaion.mutate(params);
+    setEmojiData(undefined);
   };
 
   const deleteEmoji = () => {
@@ -53,25 +51,9 @@ const ProfileTabHeader = () => {
         profile: '',
       };
       updateMutaion.mutate(params);
+      setEmojiData(undefined);
     }
   };
-
-  const updateMutaion = useMutation(
-    (params: { name?: string; phone?: string; profile?: string }) =>
-      updateUser(params),
-    {
-      onSuccess: (res) => {
-        if (res.result) {
-          alert('프로필이 변경 되었습니다.');
-          queryClient.invalidateQueries('users');
-          setEmojiData(undefined);
-        }
-      },
-      onError: () => {
-        console.log('err');
-      },
-    }
-  );
 
   return (
     <S.Container>

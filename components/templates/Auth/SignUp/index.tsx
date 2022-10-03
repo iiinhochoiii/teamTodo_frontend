@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import * as S from './style';
 import {
   Box,
@@ -11,9 +11,7 @@ import {
 } from '@/components/atoms';
 
 import { useForm } from 'react-hook-form';
-import { useQuery, useMutation } from 'react-query';
-import { checkEmail, createUser } from '@/apis/auth';
-import { useRouter } from 'next/router';
+import useUserMutation from '@/hooks/queries/user/useUserMutation';
 
 interface FormProps {
   email: string;
@@ -25,47 +23,9 @@ interface FormProps {
 }
 
 const SignUpComponent = () => {
-  const router = useRouter();
+  const { isValid, createMutation, checkEmailMutation } = useUserMutation();
   const { register, handleSubmit, watch } = useForm<FormProps>();
-  const [isValidEmail, setIsValidEmail] = useState(false);
 
-  const { refetch } = useQuery('checkEmail', () => checkEmail(watch('email')), {
-    enabled: false,
-    onSuccess: (res) => {
-      setIsValidEmail(res?.result);
-      if (res?.message) {
-        alert(res?.message);
-      }
-    },
-    onError: (err) => {
-      console.log(err);
-    },
-  });
-
-  const createMutation = useMutation(
-    (form: FormProps) => {
-      const { email, name, password, phone, position } = form;
-      return createUser({
-        email,
-        name,
-        password,
-        phone,
-        position,
-      });
-    },
-    {
-      onSuccess: (res) => {
-        if (res?.result) {
-          router.push('/auth/signin');
-        } else {
-          alert(res?.message || '회원가입 중 오류가 발생하였습니다.');
-        }
-      },
-      onError: (err) => {
-        console.log(err);
-      },
-    }
-  );
   const submit = (form: FormProps) => {
     const { email, name, password, passwordConfirm, phone } = form;
     if (!email || !name || !phone || !password || !passwordConfirm) {
@@ -73,7 +33,7 @@ const SignUpComponent = () => {
       return;
     }
 
-    if (!isValidEmail) {
+    if (!isValid) {
       alert('이메일 중복확인을 해주세요.');
       return;
     }
@@ -98,13 +58,13 @@ const SignUpComponent = () => {
                 type="text"
                 placeholder="이메일을 입력해주세요."
                 {...register('email')}
-                readonly={isValidEmail}
+                readonly={isValid}
               />
               <Button
                 sx={{ margin: '10px 0 0 20px' }}
                 onClick={() => {
                   if (watch('email')) {
-                    refetch();
+                    checkEmailMutation.mutate(watch('email'));
                   } else {
                     alert('이메일을 입력해주세요.');
                   }

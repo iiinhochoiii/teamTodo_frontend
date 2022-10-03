@@ -2,9 +2,8 @@ import React from 'react';
 import * as S from './style';
 import { Box } from '@/components/atoms';
 import { useRouter } from 'next/router';
-import { useQuery } from 'react-query';
-import { getMy } from '@/apis/user';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import useUsersData from '@/hooks/queries/user/useUsersData';
 
 interface Props {
   title?: string;
@@ -14,7 +13,7 @@ interface Props {
 const DashboardHeader = (props: Props) => {
   const { title, header } = props;
   const router = useRouter();
-  const { data: user } = useQuery('users', () => getMy());
+  const { data: user } = useUsersData();
 
   return (
     <S.HeaderContainer>

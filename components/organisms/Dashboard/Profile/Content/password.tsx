@@ -2,8 +2,7 @@ import React from 'react';
 import * as S from './style';
 import { Form, FormInput, FormSubmit } from '@/components/atoms';
 import { useForm } from 'react-hook-form';
-import { useMutation, useQueryClient } from 'react-query';
-import { updateUser } from '@/apis/user';
+import useUserMutation from '@/hooks/queries/user/useUserMutation';
 
 interface FormProps {
   password: string;
@@ -12,7 +11,7 @@ interface FormProps {
 
 const ProfilePassowrdContent = () => {
   const { register, handleSubmit, reset } = useForm<FormProps>();
-  const queryClient = useQueryClient();
+  const { updateMutaion } = useUserMutation();
 
   const submit = (form: FormProps) => {
     const { password, passwordConfirm } = form;
@@ -27,27 +26,12 @@ const ProfilePassowrdContent = () => {
       return;
     }
 
-    updateMutaion.mutate(password);
+    updateMutaion.mutate({ password });
+    reset({
+      password: '',
+      passwordConfirm: '',
+    });
   };
-
-  const updateMutaion = useMutation(
-    (password: string) => updateUser({ password }),
-    {
-      onSuccess: (res) => {
-        if (res.result) {
-          alert('비밀번호가 변경되었습니다.');
-          queryClient.invalidateQueries('users');
-          reset({
-            password: '',
-            passwordConfirm: '',
-          });
-        }
-      },
-      onError: () => {
-        console.log('err');
-      },
-    }
-  );
 
   return (
     <S.Container>
