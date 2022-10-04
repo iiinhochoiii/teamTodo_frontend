@@ -1,13 +1,14 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { deleteContent, updateContent, createContent } from '@/apis/content';
 import { useRouter } from 'next/router';
+import * as queryKeys from '@/constants/queryKeys';
 
 const useContentMutation = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
   const removeMutation = useMutation((id: number) => deleteContent(id), {
-    onSuccess: () => queryClient.invalidateQueries('contents'),
+    onSuccess: () => queryClient.invalidateQueries(queryKeys.CONTENT_DATA),
     onError: () => {
       console.log('err');
     },
@@ -18,7 +19,7 @@ const useContentMutation = () => {
     (data: { id: number; plan: string[]; happend: string[] }) =>
       updateContent(data),
     {
-      onSuccess: () => queryClient.invalidateQueries('contents'),
+      onSuccess: () => queryClient.invalidateQueries(queryKeys.CONTENT_DATA),
       onError: () => {
         console.log('err');
       },

@@ -1,5 +1,6 @@
 import { useInfiniteQuery } from 'react-query';
 import { getContentByTeam } from '@/apis/content';
+import * as queryKeys from '@/constants/queryKeys';
 
 interface OptionProps {
   pageSize: number;
@@ -15,7 +16,7 @@ const useContentByTeamListData = ({
   options,
 }: OptionProps) => {
   return useInfiniteQuery(
-    'contents',
+    queryKeys.CONTENT_DATA,
     async ({ pageParam = 1 }) => {
       const contents = await getContentByTeam(teamName, {
         page: pageParam,

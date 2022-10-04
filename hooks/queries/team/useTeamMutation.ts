@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { checkTeam, createTeam, deleteTeam, updateTeam } from '@/apis/team';
 import { useRouter } from 'next/router';
+import * as queryKeys from '@/constants/queryKeys';
 
 const useTeamMutation = (isRefresh?: boolean) => {
   const [isValid, setIsValid] = useState(false);
@@ -51,7 +52,7 @@ const useTeamMutation = (isRefresh?: boolean) => {
 
       alert(message || '삭제 되었습니다.');
       if (result) {
-        queryClient.invalidateQueries('teams');
+        queryClient.invalidateQueries(queryKeys.TEAM_DATA);
       }
     },
     onError: (err) => {
@@ -72,7 +73,7 @@ const useTeamMutation = (isRefresh?: boolean) => {
         const { message, data } = response;
 
         alert(message || '정보가 변경되었습니다.');
-        queryClient.invalidateQueries('teams');
+        queryClient.invalidateQueries(queryKeys.TEAM_DATA);
         if (isRefresh && router.query.id !== data.name) {
           const path =
             router.pathname.split('/')[router.pathname.split('/').length - 1];

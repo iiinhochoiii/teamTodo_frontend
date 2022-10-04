@@ -7,6 +7,7 @@ import { AppContext } from '@/contexts';
 import { QueryClient, dehydrate } from 'react-query';
 import { getMy } from '@/apis/user';
 import useUsersData from '@/hooks/queries/user/useUsersData';
+import * as queryKeys from '@/constants/queryKeys';
 
 const WrapComponent = (TargetComponent: any) => {
   const AuthHOC = ({ props }: any): JSX.Element => {
@@ -16,7 +17,7 @@ const WrapComponent = (TargetComponent: any) => {
 
     useEffect(() => {
       const { queries } = dehydratedState;
-      if (queries.length > 0 && queries[0]?.queryKey === 'users') {
+      if (queries.length > 0 && queries[0]?.queryKey === queryKeys.USER_DATA) {
         setUserInfo(queries[0]?.state?.data);
       } else {
         if (data) {
@@ -32,7 +33,9 @@ const WrapComponent = (TargetComponent: any) => {
     const token = cookies(ctx)['x-token'];
     const queryClient = new QueryClient();
 
-    await queryClient.prefetchQuery<User>('users', () => getMy(token));
+    await queryClient.prefetchQuery<User>(queryKeys.USER_DATA, () =>
+      getMy(token)
+    );
 
     if (!token) {
       if (ctx.req && ctx.res) {

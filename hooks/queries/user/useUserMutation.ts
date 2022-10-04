@@ -4,6 +4,7 @@ import { updateUser } from '@/apis/user';
 import { createUser, checkEmail, login } from '@/apis/auth';
 import { useRouter } from 'next/router';
 import { setToken } from '@/utils/token';
+import * as queryKeys from '@/constants/queryKeys';
 
 const useUserMutation = () => {
   const [isValid, setIsValid] = useState(false);
@@ -22,7 +23,7 @@ const useUserMutation = () => {
       onSuccess: (res) => {
         if (res.result) {
           alert(res?.message || '정보가 변경되었습니다.');
-          queryClient.invalidateQueries('users');
+          queryClient.invalidateQueries(queryKeys.USER_DATA);
         }
       },
       onError: () => {
