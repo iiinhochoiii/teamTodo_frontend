@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import * as S from './style';
 import { Text, Box, Button } from '@/components/atoms';
 import {
@@ -7,8 +7,8 @@ import {
   ComposeAddItem,
 } from '@/components/organisms';
 import { useForm } from 'react-hook-form';
-import { AppContext } from '@/contexts';
 import useContentMutation from '@/hooks/queries/content/useContentMutation';
+import { useUserStore } from '@/stores/useUserStore';
 
 type Item = {
   id: number;
@@ -17,7 +17,7 @@ type Item = {
 };
 
 const ComposeComponent = () => {
-  const { user } = useContext(AppContext);
+  const { user } = useUserStore();
   const [isAdd, setIsAdd] = useState(false);
   const [isDone, setIsDone] = useState(false);
   const { reset } = useForm();

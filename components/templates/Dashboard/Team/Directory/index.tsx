@@ -1,13 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Box, Text } from '@/components/atoms';
 import * as S from './style';
 import { TeamDirectoryCard } from '@/components/organisms';
-import { AppContext } from '@/contexts';
 import useTeamMutation from '@/hooks/queries/team/useTeamMutation';
 import useTeamsData from '@/hooks/queries/team/useTeamsData';
+import { useUserStore } from '@/stores/useUserStore';
 
 const TeamDirectoryComponent = () => {
-  const { user } = useContext(AppContext);
+  const { user } = useUserStore();
   const { data } = useTeamsData();
   const { deleteMutation } = useTeamMutation();
 

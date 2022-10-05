@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { Text, Flex, Button } from '@/components/atoms';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Link from 'next/link';
@@ -6,7 +6,7 @@ import * as S from './style';
 import { Team } from '@/interfaces/models/team';
 import EditDialog from '@/components/templates/Dashboard/Team/Directory/Dialog/edit';
 import { EMPTY_TEAM_MASKCOT } from '@/constants/emoji';
-import { AppContext } from '@/contexts';
+import { useUserStore } from '@/stores/useUserStore';
 
 interface Props {
   team: Team;
@@ -14,7 +14,7 @@ interface Props {
 }
 const TeamDirectoryCard = (props: Props) => {
   const { team, deleteTeam } = props;
-  const { user } = useContext(AppContext);
+  const { user } = useUserStore();
   const [isMenu, setIsMenu] = useState(false);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
 

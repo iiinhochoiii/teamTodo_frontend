@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import List from '@mui/material/List';
@@ -11,13 +11,13 @@ import { StyledLogo } from './style';
 import { Flex, Text, AddIcon, Button } from '@/components/atoms';
 import * as S from './style';
 import { EMPTY_TEAM_MASKCOT } from '@/constants/emoji';
-import { AppContext } from '@/contexts';
 import useTeamsData from '@/hooks/queries/team/useTeamsData';
+import { useUserStore } from '@/stores/useUserStore';
 
 const DashboardSidebar = () => {
   const router = useRouter();
   const { data } = useTeamsData();
-  const { logout } = useContext(AppContext);
+  const { logout } = useUserStore();
 
   return (
     <S.StyledSidebar>

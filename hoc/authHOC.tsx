@@ -1,19 +1,19 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect } from 'react';
 import { NextPageContext } from 'next';
 import cookies from 'next-cookies';
 import Router from 'next/router';
 import { User } from '@/interfaces/models/user';
-import { AppContext } from '@/contexts';
 import { QueryClient, dehydrate } from 'react-query';
 import { getMy } from '@/apis/user';
 import useUsersData from '@/hooks/queries/user/useUsersData';
 import * as queryKeys from '@/constants/queryKeys';
+import { useUserStore } from '@/stores/useUserStore';
 
 const WrapComponent = (TargetComponent: any) => {
   const AuthHOC = ({ props }: any): JSX.Element => {
     const { dehydratedState } = props;
     const { data } = useUsersData();
-    const { setUserInfo } = useContext(AppContext);
+    const { setUserInfo } = useUserStore();
 
     useEffect(() => {
       const { queries } = dehydratedState;

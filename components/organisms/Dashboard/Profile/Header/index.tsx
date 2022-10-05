@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
-import { AppContext } from '@/contexts';
+import React from 'react';
 import { Flex, Text } from '@/components/atoms';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import { useUserStore } from '@/stores/useUserStore';
 
 const ProfileHeader = () => {
-  const { user } = useContext(AppContext);
+  const { user } = useUserStore();
 
   return (
     <Flex>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as S from './style';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import Link from 'next/link';
@@ -9,12 +9,12 @@ import EditDialog from '@/components/templates/Dashboard/Team/Directory/Dialog/e
 import { useQuery } from 'react-query';
 import { getTeamsByName } from '@/apis/team';
 import { EMPTY_TEAM_MASKCOT } from '@/constants/emoji';
-import { AppContext } from '@/contexts';
+import { useUserStore } from '@/stores/useUserStore';
 
 const TeamHeader = () => {
   const router = useRouter();
   const [isOpenEdit, setIsOpenEdit] = useState(false);
-  const { user } = useContext(AppContext);
+  const { user } = useUserStore();
 
   const { data, refetch } = useQuery('teamDetail', () =>
     getTeamsByName(String(router.query.id))
