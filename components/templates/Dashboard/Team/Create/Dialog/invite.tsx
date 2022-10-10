@@ -6,6 +6,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { useForm, Controller } from 'react-hook-form';
 import { Team } from '@/interfaces/models/team';
+import useTeamMutation from '@/hooks/queries/team/useTeamMutation';
 
 interface Props {
   isOpen: boolean;
@@ -16,22 +17,35 @@ interface Props {
 
 interface FormType {
   emails: string[];
-  message?: string;
   teamId: number;
 }
 
 const InviteDialog = (props: Props) => {
   const { isOpen, setIsOpen, type, team } = props;
+  const { inviteTeamMutation } = useTeamMutation();
   const { register, handleSubmit, reset, watch, control } = useForm<FormType>({
     defaultValues: {
       emails: ['', '', ''],
-      message: '',
       teamId: team?.id || 0,
     },
   });
 
   const submitHandler = (form: FormType) => {
-    console.log(form);
+    const { teamId, emails } = form;
+
+    const userEmails = emails.filter((email) => email);
+
+    if (userEmails.length === 0) {
+      alert('이메일을 입력하지 않았습니다.');
+      return;
+    }
+
+    inviteTeamMutation.mutate({
+      teamId,
+      emails: userEmails,
+    });
+
+    setIsOpen(false);
   };
 
   return (
@@ -98,8 +112,6 @@ const InviteDialog = (props: Props) => {
               />
             </S.StyledFormControl>
           </S.StyledContentTeam>
-          <Text sx={{ margin: '30px 0 15px 0' }}>Message</Text>
-          <S.StyledContentTextarea {...register('message')} />
         </S.StyledDialogContentWrap>
         <S.StyledDialogFooterWrap>
           <FormSubmit type="submit" value="Send invite" />

@@ -1,6 +1,12 @@
 import { useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
-import { checkTeam, createTeam, deleteTeam, updateTeam } from '@/apis/team';
+import {
+  checkTeam,
+  createTeam,
+  deleteTeam,
+  updateTeam,
+  inviteTeam,
+} from '@/apis/team';
 import { useRouter } from 'next/router';
 import * as queryKeys from '@/constants/queryKeys';
 
@@ -85,12 +91,31 @@ const useTeamMutation = (isRefresh?: boolean) => {
       },
     }
   );
+
+  const inviteTeamMutation = useMutation(
+    (params: { teamId: number; emails: string[] }) => inviteTeam(params),
+    {
+      onSuccess: (res) => {
+        const { message, result } = res;
+
+        alert(message || '초대 되었습니다.');
+        if (result) {
+          queryClient.invalidateQueries(queryKeys.TEAM_DATA);
+        }
+      },
+      onError: (err) => {
+        console.log(err);
+      },
+    }
+  );
+
   return {
     isValid,
     checkTeamMutation,
     createMutaion,
     deleteMutation,
     updateTeamMutation,
+    inviteTeamMutation,
   };
 };
 

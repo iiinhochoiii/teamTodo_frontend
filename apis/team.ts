@@ -41,3 +41,12 @@ export const deleteTeam = async (id: number) => {
 
   return res.data;
 };
+
+export const inviteTeam = async (params: {
+  teamId: number;
+  emails: string[];
+}) => {
+  const res = await axios.post('/teams/invite', params);
+
+  return res.data;
+};
