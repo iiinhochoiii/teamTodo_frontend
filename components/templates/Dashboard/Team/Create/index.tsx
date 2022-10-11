@@ -16,6 +16,9 @@ import dynamic from 'next/dynamic';
 import { IEmojiData } from 'emoji-picker-react';
 import { EMPTY_TEAM_MASKCOT } from '@/constants/emoji';
 import useTeamMutation from '@/hooks/queries/team/useTeamMutation';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { useUserStore } from '@/stores/useUserStore';
+
 const Picker = dynamic(() => import('emoji-picker-react'), { ssr: false });
 
 interface FormType {
@@ -29,12 +32,16 @@ const TeamCreateComponent = () => {
   const [isEmoji, setIsEmoji] = useState(false);
   const [emojiData, setEmojiData] = useState<IEmojiData>();
   const { isValid, checkTeamMutation, createMutaion } = useTeamMutation();
+  const [emails, setEmails] = useState<string[]>([]);
+
+  const { user } = useUserStore();
 
   const create = () => {
     if (isValid) {
       const params = {
         name: watch('teamName'),
         maskcot: emojiData?.emoji || EMPTY_TEAM_MASKCOT,
+        ...(emails.length > 0 && { emails }),
       };
       createMutaion.mutate(params);
     } else {
@@ -103,12 +110,26 @@ const TeamCreateComponent = () => {
           <Text font={{ size: 'S', weight: 500 }}>Add Team Members</Text>
           <S.TeamMemberWrap>
             <S.TeamMemberAvatar>
-              <span>I</span>
+              {user?.profile ? <p>{user?.profile}</p> : <AccountCircleIcon />}
             </S.TeamMemberAvatar>
             <Text font={{ size: 'M', weight: 300 }} sx={{ margin: 'auto 0' }}>
-              Inho Choi
+              {user?.name}
             </Text>
           </S.TeamMemberWrap>
+          {emails.length > 0 &&
+            emails.map((email, index) => (
+              <S.TeamMemberWrap key={index}>
+                <S.TeamMemberAvatar>
+                  <AccountCircleIcon />
+                </S.TeamMemberAvatar>
+                <Text
+                  font={{ size: 'M', weight: 300 }}
+                  sx={{ margin: 'auto 0' }}
+                >
+                  {email}
+                </Text>
+              </S.TeamMemberWrap>
+            ))}
           <S.InviteMemberItem>
             <button onClick={() => setIsOpen(true)}>
               <PersonAddAltIcon />
@@ -141,7 +162,19 @@ const TeamCreateComponent = () => {
         </Button>
       </S.ButtonContent>
       {isOpen && (
-        <InviteDialog isOpen={isOpen} setIsOpen={setIsOpen} type="create" />
+        <InviteDialog
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          type="create"
+          callbackFn={(email: string[]) => {
+            if (emails.filter((item) => email.includes(item)).length > 0) {
+              alert('이미 추가된 이메일이 존재합니다.');
+              return;
+            }
+            setEmails([...emails, ...email]);
+            setIsOpen(false);
+          }}
+        />
       )}
     </S.Container>
   );

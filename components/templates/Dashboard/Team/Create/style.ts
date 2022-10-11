@@ -86,15 +86,22 @@ export const TeamMemberWrap = styled.div`
 export const TeamMemberAvatar = styled.div`
   width: 32px;
   height: 32px;
-  background-color: ${palette('black')};
   border-radius: 50%;
-  font-size: 18px;
-  color: ${palette('white')};
-  font-weight: 700;
   display: flex;
   margin: 0 8px 0 0;
-  & > span {
-    margin: 2px auto auto;
+  border: 2px solid ${palette('gray')};
+
+  & > p {
+    margin: 0 auto 0 auto;
+    font-size: 30px;
+    line-height: 29px;
+  }
+
+  & > svg {
+    width: 100%;
+    height: 100%;
+    color: ${palette('lightgray')};
+    z-index: 100;
   }
 `;
 

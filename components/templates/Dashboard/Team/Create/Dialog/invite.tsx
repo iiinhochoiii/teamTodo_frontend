@@ -13,6 +13,7 @@ interface Props {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   type: 'create' | 'invite';
   team?: Team;
+  callbackFn?: (email: string[]) => void;
 }
 
 interface FormType {
@@ -21,7 +22,7 @@ interface FormType {
 }
 
 const InviteDialog = (props: Props) => {
-  const { isOpen, setIsOpen, type, team } = props;
+  const { isOpen, setIsOpen, type, team, callbackFn } = props;
   const { inviteTeamMutation } = useTeamMutation();
   const { register, handleSubmit, reset, watch, control } = useForm<FormType>({
     defaultValues: {
@@ -40,12 +41,17 @@ const InviteDialog = (props: Props) => {
       return;
     }
 
-    inviteTeamMutation.mutate({
-      teamId,
-      emails: userEmails,
-    });
-
-    setIsOpen(false);
+    if (team) {
+      inviteTeamMutation.mutate({
+        teamId,
+        emails: userEmails,
+      });
+      setIsOpen(false);
+    } else {
+      if (callbackFn) {
+        callbackFn(userEmails);
+      }
+    }
   };
 
   return (

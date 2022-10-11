@@ -32,7 +32,8 @@ const useTeamMutation = (isRefresh?: boolean) => {
   });
 
   const createMutaion = useMutation(
-    (params: { name: string; maskcot: string }) => createTeam(params),
+    (params: { name: string; maskcot: string; emails?: string[] }) =>
+      createTeam(params),
     {
       onSuccess: (data) => {
         const { result, message } = data;

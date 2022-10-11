@@ -27,7 +27,9 @@ const TeamDirectoryCard = (props: Props) => {
         <Link href={`/dashboard/team/${team.name}/home`}>
           <S.ItemInfoWrap>
             <h4>{team.name}</h4>
-            <Text font={{ size: 'M', weight: 300 }}>1 member</Text>
+            <Text font={{ size: 'M', weight: 300 }}>
+              {team.members.length} members
+            </Text>
             {team.description ? (
               <Text className="team-diriectory-description">
                 {team.description}

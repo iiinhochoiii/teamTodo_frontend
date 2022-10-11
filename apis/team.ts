@@ -19,9 +19,21 @@ export const checkTeam = async (name: string) => {
   return res.data;
 };
 
-export const createTeam = async (params: { name: string }) => {
-  const res = await axios.post('/teams', params);
+export const createTeam = async (params: {
+  name: string;
+  maskcot: string;
+  emails?: string[];
+}) => {
+  const { name, maskcot, emails } = params;
 
+  const res = await axios.post('/teams', {
+    name,
+    maskcot,
+  });
+
+  if (emails && emails.length > 0) {
+    inviteTeam({ teamId: res.data.data.id, emails });
+  }
   return res.data;
 };
 
