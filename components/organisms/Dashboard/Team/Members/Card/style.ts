@@ -11,6 +11,16 @@ export const StyledWrap = styled.article`
 export const StyledHeader = styled.header`
   margin: 24px 18px;
   display: flex;
+  position: relative;
+
+  .distroy_member_button {
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
 `;
 
 export const HeaderBadge = styled.div`
@@ -19,7 +29,12 @@ export const HeaderBadge = styled.div`
   width: 76px;
   height: 76px;
   margin: 0 24px 0 0;
+  display: flex;
 
+  .member_profile_image {
+    font-size: 40px;
+    margin: auto;
+  }
   & > svg {
     width: 100%;
     height: 100%;

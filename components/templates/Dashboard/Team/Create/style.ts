@@ -63,7 +63,7 @@ export const EmojiWrap = styled.div`
 
   .emoji-picker-react {
     position: absolute;
-    z-index: 100;
+    z-index: 1000;
   }
 `;
 

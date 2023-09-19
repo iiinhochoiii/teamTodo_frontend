@@ -15,7 +15,11 @@ const TeamMembersComponent = () => {
     <S.Container>
       <S.StyledContent>
         {team?.members.map((item) => (
-          <TeamMembersCard key={item.id} member={item} />
+          <TeamMembersCard
+            key={item.id}
+            member={item}
+            creatorId={team.creatorUserId}
+          />
         ))}
         <TeamMembersInviteItem team={team} />
       </S.StyledContent>

@@ -144,10 +144,10 @@ const ProfileTabHeader = () => {
       </S.Content>
       <S.TabWrap>
         <li
-          className={router.pathname.includes('/infomation') ? 'isRouted' : ''}
+          className={router.pathname.includes('/information') ? 'isRouted' : ''}
         >
-          <Link href="/dashboard/profile/infomation">
-            <a>Infomation</a>
+          <Link href="/dashboard/profile/information">
+            <a>Information</a>
           </Link>
         </li>
         <li className={router.pathname.includes('/password') ? 'isRouted' : ''}>

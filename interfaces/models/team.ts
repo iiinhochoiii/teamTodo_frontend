@@ -9,7 +9,7 @@ export interface Members {
     email: string;
     name: string;
     phone: string;
-    prifile?: string; // profile image
+    profile?: string; // profile image
     createdAt: Date | string;
     updatedAt?: Date | string;
     lastLoginedAt: Date | string;

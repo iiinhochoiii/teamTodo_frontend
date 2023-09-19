@@ -6,6 +6,7 @@ import {
   deleteTeam,
   updateTeam,
   inviteTeam,
+  distoryMember,
 } from '@/apis/team';
 import { useRouter } from 'next/router';
 import * as queryKeys from '@/constants/queryKeys';
@@ -110,6 +111,22 @@ const useTeamMutation = (isRefresh?: boolean) => {
     }
   );
 
+  const distroyMemberMutation = useMutation(
+    (params: { teamId: number; userId: number }) => distoryMember(params),
+    {
+      onSuccess: (res) => {
+        const { result } = res;
+
+        if (result) {
+          queryClient.invalidateQueries(queryKeys.TEAM_DATA);
+        }
+      },
+      onError: (err) => {
+        console.log(err);
+      },
+    }
+  );
+
   return {
     isValid,
     checkTeamMutation,
@@ -117,6 +134,7 @@ const useTeamMutation = (isRefresh?: boolean) => {
     deleteMutation,
     updateTeamMutation,
     inviteTeamMutation,
+    distroyMemberMutation,
   };
 };
 

@@ -62,3 +62,12 @@ export const inviteTeam = async (params: {
 
   return res.data;
 };
+
+export const distoryMember = async (params: {
+  teamId: number;
+  userId: number;
+}) => {
+  const res = await axios.post('/teams/distroy', params);
+
+  return res.data;
+};
