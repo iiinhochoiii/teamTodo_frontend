@@ -18,7 +18,7 @@ interface Props {
 const TeamMembersCard = (props: Props) => {
   const { member, creatorId } = props;
   const { user } = useUserStore();
-  const { distroyMemberMutation } = useTeamMutation();
+  const { distroyMemberMutation, unSubscribeMutation } = useTeamMutation();
 
   const onDistroyHandler = () => {
     if (!user) {
@@ -33,8 +33,32 @@ const TeamMembersCard = (props: Props) => {
     }
   };
 
+  const onUnSubscribeHandler = () => {
+    if (!user) {
+      return;
+    }
+
+    if (creatorId === user.id) {
+      alert('팀 생성자는 팀 나가기를 할 수 없습니다.');
+      return;
+    }
+
+    if (window.confirm('팀에서 나가시겠습니까?')) {
+      unSubscribeMutation.mutate(member.team_id);
+    }
+  };
+
+  if (!user) {
+    return <></>;
+  }
+
   return (
-    <S.StyledWrap>
+    <S.StyledWrap isMe={user.id === member.user_id}>
+      {user.id === member.user_id && creatorId !== user.id && (
+        <button className="unsubscribe-button" onClick={onUnSubscribeHandler}>
+          나가기
+        </button>
+      )}
       <S.StyledHeader>
         {creatorId === user?.id && user.id !== member.user_id && (
           <button className="distroy_member_button" onClick={onDistroyHandler}>
@@ -50,8 +74,7 @@ const TeamMembersCard = (props: Props) => {
         </S.HeaderBadge>
         <S.HeaderContent>
           <S.HeaderContentTitle>
-            {member.user.name} {user?.id === member.user_id && '(ME)'}{' '}
-            {!member.isActive && '(Invited)'}
+            {member.user.name} {user?.id === member.user_id && '(ME)'}
           </S.HeaderContentTitle>
           <Text font={{ size: 'S', weight: 400 }} color="gray">
             {member.user?.position}

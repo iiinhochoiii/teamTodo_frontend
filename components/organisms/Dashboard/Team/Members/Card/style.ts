@@ -1,11 +1,25 @@
 import styled from 'styled-components';
 import { palette, theme } from 'styled-tools';
 
-export const StyledWrap = styled.article`
+export const StyledWrap = styled.article<{ isMe?: boolean }>`
   width: 48.5%;
-  border: 1px solid ${palette('lightgray')};
+  border: 1px solid
+    ${(props) => (props.isMe ? palette('purple') : palette('lightgray'))};
   border-radius: 10px;
   margin: 0 0 24px 0;
+  position: relative;
+
+  .unsubscribe-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    background-color: ${palette('red')};
+    color: ${palette('white')};
+    padding: 5px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
 `;
 
 export const StyledHeader = styled.header`

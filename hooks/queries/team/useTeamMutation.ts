@@ -7,6 +7,7 @@ import {
   updateTeam,
   inviteTeam,
   distoryMember,
+  unSubscribe,
 } from '@/apis/team';
 import { useRouter } from 'next/router';
 import * as queryKeys from '@/constants/queryKeys';
@@ -127,6 +128,25 @@ const useTeamMutation = (isRefresh?: boolean) => {
     }
   );
 
+  const unSubscribeMutation = useMutation(
+    (teamId: number) => unSubscribe(teamId),
+    {
+      onSuccess: (data) => {
+        const { result, message } = data;
+
+        alert(message || '팀에서 나가기가 완료 되었습니다.');
+        if (result) {
+          queryClient.invalidateQueries(queryKeys.TEAM_DATA);
+          router.push('/dashboard/team/directory');
+        }
+      },
+      onError: (err) => {
+        console.log(err);
+        alert('팀 삭제중 오류가 발생하였습니다.');
+      },
+    }
+  );
+
   return {
     isValid,
     checkTeamMutation,
@@ -135,6 +155,7 @@ const useTeamMutation = (isRefresh?: boolean) => {
     updateTeamMutation,
     inviteTeamMutation,
     distroyMemberMutation,
+    unSubscribeMutation,
   };
 };
 

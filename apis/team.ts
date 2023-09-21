@@ -71,3 +71,9 @@ export const distoryMember = async (params: {
 
   return res.data;
 };
+
+export const unSubscribe = async (teamId: number) => {
+  const res = await axios.delete(`/teams/unsubscribe/${teamId}`);
+
+  return res.data;
+};
