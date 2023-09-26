@@ -5,7 +5,7 @@ export const StyledImageFrame = styled.div<Props>`
   background-color: ${(props) =>
     props.theme.palette[props.background || 'white']};
   width: 100%;
-  height: 350px;
+  height: 400px;
   border-radius: 20px;
   position: relative;
 

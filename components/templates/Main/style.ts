@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { theme, palette } from 'styled-tools';
 
 interface titleProps {
   color?: string;
@@ -17,22 +18,44 @@ export const StyledContent = styled.div`
   width: 700px;
 `;
 
-export const MainBanner = styled.div`
-  display: grid;
-  grid-template-columns: 60% 40%;
+export const StyledTopBannerSection = styled.section`
+  background-image: url('./images/top-banner.png');
+  background-size: cover;
+  height: 500px;
+  padding-top: 80px;
+  display: flex;
 `;
 
-export const MainBannerContentWrap = styled.div`
-  padding-right: 30px;
+export const StyledTopBannerContentWrap = styled.div`
+  width: 1080px;
+  margin: 0 auto;
+
+  & > h1 {
+    margin-top: 100px;
+    font-size: ${theme('font.size.XL')};
+    color: ${palette('black')};
+  }
+
+  & > p {
+    margin-top: 50px;
+    font-size: ${theme('font.size.M')};
+    color: ${palette('black')};
+  }
 `;
 
-export const MainBannerImageWrap = styled.div`
-  min-width: 800px;
-  width: 45vw;
-  position: relative;
+export const InfoContainer = styled.div`
+  padding-top: 80px;
+`;
 
-  & > span {
-    position: absolute;
-    border-radius: 10px;
+export const SelectionWrap = styled.section<{
+  background?: string;
+}>`
+  background-color: ${(props) =>
+    props.background ? palette(props.background) : palette('white')};
+  display: flex;
+
+  & > div {
+    max-width: 1080px;
+    width: calc(100% - 60px);
   }
 `;

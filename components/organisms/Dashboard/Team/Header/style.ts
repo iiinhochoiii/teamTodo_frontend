@@ -18,3 +18,13 @@ export const LinkWrap = styled.div`
     }
   }
 `;
+
+export const UnSubscribeButton = styled.button`
+  margin: auto 0 auto 15px;
+  border: none;
+  background-color: ${palette('red')};
+  color: ${palette('white')};
+  padding: 7px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+`;

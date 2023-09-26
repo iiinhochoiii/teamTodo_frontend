@@ -10,11 +10,13 @@ import { useQuery } from 'react-query';
 import { getTeamsByName } from '@/apis/team';
 import { EMPTY_TEAM_MASKCOT } from '@/constants/emoji';
 import { useUserStore } from '@/stores/useUserStore';
+import useTeamMutation from '@/hooks/queries/team/useTeamMutation';
 
 const TeamHeader = () => {
   const router = useRouter();
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const { user } = useUserStore();
+  const { unSubscribeMutation } = useTeamMutation();
 
   const { data, refetch } = useQuery('teamDetail', () =>
     getTeamsByName(String(router.query.id))
@@ -36,6 +38,21 @@ const TeamHeader = () => {
   if (!data) {
     return <></>;
   }
+
+  const onUnSubscribeHandler = () => {
+    if (!user) {
+      return;
+    }
+
+    if (data?.creatorUserId === user.id) {
+      alert('팀 생성자는 팀 나가기를 할 수 없습니다.');
+      return;
+    }
+
+    if (window.confirm('팀에서 나가시겠습니까?')) {
+      unSubscribeMutation.mutate(data.id);
+    }
+  };
 
   return (
     <React.Fragment>
@@ -70,6 +87,11 @@ const TeamHeader = () => {
               Edit
             </Text>
           </Flex>
+        )}
+        {data.creatorUserId !== user?.id && (
+          <S.UnSubscribeButton onClick={onUnSubscribeHandler}>
+            팀 나가기
+          </S.UnSubscribeButton>
         )}
       </Flex>
       <S.LinkWrap>

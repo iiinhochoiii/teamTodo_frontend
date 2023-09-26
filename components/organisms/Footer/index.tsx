@@ -16,7 +16,7 @@ const Footer = () => {
             드리겠습니다.
           </Text>
           <Text font={{ size: 'XS', weight: 'bold' }}>
-            Copyright © 2022 by Team Todo, Inc. All rights reserved
+            Copyright © 2023 by Team Todo, Inc. All rights reserved
           </Text>
         </Box>
         <Box>

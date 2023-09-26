@@ -7,19 +7,6 @@ export const StyledWrap = styled.article<{ isMe?: boolean }>`
     ${(props) => (props.isMe ? palette('purple') : palette('lightgray'))};
   border-radius: 10px;
   margin: 0 0 24px 0;
-  position: relative;
-
-  .unsubscribe-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    border: none;
-    background-color: ${palette('red')};
-    color: ${palette('white')};
-    padding: 5px 10px;
-    border-radius: 10px;
-    cursor: pointer;
-  }
 `;
 
 export const StyledHeader = styled.header`

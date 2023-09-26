@@ -11,6 +11,7 @@ import {
 } from '@/apis/team';
 import { useRouter } from 'next/router';
 import * as queryKeys from '@/constants/queryKeys';
+import { AxiosError } from 'axios';
 
 const useTeamMutation = (isRefresh?: boolean) => {
   const [isValid, setIsValid] = useState(false);
@@ -106,7 +107,17 @@ const useTeamMutation = (isRefresh?: boolean) => {
           queryClient.invalidateQueries(queryKeys.TEAM_DATA);
         }
       },
-      onError: (err) => {
+      onError: (
+        err: AxiosError<{
+          statusCode: number;
+          error: string;
+          message: string;
+        }>
+      ) => {
+        alert(
+          err?.response?.data.message ||
+            '팀 초대 요청 중 오류가 발생하였습니다.'
+        );
         console.log(err);
       },
     }
