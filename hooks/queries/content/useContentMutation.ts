@@ -27,11 +27,19 @@ const useContentMutation = () => {
   );
 
   const createMutation = useMutation(
-    (content: { creatorUserId: number; plan: string[]; happend: string[] }) =>
-      createContent(content),
+    (content: {
+      creatorUserId: number;
+      plan: string[];
+      happend: string[];
+      teamId: number | null;
+    }) => createContent(content),
     {
-      onSuccess: () => {
-        router.push('/dashboard');
+      onSuccess: (result) => {
+        if (result.teamName) {
+          router.push(`/dashboard/team/${result.teamName}/home`);
+        } else {
+          router.push('/dashboard');
+        }
       },
       onError: () => {
         console.log('error');

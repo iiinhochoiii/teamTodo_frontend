@@ -35,7 +35,12 @@ export const createContent = async (content: {
   creatorUserId: number;
   plan: string[];
   happend: string[];
-}): Promise<void> => {
+  teamId: number | null;
+}): Promise<{
+  message: string;
+  result: boolean;
+  teamName?: string;
+}> => {
   const res = await axios.post('/contents', content);
 
   return res.data;

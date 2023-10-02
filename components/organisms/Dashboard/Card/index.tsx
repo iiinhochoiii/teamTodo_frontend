@@ -17,6 +17,7 @@ import DialogActions from '@mui/material/DialogActions';
 import { Content } from '@/interfaces/models/content';
 import dayjs from 'dayjs';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { useUserStore } from '@/stores/useUserStore';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   item: Content;
@@ -37,6 +38,7 @@ const Card = (props: Props) => {
   }>();
 
   const { register, watch, reset } = useForm();
+  const { user } = useUserStore();
 
   const onClickHandler = (type: string) => {
     if (watch('title') && update) {
@@ -105,32 +107,34 @@ const Card = (props: Props) => {
         <Box sx={{ margin: '0 0 0 20px' }}>
           <Flex justify="space-between">
             <Text>{item.user.name}</Text>
-            <Box width="auto" style={{ position: 'relative' }}>
-              <MoreHoriz onClick={() => setIsOpen(!isOpen)} />
-              {isOpen && (
-                <Menu>
-                  <Box
-                    onClick={() => {
-                      setIsOpenItem(!isOpenItem);
-                      setIsOpen(false);
-                    }}
-                  >
-                    <Text font={{ size: 'S', weight: 400 }}>
-                      {isOpenItem ? 'Done Add Items' : 'Add Items'}
-                    </Text>
-                  </Box>
-                  <Box
-                    onClick={() => {
-                      if (remove) {
-                        remove(item.id);
-                      }
-                    }}
-                  >
-                    <Text font={{ size: 'S', weight: 400 }}>Remove</Text>
-                  </Box>
-                </Menu>
-              )}
-            </Box>
+            {user?.id === item.creatorUserId && (
+              <Box width="auto" style={{ position: 'relative' }}>
+                <MoreHoriz onClick={() => setIsOpen(!isOpen)} />
+                {isOpen && (
+                  <Menu>
+                    <Box
+                      onClick={() => {
+                        setIsOpenItem(!isOpenItem);
+                        setIsOpen(false);
+                      }}
+                    >
+                      <Text font={{ size: 'S', weight: 400 }}>
+                        {isOpenItem ? 'Done Add Items' : 'Add Items'}
+                      </Text>
+                    </Box>
+                    <Box
+                      onClick={() => {
+                        if (remove) {
+                          remove(item.id);
+                        }
+                      }}
+                    >
+                      <Text font={{ size: 'S', weight: 400 }}>Remove</Text>
+                    </Box>
+                  </Menu>
+                )}
+              </Box>
+            )}
           </Flex>
           <Text font={{ size: 'XS' }} color="gray">
             {dayjs(item.createdAt).format('YYYY-MM-DD HH:mm:ss')}

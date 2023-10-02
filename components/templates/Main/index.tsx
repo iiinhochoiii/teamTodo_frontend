@@ -142,10 +142,11 @@ const MainComponent = () => {
           </Flex>
         </S.SelectionWrap>
       </S.InfoContainer>
-      <Section background="lightpurple" style={{ padding: '60px 0 0 0' }}>
+      <Section background="whitesmoke" style={{ padding: '60px 0 0 0' }}>
         <S.StyledContent>
           <S.StyledTitle>
-            업무 내용을 팀원과 공유를 하고 팀 목표를 달성해보세요.
+            업무 내용을 팀원과 공유를 하고
+            <br />팀 목표를 달성해보세요.
           </S.StyledTitle>
           <Text font={{ size: 'L', weight: '600' }} color="black">
             지금 시작해보세요.
