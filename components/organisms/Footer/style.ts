@@ -7,7 +7,8 @@ export const StyledFooter = styled.div`
 `;
 
 export const StyledFooterContent = styled.div`
-  width: 1080px;
+  max-width: 1080px;
+  width: calc(100% - 40px);
   margin: 0 auto;
   max-width: 100%;
   display: flex;

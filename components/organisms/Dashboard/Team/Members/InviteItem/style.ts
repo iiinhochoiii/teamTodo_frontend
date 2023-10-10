@@ -12,6 +12,10 @@ export const Container = styled.article`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  @media screen and (max-width: 900px) {
+    width: 100%;
+  }
 `;
 
 export const ContentIcon = styled.div`

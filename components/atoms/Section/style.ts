@@ -7,6 +7,7 @@ export const StyledSection = styled.section<Props>`
 `;
 
 export const StyledContainer = styled.div`
-  width: 1080px;
+  max-width: 1080px;
+  width: calc(100% - 40px);
   margin: 0 auto;
 `;

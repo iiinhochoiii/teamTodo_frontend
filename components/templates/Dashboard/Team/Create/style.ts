@@ -5,6 +5,10 @@ export const Container = styled.div`
   padding: 50px 0 0 0;
   width: 50%;
   margin: 0 auto;
+
+  @media screen and (max-width: 900px) {
+    width: 90%;
+  }
 `;
 
 export const CreateContent = styled.div`

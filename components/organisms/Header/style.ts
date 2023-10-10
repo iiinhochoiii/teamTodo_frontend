@@ -13,7 +13,8 @@ export const StyledHeader = styled.header`
 `;
 
 export const HeaderContent = styled.div`
-  width: 1080px;
+  max-width: 1080px;
+  width: calc(100% - 40px);
   margin: 0 auto;
   padding: 20px 0px;
   display: flex;

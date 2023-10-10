@@ -49,10 +49,8 @@ const SignInComponent = () => {
           </Box>
           <FormSubmit type="submit" value="로그인" />
         </Form>
-        <Box sx={{ margin: '20px 0 0 0' }}>
-          <Link href="/auth/password-reset" font={{ size: 'S', weight: 200 }}>
-            비밀번호 찾기
-          </Link>
+        <S.StyledBottomTextWrap>
+          <p>비밀번호 찾기</p>
           <Link
             href="/auth/signup"
             font={{ size: 'S', weight: 200 }}
@@ -60,7 +58,7 @@ const SignInComponent = () => {
           >
             회원가입
           </Link>
-        </Box>
+        </S.StyledBottomTextWrap>
       </S.StyledSignInContent>
     </S.StyledSignInContainer>
   );

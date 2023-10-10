@@ -5,6 +5,7 @@ import { GlobalStyle } from '../styles/global-styles';
 import { theme } from '../styles/theme';
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import '../styles/font.css';
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   const [queryClient] = React.useState(() => new QueryClient());

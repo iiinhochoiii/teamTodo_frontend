@@ -42,3 +42,18 @@ export const StyledHeaderText = styled.h2`
   font-weight: 400;
   margin: 0;
 `;
+
+export const StyledBottomTextWrap = styled.div`
+  margin: 20px 0 0 0;
+  & > p {
+    display: inline-block;
+    cursor: not-allowed;
+  }
+
+  & > p,
+  a {
+    font-size: 14px;
+    font-weight: 200;
+    color: #000;
+  }
+`;

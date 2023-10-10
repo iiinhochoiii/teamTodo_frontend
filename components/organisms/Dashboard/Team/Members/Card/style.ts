@@ -7,6 +7,10 @@ export const StyledWrap = styled.article<{ isMe?: boolean }>`
     ${(props) => (props.isMe ? palette('purple') : palette('lightgray'))};
   border-radius: 10px;
   margin: 0 0 24px 0;
+
+  @media screen and (max-width: 900px) {
+    width: 100%;
+  }
 `;
 
 export const StyledHeader = styled.header`

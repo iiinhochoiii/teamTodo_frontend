@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import useContentByTeamListData from '@/hooks/queries/content/useContentByTeamListData';
 import useContentMutation from '@/hooks/queries/content/useContentMutation';
+import { groupContent } from '@/utils/contents';
 
 const TeamHomeComponent = () => {
   const router = useRouter();
@@ -37,21 +38,30 @@ const TeamHomeComponent = () => {
 
   if (!data) return <></>;
 
+  const dateGroups = groupContent(contents);
+
   return (
     <S.Container>
-      {contents.map((item) => (
-        <DashboardCard
-          key={item.id}
-          item={item}
-          remove={(id: number) => {
-            if (window.confirm('작성하신 내용을 삭제하시겠습니까?')) {
-              removeMutation.mutate(id);
-            }
-          }}
-          update={(data: { id: number; plan: string[]; happend: string[] }) =>
-            updateMutation.mutate(data)
-          }
-        />
+      {Object.keys(dateGroups).map((date) => (
+        <div key={date}>
+          <h2>{date}</h2>
+          {dateGroups[date].map((item) => (
+            <DashboardCard
+              key={item.id}
+              item={item}
+              remove={(id: number) => {
+                if (window.confirm('작성하신 내용을 삭제하시겠습니까?')) {
+                  removeMutation.mutate(id);
+                }
+              }}
+              update={(data: {
+                id: number;
+                plan: string[];
+                happend: string[];
+              }) => updateMutation.mutate(data)}
+            />
+          ))}
+        </div>
       ))}
       {hasNextPage && <div ref={ref} />}
     </S.Container>

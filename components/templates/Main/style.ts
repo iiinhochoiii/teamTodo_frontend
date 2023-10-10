@@ -10,12 +10,28 @@ export const StyledTitle = styled.h1<titleProps>`
   color: ${(props) => props.theme.palette[props.color || 'black']};
   margin: 30px 0;
   font-weight: 500;
+
+  @media screen and (max-width: 900px) {
+    font-size: 22px;
+  }
 `;
 
 export const StyledContent = styled.div`
   margin: 0 auto;
   text-align: center;
-  width: 700px;
+
+  & > p {
+    font-size: 24px;
+    color: ${palette('black')};
+    font-weight: 400;
+    margin: 0;
+  }
+
+  @media screen and (max-width: 900px) {
+    & > p {
+      font-size: 18px;
+    }
+  }
 `;
 
 export const StyledTopBannerSection = styled.section`
@@ -27,7 +43,8 @@ export const StyledTopBannerSection = styled.section`
 `;
 
 export const StyledTopBannerContentWrap = styled.div`
-  width: 1080px;
+  max-width: 1080px;
+  width: calc(100% - 40px);
   margin: 0 auto;
 
   & > h1 {
@@ -56,6 +73,25 @@ export const SelectionWrap = styled.section<{
 
   & > div {
     max-width: 1080px;
-    width: calc(100% - 60px);
+    width: calc(100% - 40px);
+  }
+
+  @media screen and (max-width: 900px) {
+    & > div {
+      flex-wrap: wrap;
+
+      & > div:first-of-type {
+        width: 100%;
+      }
+      & > div:last-of-type {
+        width: 100%;
+      }
+    }
+
+    &:nth-child(3) {
+      & > div {
+        flex-direction: column-reverse;
+      }
+    }
   }
 `;

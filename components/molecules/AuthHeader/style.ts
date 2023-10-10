@@ -11,7 +11,8 @@ export const StyledAuthHeader = styled.header`
 `;
 
 export const StyledAuthHeaderContent = styled.div`
-  width: 1080px;
+  max-width: 1080px;
+  width: calc(100% - 40px);
   margin: 0 auto;
   padding: 20px 0;
   display: flex;

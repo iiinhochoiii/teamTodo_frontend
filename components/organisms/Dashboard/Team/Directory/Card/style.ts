@@ -8,6 +8,10 @@ export const Content = styled.div`
 export const DirectoryItem = styled.div`
   display: flex;
   margin: 0 0 0 40px;
+
+  @media screen and (max-width: 900px) {
+    margin: 0;
+  }
 `;
 
 export const ItemBadgeWrap = styled.div`

@@ -4,7 +4,7 @@ import * as S from './style';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import useContentListData from '@/hooks/queries/content/useContentListData';
 import useContentMutation from '@/hooks/queries/content/useContentMutation';
-import { Content } from '@/interfaces/models/content';
+import { groupContent } from '@/utils/contents';
 
 const DashBoardComponent = () => {
   const { removeMutation, updateMutation } = useContentMutation();
@@ -26,28 +26,7 @@ const DashBoardComponent = () => {
 
   if (!data) return <></>;
 
-  const dateGroups = contents.reduce(
-    (
-      groups: {
-        [filed: string]: Content[];
-      },
-      item
-    ) => {
-      const date = new Date(item.createdAt);
-      date.setDate(date.getDate() + 1);
-      date.setHours(0, 0, 0, 0); // 시간 정보 제거
-      const formattedDate = date.toISOString().split('T')[0];
-
-      console.log(formattedDate);
-      if (!groups[formattedDate]) {
-        groups[formattedDate] = [];
-      }
-
-      groups[formattedDate].push(item);
-      return groups;
-    },
-    {}
-  );
+  const dateGroups = groupContent(contents);
 
   return (
     <S.Container>
