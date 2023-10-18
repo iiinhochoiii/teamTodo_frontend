@@ -1,7 +1,8 @@
 import Axios from 'axios';
 import { getToken } from './token';
+import { getProtocolHost } from './env';
 
-const baseURL = 'http://localhost:8080';
+const baseURL = getProtocolHost();
 
 const axiosInstance = Axios.create({
   baseURL: baseURL,
