@@ -14,6 +14,10 @@ export const Container = styled.div`
 export const CreateContent = styled.div`
   display: flex;
   justify-content: space-between;
+
+  @media screen and (max-width: 900px) {
+    flex-wrap: wrap;
+  }
 `;
 
 export const ContentDescription = styled.div`
@@ -43,6 +47,11 @@ export const ContentItem = styled.div`
       font-size: ${theme('font.size.S')};
       font-weight: 500;
     }
+  }
+
+  @media screen and (max-width: 900px) {
+    width: 100%;
+    margin-top: 20px;
   }
 `;
 
@@ -125,4 +134,6 @@ export const InviteMemberItem = styled.div`
   }
 `;
 
-export const ButtonContent = styled.div``;
+export const ButtonContent = styled.div`
+  margin-bottom: 30px;
+`;

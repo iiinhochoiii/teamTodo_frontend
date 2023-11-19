@@ -14,6 +14,11 @@ export const Content = styled.div`
   grid-template-columns: repeat(3, minmax(0, 1fr));
   margin: 0 auto;
   padding: 40px 0;
+
+  @media screen and (max-width: 1100px) {
+    display: flex;
+    flex-wrap: wrap;
+  }
 `;
 
 export const AvatarWrap = styled.div`
@@ -84,6 +89,11 @@ export const AvatarWrap = styled.div`
       display: block;
     }
   }
+
+  @media screen and (max-width: 1280px) {
+    width: 220px;
+    height: 220px;
+  }
 `;
 
 export const InfoWrap = styled.div`
@@ -92,6 +102,16 @@ export const InfoWrap = styled.div`
   border: 1px solid ${palette('lightgray')};
   border-radius: 10px;
   padding: 10px;
+
+  @media screen and (max-width: 1280px) {
+    width: 200px;
+    height: 200px;
+  }
+
+  @media screen and (max-width: 1100px) {
+    width: 100%;
+    margin-top: 20px;
+  }
 `;
 
 export const InfoHeader = styled.div`

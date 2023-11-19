@@ -4,6 +4,7 @@ import { DashboardHeader } from '@/components/organisms';
 import { Flex } from '@/components/atoms';
 import * as S from './style';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 interface Props {
   children?: React.ReactNode;
@@ -14,6 +15,8 @@ interface Props {
 const MiniDrawer = (props: Props) => {
   const { children, title, header } = props;
   const [path, setPath] = useState(title || 'Home');
+
+  const [isOpenSide, setIsOpenSide] = useState(true);
 
   const router = useRouter();
 
@@ -32,8 +35,11 @@ const MiniDrawer = (props: Props) => {
 
   return (
     <Flex>
-      <DashboardSidebar />
-      <S.StyledContainer>
+      <Head>
+        <title>{path ? `${path} | TeamTodo` : 'Team Todo'}</title>
+      </Head>
+      <DashboardSidebar isOpenSide={isOpenSide} setIsOpenSide={setIsOpenSide} />
+      <S.StyledContainer isOpenMenu={isOpenSide}>
         <DashboardHeader title={path} header={header} />
         <Flex width={1 / 2}>{children}</Flex>
       </S.StyledContainer>

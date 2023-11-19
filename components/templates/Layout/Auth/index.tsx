@@ -13,7 +13,9 @@ const BaseTemplates = (props: Props) => {
 
   return (
     <div>
-      <Head>{title || 'Team Todo'}</Head>
+      <Head>
+        <title>{title || 'Team Todo'}</title>
+      </Head>
       <AuthHeader />
       <S.StyledMain>{children}</S.StyledMain>
     </div>

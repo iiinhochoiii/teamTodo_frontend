@@ -45,4 +45,10 @@ export const Content = styled.div`
       cursor: pointer;
     }
   }
+
+  @media screen and (max-width: 1100px) {
+    & > form {
+      width: calc(100% - 40px);
+    }
+  }
 `;

@@ -13,22 +13,33 @@ import * as S from './style';
 import { EMPTY_TEAM_MASKCOT } from '@/constants/emoji';
 import useTeamsData from '@/hooks/queries/team/useTeamsData';
 import { useUserStore } from '@/stores/useUserStore';
+import MenuIcon from '@mui/icons-material/Menu';
 
-const DashboardSidebar = () => {
+interface Props {
+  isOpenSide: boolean;
+  setIsOpenSide: React.Dispatch<React.SetStateAction<boolean>>;
+}
+const DashboardSidebar = (props: Props) => {
   const router = useRouter();
   const { data } = useTeamsData();
   const { logout } = useUserStore();
+  const { isOpenSide, setIsOpenSide } = props;
 
   return (
-    <S.StyledSidebar>
-      <S.StyledSidearContent>
+    <S.StyledSidebar isOpenMenu={isOpenSide}>
+      <S.StyledSidearContent className={isOpenSide ? 'open' : 'hide'}>
         <Flex
           justify="space-between"
-          style={{ margin: '20px 0', padding: '0 20px' }}
+          style={{ margin: '20px 0', padding: isOpenSide ? '0 20px' : '0' }}
         >
           <Link href="/dashboard">
             <StyledLogo>Team Todo</StyledLogo>
           </Link>
+          <S.StyledMenuWrap>
+            <button onClick={() => setIsOpenSide(!isOpenSide)}>
+              <MenuIcon />
+            </button>
+          </S.StyledMenuWrap>
         </Flex>
         <List>
           {menu.map((item, index) => {
@@ -93,7 +104,7 @@ const DashboardSidebar = () => {
             </Link>
           </S.TeamDirectoryWrap>
         </List>
-        <S.SidebarFooterWrap>
+        <S.SidebarFooterWrap className="side-footer">
           <Button
             onClick={() => {
               logout();

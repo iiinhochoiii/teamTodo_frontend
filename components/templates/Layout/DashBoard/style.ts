@@ -6,20 +6,51 @@ export const StyledLogo = styled.a`
   font-family: 'Lilita One', cursive;
 `;
 
-export const StyledSidebar = styled.nav`
-  width: 250px;
+export const StyledSidebar = styled.nav<{ isOpenMenu?: boolean }>`
+  width: ${(props) => (props.isOpenMenu ? '250px' : '60px')};
+  transition-duration: 0.2s;
+  height: 100vh;
 `;
 
 export const StyledSidearContent = styled.div`
+  background-color: ${palette('whitesmoke')};
+  border-right: 1px solid ${palette('lightgray')};
   position: fixed;
   width: 250px;
   height: 100vh;
-  border-right: 1px solid ${palette('lightgray')};
-  background-color: ${palette('whitesmoke')};
+
+  &.hide {
+    width: 60px;
+
+    & > div {
+      justify-content: center;
+      & > a {
+        display: none;
+      }
+    }
+
+    ul,
+    .side-footer {
+      display: none;
+    }
+  }
 `;
 
-export const StyledContainer = styled.main`
-  width: calc(100% - 250px);
+export const StyledMenuWrap = styled.div`
+  display: block;
+
+  & > button {
+    margin-top: 5px;
+    background: none;
+    border: 1px solid ${palette('lightgray')};
+    border-radius: 4px;
+    cursor: pointer;
+  }
+`;
+
+export const StyledContainer = styled.main<{ isOpenMenu?: boolean }>`
+  width: ${(props) =>
+    props.isOpenMenu ? 'calc(100% - 250px)' : 'calc(100% - 60px)'};
 `;
 
 export const StyledTeamListWrap = styled.div`
