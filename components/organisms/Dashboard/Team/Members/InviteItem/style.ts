@@ -3,6 +3,7 @@ import { palette } from 'styled-tools';
 
 export const Container = styled.article`
   width: 48.5%;
+  margin: 0 0 24px 0;
   border: 1px dashed ${palette('lightgray')};
   border-radius: 10px;
   min-height: 256px;

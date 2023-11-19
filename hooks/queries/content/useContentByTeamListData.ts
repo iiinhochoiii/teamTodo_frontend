@@ -16,7 +16,7 @@ const useContentByTeamListData = ({
   options,
 }: OptionProps) => {
   return useInfiniteQuery(
-    queryKeys.CONTENT_DATA,
+    [queryKeys.CONTENT_DATA, teamName],
     async ({ pageParam = 1 }) => {
       const contents = await getContentByTeam(teamName, {
         page: pageParam,

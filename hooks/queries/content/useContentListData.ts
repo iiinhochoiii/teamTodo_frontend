@@ -4,7 +4,7 @@ import * as queryKeys from '@/constants/queryKeys';
 
 const useContentListData = (pageSize: number) => {
   return useInfiniteQuery(
-    queryKeys.CONTENT_DATA,
+    [queryKeys.CONTENT_DATA, 'my'],
     async ({ pageParam = 1 }) => {
       const contents = await getContent({ page: pageParam, pageSize });
 
