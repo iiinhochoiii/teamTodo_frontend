@@ -21,7 +21,7 @@ export const Content = styled.div`
   }
 `;
 
-export const AvatarWrap = styled.div`
+export const AvatarWrap = styled.div<{ $isPending?: boolean }>`
   position: relative;
   width: 280px;
   height: 280px;
@@ -38,6 +38,12 @@ export const AvatarWrap = styled.div`
   .avatar-emoji {
     margin: auto;
     font-size: 150px;
+    opacity: ${(props) => (props.$isPending ? 0.4 : 1)};
+    transition: opacity 0.2s;
+  }
+
+  & > svg {
+    opacity: ${(props) => (props.$isPending ? 0.4 : 1)};
   }
 
   .emoji-btn {
@@ -51,6 +57,17 @@ export const AvatarWrap = styled.div`
     color: ${palette('white')};
     font-weight: bold;
     cursor: pointer;
+
+    &:disabled {
+      cursor: progress;
+      opacity: 0.6;
+    }
+
+    /* 삭제 중에는 hover 와 관계없이 진행 상태를 보여줌 */
+    &.is-pending {
+      display: block;
+      opacity: 1;
+    }
 
     &.emoji-upload {
       left: 10px;
@@ -80,6 +97,15 @@ export const AvatarWrap = styled.div`
 
     & > button {
       width: 100px;
+
+      &:disabled {
+        opacity: 0.6;
+      }
+
+      &[aria-busy='true'] {
+        opacity: 1;
+        cursor: progress;
+      }
     }
   }
 

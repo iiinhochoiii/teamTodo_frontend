@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { IEmojiData } from 'emoji-picker-react';
-import { Button } from '@/components/atoms';
+import { Button, PendingBar, PendingLabel } from '@/components/atoms';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import useUsersData from '@/queries/user/useUsersData';
@@ -19,6 +19,11 @@ const ProfileTabHeader = () => {
   const [isEmoji, setIsEmoji] = useState(false);
   const [emojiData, setEmojiData] = useState<IEmojiData>();
   const pathname = usePathname();
+
+  // 저장(변경)과 삭제가 같은 mutation 을 쓰므로 요청 값으로 어떤 작업인지 구분
+  const isPending = updateMutaion.isLoading;
+  const isDeleting = isPending && updateMutaion.variables?.profile === '';
+  const isSaving = isPending && !isDeleting;
 
   const onEmojiClick = (
     _: React.MouseEvent<Element, MouseEvent>,
@@ -39,8 +44,11 @@ const ProfileTabHeader = () => {
       phone: user?.phone,
       profile: emojiData.emoji,
     };
-    updateMutaion.mutate(params);
-    setEmojiData(undefined);
+    setIsEmoji(false);
+    // 선택한 이모지는 내 정보 재조회가 끝날 때까지 유지 (저장 중 이전 이모지로 깜빡이지 않도록)
+    updateMutaion.mutate(params, {
+      onSuccess: () => setEmojiData(undefined),
+    });
   };
 
   const deleteEmoji = () => {
@@ -50,15 +58,22 @@ const ProfileTabHeader = () => {
         phone: user?.phone,
         profile: '',
       };
-      updateMutaion.mutate(params);
+      setIsEmoji(false);
       setEmojiData(undefined);
+      updateMutaion.mutate(params);
     }
   };
 
   return (
     <S.Container>
       <S.Content>
-        <S.AvatarWrap>
+        <S.AvatarWrap $isPending={isPending} aria-busy={isPending}>
+          {isPending && (
+            <PendingBar
+              color={isDeleting ? 'red' : 'purple'}
+              style={{ borderRadius: '8px 8px 0 0' }}
+            />
+          )}
           {user?.profile ? (
             emojiData ? (
               <p className="avatar-emoji">{emojiData.emoji}</p>
@@ -72,6 +87,7 @@ const ProfileTabHeader = () => {
           )}
           <button
             className="emoji-btn emoji-upload"
+            disabled={isPending}
             onClick={() => setIsEmoji(!isEmoji)}
           >
             Change Emoji
@@ -79,21 +95,33 @@ const ProfileTabHeader = () => {
 
           {user?.profile && (
             <button
-              className="emoji-btn emoji-delete"
+              className={`emoji-btn emoji-delete${
+                isDeleting ? ' is-pending' : ''
+              }`}
+              disabled={isPending}
               onClick={() => deleteEmoji()}
             >
-              delete
+              {isDeleting ? <PendingLabel>deleting...</PendingLabel> : 'delete'}
             </button>
           )}
 
           {isEmoji && <Picker onEmojiClick={onEmojiClick} />}
           {emojiData?.emoji && (
             <div className="emoji-btn-wrap">
-              <Button background="red" onClick={() => setEmojiData(undefined)}>
+              <Button
+                background="red"
+                disabled={isPending}
+                onClick={() => setEmojiData(undefined)}
+              >
                 cancel
               </Button>
-              <Button background="purple" onClick={() => uploadProfile()}>
-                save
+              <Button
+                background="purple"
+                disabled={isPending}
+                aria-busy={isSaving}
+                onClick={() => uploadProfile()}
+              >
+                {isSaving ? <PendingLabel>saving...</PendingLabel> : 'save'}
               </Button>
             </div>
           )}

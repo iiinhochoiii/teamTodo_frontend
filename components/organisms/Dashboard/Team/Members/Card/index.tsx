@@ -83,10 +83,16 @@ const TeamMembersCard = (props: Props) => {
           <S.SectionItemTitle>Last Logined</S.SectionItemTitle>
           <S.SectionItemInfo>
             <CalendarTodayOutlinedIcon />
-            <Text>
-              {dayjs(member.user.lastLoginedAt).format('YYYY-MM-DD HH:mm:ss') ||
-                '-'}
-            </Text>
+            {/* 가입 후 한 번도 로그인하지 않은 회원은 lastLoginedAt 이 비어 있음 */}
+            {/* (dayjs(null) 은 Invalid Date, dayjs(undefined) 는 현재 시각이 되므로 먼저 확인) */}
+            {member.user.lastLoginedAt &&
+            dayjs(member.user.lastLoginedAt).isValid() ? (
+              <Text>
+                {dayjs(member.user.lastLoginedAt).format('YYYY-MM-DD HH:mm:ss')}
+              </Text>
+            ) : (
+              <Text color="gray">Not logged in yet</Text>
+            )}
           </S.SectionItemInfo>
         </S.SectionItem>
 

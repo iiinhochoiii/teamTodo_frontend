@@ -18,6 +18,7 @@ export const Content = styled.div`
   margin: 0 auto;
 
   & > form {
+    position: relative;
     padding: 0 20px 30px 20px;
     width: 60%;
     border: 1px solid ${palette('gray')};
@@ -43,6 +44,18 @@ export const Content = styled.div`
       font-size: ${theme('font.size.S')};
       border: none;
       cursor: pointer;
+
+      &:disabled {
+        cursor: progress;
+        opacity: 0.6;
+      }
+    }
+
+    /* 변경 중에는 입력값을 고정해서 보여줌 */
+    &[aria-busy='true'] > input[type='text'],
+    &[aria-busy='true'] > input[type='password'] {
+      color: ${palette('gray')};
+      cursor: progress;
     }
   }
 

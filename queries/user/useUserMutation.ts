@@ -4,6 +4,7 @@ import { authService, userService } from '@/apis/services';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { AxiosError } from 'axios';
 import { setToken } from '@/utils/token';
+import { waitForPaint } from '@/utils/paint';
 import * as queryKeys from '@/constants/queryKeys';
 
 const useUserMutation = () => {
@@ -21,10 +22,13 @@ const useUserMutation = () => {
       password?: string;
     }) => userService.updateUser(params),
     {
-      onSuccess: (res) => {
+      // 내 정보 재조회까지 끝난 뒤 알림 (onSuccess 가 끝날 때까지 mutation 은 pending 유지)
+      // → 프로필 이모지 등 변경 결과가 화면에 반영된 상태에서 완료 처리
+      onSuccess: async (res) => {
         if (res.result) {
+          await queryClient.invalidateQueries(queryKeys.USER_DATA);
+          await waitForPaint();
           alert(res?.message || '정보가 변경되었습니다.');
-          queryClient.invalidateQueries(queryKeys.USER_DATA);
         }
       },
       onError: () => {
