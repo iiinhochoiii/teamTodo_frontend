@@ -3,7 +3,7 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { QueryClient, dehydrate } from 'react-query/core';
 import { User } from '@/types/user';
-import { getMy } from '@/apis/user';
+import { userService } from '@/apis/services';
 import * as queryKeys from '@/constants/queryKeys';
 import DashboardProviders from './providers';
 
@@ -17,7 +17,7 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
 
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery<User>(queryKeys.USER_DATA, () =>
-    getMy(token)
+    userService.getMy(token)
   );
 
   return (

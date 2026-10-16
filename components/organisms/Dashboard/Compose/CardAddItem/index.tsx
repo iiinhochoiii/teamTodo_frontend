@@ -4,6 +4,7 @@ import { Box, FormTextarea } from '@/components/atoms';
 import { useForm } from 'react-hook-form';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import useClickOutside from '@/hooks/useClickOutside';
 
 interface Props {
   setIsAddCallback: (value: boolean) => void;
@@ -14,26 +15,25 @@ interface Props {
 const CardAddItem = (props: Props) => {
   const { setIsAddCallback, createItems, isDone, placeholder } = props;
 
-  const { register, watch } = useForm();
+  const { register, watch, setFocus, getValues } = useForm();
 
-  const contentRef: React.MutableRefObject<HTMLDivElement | null> =
-    useRef(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
+  // Add Item 클릭으로 입력 박스가 나타나면 바로 입력할 수 있도록 포커스
   useEffect(() => {
-    document.addEventListener('mousedown', clickContentOutside);
+    setFocus('title');
+  }, [setFocus]);
 
-    return () => {
-      document.removeEventListener('mousedown', clickContentOutside);
-    };
-  }, []);
+  // 박스 바깥을 클릭하면 입력한 내용이 있을 때 자동으로 추가하고 닫음
+  useClickOutside(contentRef, () => {
+    const title: string = getValues('title') || '';
 
-  const clickContentOutside = (
-    event: React.BaseSyntheticEvent | MouseEvent
-  ) => {
-    if (contentRef.current && !contentRef.current.contains(event.target)) {
+    if (title.trim()) {
+      createItems(title, !!isDone);
+    } else {
       setIsAddCallback(false);
     }
-  };
+  });
 
   return (
     <S.Article ref={contentRef}>

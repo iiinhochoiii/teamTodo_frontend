@@ -23,7 +23,7 @@ const DashboardHeader = (props: Props) => {
         </Box>
         <S.HeaderBadge
           onClick={() => {
-            router.push(`/dashboard/profile`);
+            router.push(`/dashboard/profile/information`);
           }}
         >
           {user?.profile ? <p>{user?.profile}</p> : <AccountCircleIcon />}

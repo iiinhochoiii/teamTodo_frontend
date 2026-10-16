@@ -57,13 +57,17 @@ const ComposeComponent = () => {
     }
   };
 
+  // 항목 id 는 삭제 후에도 겹치지 않도록 계속 증가시킴 (items.length 를 쓰면 삭제 후 추가 시 id 중복)
+  const nextItemId = useRef(0);
+
   const createItems = (title: string, isDone: boolean) => {
     setIsAdd(false);
     setIsDone(false);
+    const id = nextItemId.current++;
     setItems((state) => [
       ...state,
       {
-        id: items.length,
+        id,
         title: title,
         isDone: isDone,
       },
@@ -85,7 +89,7 @@ const ComposeComponent = () => {
   };
 
   const removeItem = (id: number) => {
-    setItems((item) => item.filter((_, idx) => id !== idx));
+    setItems((state) => state.filter((item) => item.id !== id));
   };
 
   const changeStatus = (id: number) => {

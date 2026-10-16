@@ -1,9 +1,9 @@
 import { useQuery } from 'react-query';
-import { getTeams } from '@/apis/team';
+import { teamService } from '@/apis/services';
 import * as queryKeys from '@/constants/queryKeys';
 
 const useTeamsData = () => {
-  return useQuery(queryKeys.TEAM_DATA, getTeams);
+  return useQuery(queryKeys.TEAM_DATA, teamService.getTeams);
 };
 
 export default useTeamsData;

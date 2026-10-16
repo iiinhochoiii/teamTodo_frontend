@@ -1,6 +1,5 @@
 import { useInfiniteQuery, useQueryClient } from 'react-query';
-import { getContentByTeamId } from '@/apis/content';
-import { getTeamsByName } from '@/apis/team';
+import { contentService, teamService } from '@/apis/services';
 import * as queryKeys from '@/constants/queryKeys';
 import { teamDetailQueryKey } from '@/queries/team/useTeamDetailData';
 
@@ -26,9 +25,9 @@ const useContentByTeamListData = ({
       // 다음 페이지 조회 때도 /teams/{name} 을 다시 호출하지 않음
       const team = await queryClient.fetchQuery(
         teamDetailQueryKey(teamName),
-        () => getTeamsByName(teamName)
+        () => teamService.getTeamsByName(teamName)
       );
-      const contents = await getContentByTeamId(team.id, {
+      const contents = await contentService.getContentByTeamId(team.id, {
         page: pageParam,
         pageSize,
       });

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
-import { updateUser } from '@/apis/user';
-import { createUser, checkEmail, login } from '@/apis/auth';
+import { authService, userService } from '@/apis/services';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { AxiosError } from 'axios';
 import { setToken } from '@/utils/token';
@@ -20,7 +19,7 @@ const useUserMutation = () => {
       position?: string;
       profile?: string;
       password?: string;
-    }) => updateUser(params),
+    }) => userService.updateUser(params),
     {
       onSuccess: (res) => {
         if (res.result) {
@@ -44,7 +43,7 @@ const useUserMutation = () => {
       position?: string;
     }) => {
       const { email, name, password, phone, position } = form;
-      return createUser({
+      return authService.createUser({
         email,
         name,
         password,
@@ -66,21 +65,24 @@ const useUserMutation = () => {
     }
   );
 
-  const checkEmailMutation = useMutation((email: string) => checkEmail(email), {
-    onSuccess: (res) => {
-      setIsValid(res?.result);
-      if (res?.message) {
-        alert(res?.message);
-      }
-    },
-    onError: (err) => {
-      setIsValid(false);
-      console.log(err);
-    },
-  });
+  const checkEmailMutation = useMutation(
+    (email: string) => authService.checkEmail(email),
+    {
+      onSuccess: (res) => {
+        setIsValid(res?.result);
+        if (res?.message) {
+          alert(res?.message);
+        }
+      },
+      onError: (err) => {
+        setIsValid(false);
+        console.log(err);
+      },
+    }
+  );
 
   const loginMutation = useMutation(
-    (form: { email: string; password: string }) => login(form),
+    (form: { email: string; password: string }) => authService.login(form),
     {
       onSuccess: (data: { status: boolean; token: string } | void) => {
         const { status, token } = data as {

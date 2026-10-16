@@ -1,21 +1,8 @@
-import React from 'react';
-import type { Metadata } from 'next';
-import {
-  DashboardTemplates,
-  DashboardProfileComponent,
-} from '@/components/templates';
-import { ProfileHeader } from '@/components/organisms';
+import { redirect } from 'next/navigation';
 
-export const metadata: Metadata = {
-  title: 'Profile',
-};
-
+// 프로필 첫 화면은 하단 내용이 비어 보이므로 Information 탭으로 바로 이동
 const ProfilePage = () => {
-  return (
-    <DashboardTemplates header={<ProfileHeader />}>
-      <DashboardProfileComponent />
-    </DashboardTemplates>
-  );
+  redirect('/dashboard/profile/information');
 };
 
 export default ProfilePage;

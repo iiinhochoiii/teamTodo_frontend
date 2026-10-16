@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { getTeamsByName } from '@/apis/team';
+import { teamService } from '@/apis/services';
 import * as queryKeys from '@/constants/queryKeys';
 
 // TEAM_DATA 하위 키로 두어 팀 mutation 의 invalidateQueries(TEAM_DATA) 시 함께 갱신되도록 함
@@ -9,7 +9,7 @@ export const teamDetailQueryKey = (teamName: string) =>
 const useTeamDetailData = (teamName: string) => {
   return useQuery(
     teamDetailQueryKey(teamName),
-    () => getTeamsByName(teamName),
+    () => teamService.getTeamsByName(teamName),
     {
       enabled: !!teamName,
     }

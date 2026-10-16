@@ -1,9 +1,9 @@
 import { useQuery } from 'react-query';
-import { getMy } from '@/apis/user';
+import { userService } from '@/apis/services';
 import * as queryKeys from '@/constants/queryKeys';
 
 const useUsersData = () => {
-  return useQuery(queryKeys.USER_DATA, () => getMy());
+  return useQuery(queryKeys.USER_DATA, () => userService.getMy());
 };
 
 export default useUsersData;

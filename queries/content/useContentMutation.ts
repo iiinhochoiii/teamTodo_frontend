@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from 'react-query';
-import { deleteContent, updateContent, createContent } from '@/apis/content';
+import { contentService } from '@/apis/services';
 import { useRouter } from 'next/navigation';
 import * as queryKeys from '@/constants/queryKeys';
 
@@ -7,17 +7,20 @@ const useContentMutation = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const removeMutation = useMutation((id: number) => deleteContent(id), {
-    onSuccess: () => queryClient.invalidateQueries(queryKeys.CONTENT_DATA),
-    onError: () => {
-      console.log('err');
-    },
-  });
+  const removeMutation = useMutation(
+    (id: number) => contentService.deleteContent(id),
+    {
+      onSuccess: () => queryClient.invalidateQueries(queryKeys.CONTENT_DATA),
+      onError: () => {
+        console.log('err');
+      },
+    }
+  );
 
   // addItem, updateItem, removeItem
   const updateMutation = useMutation(
     (data: { id: number; plan: string[]; happend: string[] }) =>
-      updateContent(data),
+      contentService.updateContent(data),
     {
       onSuccess: () => queryClient.invalidateQueries(queryKeys.CONTENT_DATA),
       onError: () => {
@@ -32,7 +35,7 @@ const useContentMutation = () => {
       plan: string[];
       happend: string[];
       teamId: number | null;
-    }) => createContent(content),
+    }) => contentService.createContent(content),
     {
       // 이동할 목록을 먼저 새로 받아온 뒤 이동해야 생성 전 목록이 잠깐 보이지 않음.
       // (onSuccess 가 끝날 때까지 mutation 이 pending 으로 유지되어 등록 중 효과도 함께 유지됨)

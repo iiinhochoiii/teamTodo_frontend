@@ -1,12 +1,15 @@
 import { useInfiniteQuery } from 'react-query';
-import { getContent } from '@/apis/content';
+import { contentService } from '@/apis/services';
 import * as queryKeys from '@/constants/queryKeys';
 
 const useContentListData = (pageSize: number) => {
   return useInfiniteQuery(
     [queryKeys.CONTENT_DATA, 'my'],
     async ({ pageParam = 1 }) => {
-      const contents = await getContent({ page: pageParam, pageSize });
+      const contents = await contentService.getContent({
+        page: pageParam,
+        pageSize,
+      });
 
       return {
         contents,

@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { Text, Box, FormTextarea } from '@/components/atoms';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
+import useClickOutside from '@/hooks/useClickOutside';
 
 interface Props {
   item: {
@@ -18,7 +19,7 @@ interface Props {
 
 const ComposeCardItem = (props: Props) => {
   const { item, changeStatus, removeItem, updateItems } = props;
-  const { register, watch, reset } = useForm();
+  const { register, watch, reset, getValues } = useForm();
 
   useEffect(() => {
     if (item.title) {
@@ -28,26 +29,37 @@ const ComposeCardItem = (props: Props) => {
       setIsContent(false);
     }
   }, [item]);
-  const contentRef: React.MutableRefObject<HTMLDivElement | null> =
-    useRef(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const [isContent, setIsContent] = useState(false);
 
+  // 텍스트를 클릭해 수정 박스가 나타나면 포커스하고, 커서를 기존 글 끝으로 이동
   useEffect(() => {
-    document.addEventListener('mousedown', clickContentOutside);
+    if (!isContent) return;
 
-    return () => {
-      document.removeEventListener('mousedown', clickContentOutside);
-    };
-  }, []);
-
-  const clickContentOutside = (
-    event: React.BaseSyntheticEvent | MouseEvent
-  ) => {
-    if (contentRef.current && !contentRef.current.contains(event.target)) {
-      setIsContent(false);
+    const textarea = contentRef.current?.querySelector('textarea');
+    if (textarea) {
+      textarea.focus();
+      textarea.setSelectionRange(textarea.value.length, textarea.value.length);
     }
-  };
+  }, [isContent]);
+
+  // 수정 중 박스 바깥을 클릭하면 바뀐 내용이 있을 때 자동으로 수정하고 닫음
+  useClickOutside(
+    contentRef,
+    () => {
+      const title: string = getValues('title') || '';
+
+      if (title.trim() && title !== item.title) {
+        updateItems(item.id, title);
+      } else {
+        // 비우거나 그대로 두고 닫으면 원래 내용으로 되돌림
+        reset({ title: item.title });
+      }
+      setIsContent(false);
+    },
+    isContent
+  );
 
   return (
     <S.Article ref={contentRef}>
