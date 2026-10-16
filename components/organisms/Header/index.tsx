@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 import * as S from './style';
 import { Button, Flex } from '@/components/atoms';
 
@@ -7,14 +6,10 @@ const Header = () => {
   return (
     <S.StyledHeader>
       <S.HeaderContent>
-        <Link href="/">
-          <S.StyledLogo>TeamTodo</S.StyledLogo>
-        </Link>
+        <S.StyledLogo href="/">TeamTodo</S.StyledLogo>
 
         <Flex>
-          <Link href="/auth/signup">
-            <S.HeaderLink>Signup</S.HeaderLink>
-          </Link>
+          <S.HeaderLink href="/auth/signup">Signup</S.HeaderLink>
           <Button
             background="purple"
             color="white"

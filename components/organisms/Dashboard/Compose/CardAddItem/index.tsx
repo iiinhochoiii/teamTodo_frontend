@@ -2,8 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import * as S from './style';
 import { Box, FormTextarea } from '@/components/atoms';
 import { useForm } from 'react-hook-form';
-import DeleteIcon from '@material-ui/icons/Delete';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 interface Props {
   setIsAddCallback: (value: boolean) => void;

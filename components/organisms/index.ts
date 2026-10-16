@@ -1,3 +1,5 @@
+'use client';
+
 export { default as Header } from './Header';
 export { default as Footer } from './Footer';
 export { default as DashboardCard } from './Dashboard/Card';
@@ -14,3 +16,4 @@ export { default as ProfileTabHeader } from './Dashboard/Profile/TabHeader';
 export { default as ProfileHeader } from './Dashboard/Profile/Header';
 export { default as ProfilePasswordContent } from './Dashboard/Profile/Content/password';
 export { default as ProfileInformationContent } from './Dashboard/Profile/Content/information';
+export { default as TeamDirectoryHeader } from './Dashboard/Team/Directory/Header';

@@ -1,12 +1,10 @@
 import React from 'react';
-import Link from 'next/link';
 import * as S from './style';
 
 export interface Props {
   children?: React.ReactNode;
   style?: React.CSSProperties;
   href?: string;
-  as?: string;
   color?: string;
   font?: {
     size?: string;
@@ -15,13 +13,11 @@ export interface Props {
 }
 
 const Links = (props: Props) => {
-  const { children, href, as, color, font, style } = props;
+  const { children, href, color, font, style } = props;
   return (
-    <Link href={href || '/'} passHref as={as}>
-      <S.StyledLink color={color} font={font} style={style}>
-        {children}
-      </S.StyledLink>
-    </Link>
+    <S.StyledLink href={href || '/'} color={color} font={font} style={style}>
+      {children}
+    </S.StyledLink>
   );
 };
 

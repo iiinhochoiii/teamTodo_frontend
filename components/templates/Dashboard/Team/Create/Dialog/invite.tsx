@@ -1,12 +1,12 @@
 import React from 'react';
-import CloseIcon from '@material-ui/icons/Close';
+import CloseIcon from '@mui/icons-material/Close';
 import * as S from './style';
-import { Button, Text, Form, FormSubmit } from '@/components/atoms';
+import { Button, Text, Form, FormSubmit, PendingBar } from '@/components/atoms';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { useForm, Controller } from 'react-hook-form';
-import { Team } from '@/interfaces/models/team';
-import useTeamMutation from '@/hooks/queries/team/useTeamMutation';
+import { Team } from '@/types/team';
+import useTeamMutation from '@/queries/team/useTeamMutation';
 
 interface Props {
   isOpen: boolean;
@@ -24,6 +24,13 @@ interface FormType {
 const InviteDialog = (props: Props) => {
   const { isOpen, setIsOpen, type, team, callbackFn } = props;
   const { inviteTeamMutation } = useTeamMutation();
+  const isInviting = inviteTeamMutation.isLoading;
+
+  // 초대 요청 중에는 바깥 클릭·닫기 버튼으로 닫히지 않도록 함
+  const closeDialog = () => {
+    if (isInviting) return;
+    setIsOpen(false);
+  };
   const { register, handleSubmit, reset, watch, control } = useForm<FormType>({
     defaultValues: {
       emails: ['', '', ''],
@@ -32,6 +39,8 @@ const InviteDialog = (props: Props) => {
   });
 
   const submitHandler = (form: FormType) => {
+    if (isInviting) return;
+
     const { teamId, emails } = form;
 
     const userEmails = emails.filter((email) => email);
@@ -42,11 +51,14 @@ const InviteDialog = (props: Props) => {
     }
 
     if (team) {
-      inviteTeamMutation.mutate({
-        teamId,
-        emails: userEmails,
-      });
-      setIsOpen(false);
+      // 멤버 목록 재조회까지 끝난 뒤 닫힘 (useTeamMutation 의 onSuccess 이후 실행)
+      inviteTeamMutation.mutate(
+        {
+          teamId,
+          emails: userEmails,
+        },
+        { onSuccess: () => setIsOpen(false) }
+      );
     } else {
       if (callbackFn) {
         callbackFn(userEmails);
@@ -55,14 +67,16 @@ const InviteDialog = (props: Props) => {
   };
 
   return (
-    <S.StyledDialog onClose={() => setIsOpen(false)} open={isOpen}>
+    <S.StyledDialog onClose={closeDialog} open={isOpen}>
+      {isInviting && <PendingBar />}
       <S.StyledDialogTitleWrap>
         <S.Title>Invite People</S.Title>
         <Text font={{ size: 'S', weight: '400' }} color="gray">
           팀원을 초대하여, Todo를 공유해보세요.
         </Text>
         <Button
-          onClick={() => setIsOpen(false)}
+          onClick={closeDialog}
+          disabled={isInviting}
           background="white"
           font={{ color: 'gray' }}
           size="S"
@@ -76,7 +90,10 @@ const InviteDialog = (props: Props) => {
         </Button>
       </S.StyledDialogTitleWrap>
       <Form onSubmit={handleSubmit(submitHandler)}>
-        <S.StyledDialogContentWrap>
+        <S.StyledDialogContentWrap
+          $isPending={isInviting}
+          aria-busy={isInviting}
+        >
           <Text sx={{ margin: '0 0 15px 0' }}>Email address</Text>
           {watch('emails')?.map((_, index) => (
             <S.StyledContentEmail
@@ -120,7 +137,12 @@ const InviteDialog = (props: Props) => {
           </S.StyledContentTeam>
         </S.StyledDialogContentWrap>
         <S.StyledDialogFooterWrap>
-          <FormSubmit type="submit" value="Send invite" />
+          <FormSubmit
+            type="submit"
+            value={isInviting ? '초대 중...' : 'Send invite'}
+            disabled={isInviting}
+            aria-busy={isInviting}
+          />
         </S.StyledDialogFooterWrap>
       </Form>
     </S.StyledDialog>

@@ -42,7 +42,7 @@ const MainComponent = () => {
           >
             <Box width={1.6 / 3}>
               <ImageFrame>
-                <Image src="/images/write-plan.png" layout="fill" />
+                <Image src="/images/write-plan.png" alt="Write my plan" fill />
               </ImageFrame>
             </Box>
             <Box width={1.2 / 3}>
@@ -100,7 +100,12 @@ const MainComponent = () => {
             </Box>
             <Box width={1.6 / 3}>
               <ImageFrame>
-                <Image src="/images/set-teams.png" layout="fill" priority />
+                <Image
+                  src="/images/set-teams.png"
+                  alt="Set a teams"
+                  fill
+                  priority
+                />
               </ImageFrame>
             </Box>
           </Flex>
@@ -113,7 +118,11 @@ const MainComponent = () => {
           >
             <Box width={1.6 / 3}>
               <ImageFrame>
-                <Image src="/images/share-plan.png" layout="fill" />
+                <Image
+                  src="/images/share-plan.png"
+                  alt="Share plan to teams"
+                  fill
+                />
               </ImageFrame>
             </Box>
             <Box width={1.2 / 3}>

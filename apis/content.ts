@@ -1,6 +1,5 @@
 import axios from '@/utils/axios';
-import { responseContent } from '@/interfaces/models/content';
-import { getTeamsByName } from './team';
+import { responseContent } from '@/types/content';
 
 export const getContent = async (pageOption: {
   page: number;
@@ -14,16 +13,14 @@ export const getContent = async (pageOption: {
   return res.data;
 };
 
-export const getContentByTeam = async (
-  teamName: string,
+export const getContentByTeamId = async (
+  teamId: number,
   pageOption: {
     page: number;
     pageSize: number;
   }
 ): Promise<responseContent> => {
-  const team = await getTeamsByName(teamName);
-
-  const res = await axios.get(`/contents/${team.id}`, {
+  const res = await axios.get(`/contents/${teamId}`, {
     params: {
       ...pageOption,
     },

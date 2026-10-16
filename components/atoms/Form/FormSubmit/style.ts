@@ -3,4 +3,9 @@ import { Props } from './index';
 
 export const StyledFormSubmit = styled.input<Props>`
   cursor: pointer;
+
+  &:disabled {
+    cursor: progress;
+    opacity: 0.6;
+  }
 `;

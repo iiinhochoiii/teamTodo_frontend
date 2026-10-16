@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styled from 'styled-components';
 import { theme } from 'styled-tools';
 
@@ -21,12 +22,12 @@ export const HeaderContent = styled.div`
   justify-content: space-between;
 `;
 
-export const StyledLogo = styled.a`
+export const StyledLogo = styled(Link)`
   font-family: 'Lilita One', cursive;
   font-size: 32px;
 `;
 
-export const HeaderLink = styled.a`
+export const HeaderLink = styled(Link)`
   margin: auto 20px auto 0;
   font-size: 16px;
   font-weight: 500;

@@ -3,7 +3,7 @@ import * as S from './style';
 import GroupsIcon from '@mui/icons-material/Groups';
 import { Text, Button } from '@/components/atoms';
 import TeamInviteDialog from '@/components/templates/Dashboard/Team/Create/Dialog/invite';
-import { Team } from '@/interfaces/models/team';
+import { Team } from '@/types/team';
 
 interface Props {
   team?: Team;

@@ -3,12 +3,12 @@ import * as S from './style';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
-import { Text, HRBox } from '@/components/atoms';
-import { Members } from '@/interfaces/models/team';
+import { Text, HRBox, PendingBar } from '@/components/atoms';
+import { Members } from '@/types/team';
 import dayjs from 'dayjs';
 import { useUserStore } from '@/stores/useUserStore';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import useTeamMutation from '@/hooks/queries/team/useTeamMutation';
+import useTeamMutation from '@/queries/team/useTeamMutation';
 
 interface Props {
   member: Members;
@@ -19,9 +19,11 @@ const TeamMembersCard = (props: Props) => {
   const { member, creatorId } = props;
   const { user } = useUserStore();
   const { distroyMemberMutation } = useTeamMutation();
+  // 멤버 목록 재조회까지 pending 유지 → 카드가 목록에서 사라질 때까지 표시
+  const isRemoving = distroyMemberMutation.isLoading;
 
   const onDistroyHandler = () => {
-    if (!user) {
+    if (!user || isRemoving) {
       return;
     }
 
@@ -38,7 +40,14 @@ const TeamMembersCard = (props: Props) => {
   }
 
   return (
-    <S.StyledWrap isMe={user.id === member.user_id}>
+    <S.StyledWrap
+      isMe={user.id === member.user_id}
+      $isRemoving={isRemoving}
+      aria-busy={isRemoving}
+    >
+      {isRemoving && (
+        <PendingBar color="red" style={{ borderRadius: '10px 10px 0 0' }} />
+      )}
       <S.StyledHeader>
         {creatorId === user?.id && user.id !== member.user_id && (
           <button className="distroy_member_button" onClick={onDistroyHandler}>
@@ -55,6 +64,7 @@ const TeamMembersCard = (props: Props) => {
         <S.HeaderContent>
           <S.HeaderContentTitle>
             {member.user.name} {user?.id === member.user_id && '(ME)'}
+            {isRemoving && <S.RemovingText>내보내는 중...</S.RemovingText>}
           </S.HeaderContentTitle>
           <Text font={{ size: 'S', weight: 400 }} color="gray">
             {member.user?.position}

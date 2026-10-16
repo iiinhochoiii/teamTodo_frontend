@@ -10,7 +10,7 @@ import {
 } from '@/components/atoms';
 
 import { useForm } from 'react-hook-form';
-import useUsersMutation from '@/hooks/queries/user/useUserMutation';
+import useUsersMutation from '@/queries/user/useUserMutation';
 
 interface FormProps {
   email: string;
@@ -21,7 +21,13 @@ const SignInComponent = () => {
   const { register, handleSubmit } = useForm<FormProps>();
   const { loginMutation } = useUsersMutation();
 
+  // 로그인 성공 후 대시보드로 이동이 끝날 때까지도 로딩 상태 유지 (중복 클릭 방지)
+  const isPending =
+    loginMutation.isLoading ||
+    (loginMutation.isSuccess && !!loginMutation.data?.status);
+
   const submit = (form: FormProps): void => {
+    if (isPending) return;
     loginMutation.mutate(form);
   };
 
@@ -47,7 +53,12 @@ const SignInComponent = () => {
               enabled
             />
           </Box>
-          <FormSubmit type="submit" value="로그인" />
+          <FormSubmit
+            type="submit"
+            value={isPending ? '로그인 중...' : '로그인'}
+            disabled={isPending}
+            aria-busy={isPending}
+          />
         </Form>
         <S.StyledBottomTextWrap>
           <p>비밀번호 찾기</p>

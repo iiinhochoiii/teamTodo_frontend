@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { theme, palette } from 'styled-tools';
 import Dialog from '@mui/material/Dialog';
 import FormControl from '@mui/material/FormControl';
@@ -26,10 +26,18 @@ export const Title = styled.h3`
   font-weight: 700;
 `;
 
-export const StyledDialogContentWrap = styled.div`
+export const StyledDialogContentWrap = styled.div<{ $isPending?: boolean }>`
   margin: 20px 0 0 0;
   border-bottom: 1px solid ${palette('lightgray')};
   padding: 0 0 24px 0;
+  transition: opacity 0.2s ease;
+
+  ${(props) =>
+    props.$isPending &&
+    css`
+      opacity: 0.5;
+      pointer-events: none;
+    `}
 
   & > button {
     background: none;
@@ -96,5 +104,10 @@ export const StyledDialogFooterWrap = styled.div`
     cursor: pointer;
     border: 1px solid ${palette('purple')};
     border-radius: 10px;
+
+    &:disabled {
+      cursor: progress;
+      opacity: 0.6;
+    }
   }
 `;

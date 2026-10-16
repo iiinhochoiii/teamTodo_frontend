@@ -3,7 +3,7 @@ import * as S from './style';
 import { useForm } from 'react-hook-form';
 import { Text, Box, FormTextarea } from '@/components/atoms';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
-import DeleteIcon from '@material-ui/icons/Delete';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 interface Props {
   item: {

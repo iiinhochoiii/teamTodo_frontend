@@ -1,6 +1,6 @@
 import React, { HTMLAttributes } from 'react';
 import * as S from './style';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 export interface Props extends HTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;

@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -11,9 +11,11 @@ import { StyledLogo } from './style';
 import { Flex, Text, AddIcon, Button } from '@/components/atoms';
 import * as S from './style';
 import { EMPTY_TEAM_MASKCOT } from '@/constants/emoji';
-import useTeamsData from '@/hooks/queries/team/useTeamsData';
+import useTeamsData from '@/queries/team/useTeamsData';
 import { useUserStore } from '@/stores/useUserStore';
 import MenuIcon from '@mui/icons-material/Menu';
+import useTeamName from '@/hooks/useTeamName';
+import { SidebarTeamSkeleton } from '@/components/molecules';
 
 interface Props {
   isOpenSide: boolean;
@@ -21,7 +23,8 @@ interface Props {
 }
 const DashboardSidebar = (props: Props) => {
   const router = useRouter();
-  const { data } = useTeamsData();
+  const teamName = useTeamName();
+  const { data, isLoading } = useTeamsData();
   const { logout } = useUserStore();
   const { isOpenSide, setIsOpenSide } = props;
 
@@ -32,9 +35,7 @@ const DashboardSidebar = (props: Props) => {
           justify="space-between"
           style={{ margin: '20px 0', padding: isOpenSide ? '0 20px' : '0' }}
         >
-          <Link href="/dashboard">
-            <StyledLogo>Team Todo</StyledLogo>
-          </Link>
+          <StyledLogo href="/dashboard">Team Todo</StyledLogo>
           <S.StyledMenuWrap>
             <button onClick={() => setIsOpenSide(!isOpenSide)}>
               <MenuIcon />
@@ -58,7 +59,9 @@ const DashboardSidebar = (props: Props) => {
                     margin: '0 20px 0 0',
                   }}
                 >
-                  <img src={item.svg} style={{ width: '20px' }} />
+                  {/* 20px SVG 아이콘이라 next/image 최적화 이점이 없음 */}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={item.svg} alt="" style={{ width: '20px' }} />
                 </ListItemIcon>
                 <ListItemText primary={item.title} />
               </ListItemButton>
@@ -79,28 +82,22 @@ const DashboardSidebar = (props: Props) => {
             />
           </Flex>
           <S.StyledTeamListWrap>
+            {isLoading && <SidebarTeamSkeleton />}
             {data?.map((team) => (
-              <S.StyledTeamCard
-                key={team.id}
-                isRoute={router.query.id === team.name}
-              >
+              <S.StyledTeamCard key={team.id} isRoute={teamName === team.name}>
                 <Link href={`/dashboard/team/${team.name}/home`}>
-                  <a>
-                    <span className="team-emoji">
-                      {team?.maskcot || EMPTY_TEAM_MASKCOT}
-                    </span>
-                    <span className="team-name">{team.name}</span>
-                  </a>
+                  <span className="team-emoji">
+                    {team?.maskcot || EMPTY_TEAM_MASKCOT}
+                  </span>
+                  <span className="team-name">{team.name}</span>
                 </Link>
               </S.StyledTeamCard>
             ))}
           </S.StyledTeamListWrap>
           <S.TeamDirectoryWrap>
             <Link href="/dashboard/team/directory">
-              <a>
-                Team Directory
-                <ArrowForwardIosIcon />
-              </a>
+              Team Directory
+              <ArrowForwardIosIcon />
             </Link>
           </S.TeamDirectoryWrap>
         </List>

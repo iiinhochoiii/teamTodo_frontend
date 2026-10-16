@@ -11,7 +11,7 @@ import {
 } from '@/components/atoms';
 
 import { useForm } from 'react-hook-form';
-import useUserMutation from '@/hooks/queries/user/useUserMutation';
+import useUserMutation from '@/queries/user/useUserMutation';
 
 interface FormProps {
   email: string;

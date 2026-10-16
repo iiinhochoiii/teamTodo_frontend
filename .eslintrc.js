@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-undef
 module.exports = {
   env: {
     browser: true,
@@ -8,7 +7,22 @@ module.exports = {
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:@next/next/recommended',
     'plugin:prettier/recommended',
+  ],
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
+  overrides: [
+    {
+      // 루트 설정 파일(next.config.js, .eslintrc.js 등)은 Node(CommonJS)에서 실행됨
+      files: ['*.js'],
+      env: {
+        node: true,
+      },
+    },
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -31,6 +45,8 @@ module.exports = {
       },
     ],
     'no-unused-vars': 'off',
+    // props 타입은 TypeScript로 검사하므로 런타임 PropTypes 검사는 불필요
+    'react/prop-types': 'off',
     'unused-imports/no-unused-imports': 2,
     'unused-imports/no-unused-vars': 1,
   },

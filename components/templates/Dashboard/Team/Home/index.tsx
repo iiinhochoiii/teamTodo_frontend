@@ -1,24 +1,31 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { DashboardCard } from '@/components/organisms';
+import { ContentCardSkeleton } from '@/components/molecules';
 import * as S from './style';
-import { useRouter } from 'next/router';
+import useTeamName from '@/hooks/useTeamName';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
-import useContentByTeamListData from '@/hooks/queries/content/useContentByTeamListData';
-import useContentMutation from '@/hooks/queries/content/useContentMutation';
+import useContentByTeamListData from '@/queries/content/useContentByTeamListData';
+import useContentMutation from '@/queries/content/useContentMutation';
 import { groupContent } from '@/utils/contents';
 
 const TeamHomeComponent = () => {
-  const router = useRouter();
+  const teamName = useTeamName();
   const { removeMutation, updateMutation } = useContentMutation();
 
-  const { data, hasNextPage, isFetching, fetchNextPage, refetch } =
-    useContentByTeamListData({
-      pageSize: 10,
-      teamName: String(router.query.id),
-      options: {
-        enabled: !!router.query.id,
-      },
-    });
+  const {
+    data,
+    hasNextPage,
+    isFetching,
+    isLoading,
+    isFetchingNextPage,
+    fetchNextPage,
+  } = useContentByTeamListData({
+    pageSize: 10,
+    teamName,
+    options: {
+      enabled: !!teamName,
+    },
+  });
 
   const contents = useMemo(
     () => (data ? data.pages.flatMap((data) => data.contents.data) : []),
@@ -32,9 +39,13 @@ const TeamHomeComponent = () => {
     }
   });
 
-  useEffect(() => {
-    refetch();
-  }, [router]);
+  if (isLoading) {
+    return (
+      <S.Container>
+        <ContentCardSkeleton />
+      </S.Container>
+    );
+  }
 
   if (!data) return <></>;
 
@@ -49,6 +60,14 @@ const TeamHomeComponent = () => {
             <DashboardCard
               key={item.id}
               item={item}
+              pending={
+                removeMutation.isLoading && removeMutation.variables === item.id
+                  ? 'remove'
+                  : updateMutation.isLoading &&
+                    updateMutation.variables?.id === item.id
+                  ? 'update'
+                  : undefined
+              }
               remove={(id: number) => {
                 if (window.confirm('작성하신 내용을 삭제하시겠습니까?')) {
                   removeMutation.mutate(id);
@@ -63,6 +82,7 @@ const TeamHomeComponent = () => {
           ))}
         </div>
       ))}
+      {isFetchingNextPage && <ContentCardSkeleton count={1} withDate={false} />}
       {hasNextPage && <div ref={ref} />}
     </S.Container>
   );

@@ -1,4 +1,4 @@
-import { Content } from '@/interfaces/models/content';
+import { Content } from '@/types/content';
 
 export const groupContent = (contents: Content[]) => {
   const groupData = contents.reduce(
