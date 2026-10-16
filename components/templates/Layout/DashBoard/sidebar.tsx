@@ -14,6 +14,7 @@ import { EMPTY_TEAM_MASKCOT } from '@/constants/emoji';
 import useTeamsData from '@/queries/team/useTeamsData';
 import { useUserStore } from '@/stores/useUserStore';
 import MenuIcon from '@mui/icons-material/Menu';
+import { useQueryClient } from 'react-query';
 import useTeamName from '@/hooks/useTeamName';
 import { SidebarTeamSkeleton } from '@/components/molecules';
 
@@ -26,7 +27,15 @@ const DashboardSidebar = (props: Props) => {
   const teamName = useTeamName();
   const { data, isLoading } = useTeamsData();
   const { logout } = useUserStore();
+  const queryClient = useQueryClient();
   const { isOpenSide, setIsOpenSide } = props;
+
+  const signOut = () => {
+    logout();
+    queryClient.clear();
+    // 새로고침 이동으로 메모리에 남은 상태(react-query·zustand·Next 라우터 캐시)를 모두 초기화
+    window.location.replace('/auth/signin');
+  };
 
   return (
     <S.StyledSidebar isOpenMenu={isOpenSide}>
@@ -102,14 +111,7 @@ const DashboardSidebar = (props: Props) => {
           </S.TeamDirectoryWrap>
         </List>
         <S.SidebarFooterWrap className="side-footer">
-          <Button
-            onClick={() => {
-              logout();
-              router.push('/auth/signin');
-            }}
-          >
-            Sign out
-          </Button>
+          <Button onClick={signOut}>Sign out</Button>
         </S.SidebarFooterWrap>
       </S.StyledSidearContent>
     </S.StyledSidebar>

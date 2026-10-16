@@ -90,6 +90,11 @@ const useUserMutation = () => {
         if (status) {
           setToken(token);
 
+          // 이전 계정의 데이터가 남지 않도록 react-query 캐시와 Next 라우터 캐시를 비운 뒤 이동
+          // (로그아웃 없이 다른 계정으로 로그인하는 경우 대비)
+          queryClient.clear();
+          router.refresh();
+
           const redirect = searchParams.get('redirect');
           if (redirect) {
             router.push(redirect);
