@@ -6,6 +6,8 @@ import useTeamName from '@/hooks/useTeamName';
 import * as queryKeys from '@/constants/queryKeys';
 import { AxiosError } from 'axios';
 import { waitForPaint } from '@/utils/paint';
+import { Team } from '@/types/team';
+import { teamDetailQueryKey } from './useTeamDetailData';
 
 const useTeamMutation = (isRefresh?: boolean) => {
   const [isValid, setIsValid] = useState(false);
@@ -13,6 +15,27 @@ const useTeamMutation = (isRefresh?: boolean) => {
   const pathname = usePathname();
   const teamName = useTeamName();
   const queryClient = useQueryClient();
+
+  // 팀 상세·팀 글 목록 캐시는 팀 이름을 키로 쓰므로, 팀이 삭제되거나 이름이 바뀌면 이전 이름의 캐시가 남음.
+  // 이후 같은 이름의 팀이 생기면 이전 팀의 데이터가 잠깐 보일 수 있어 제거
+  // (팀 목록 갱신 전에 호출해야 id 로 이전 이름을 찾을 수 있음.
+  //  지금 화면에서 쓰는 캐시는 제거하면 바로 다시 요청하므로 제외 → 화면을 벗어나면 cacheTime 후 정리됨)
+  const removeTeamNameCache = (teamId: number) => {
+    const teamName = queryClient
+      .getQueryData<Team[]>(queryKeys.TEAM_DATA)
+      ?.find((team) => team.id === teamId)?.name;
+
+    if (!teamName) return;
+
+    queryClient.removeQueries(teamDetailQueryKey(teamName), {
+      exact: true,
+      inactive: true,
+    });
+    queryClient.removeQueries([queryKeys.CONTENT_DATA, teamName], {
+      exact: true,
+      inactive: true,
+    });
+  };
 
   const checkTeamMutation = useMutation(
     (name: string) => teamService.checkTeam(name),
@@ -65,10 +88,11 @@ const useTeamMutation = (isRefresh?: boolean) => {
     (id: number) => teamService.deleteTeam(id),
     {
       // 목록에서 사라진 것을 확인한 뒤 알림 (onSuccess 동안 pending 유지)
-      onSuccess: async (data) => {
+      onSuccess: async (data, id) => {
         const { result, message } = data;
 
         if (result) {
+          removeTeamNameCache(id);
           await queryClient.invalidateQueries(queryKeys.TEAM_DATA);
           await waitForPaint();
         }
@@ -91,9 +115,12 @@ const useTeamMutation = (isRefresh?: boolean) => {
     {
       // 팀 목록 재조회까지 끝난 뒤 완료 처리 (onSuccess 가 끝날 때까지 mutation 은 pending 유지)
       // → 모달이 닫힐 때 WorkSpace 목록이 이미 최신 상태
-      onSuccess: async (response) => {
+      onSuccess: async (response, params) => {
         const { message, data } = response;
 
+        if (params.name) {
+          removeTeamNameCache(params.id);
+        }
         await queryClient.invalidateQueries(queryKeys.TEAM_DATA);
         await waitForPaint();
         alert(message || '정보가 변경되었습니다.');
@@ -154,11 +181,12 @@ const useTeamMutation = (isRefresh?: boolean) => {
   const unSubscribeMutation = useMutation(
     (teamId: number) => teamService.unSubscribe(teamId),
     {
-      onSuccess: (data) => {
+      onSuccess: (data, teamId) => {
         const { result, message } = data;
 
         alert(message || '팀에서 나가기가 완료 되었습니다.');
         if (result) {
+          removeTeamNameCache(teamId);
           queryClient.invalidateQueries(queryKeys.TEAM_DATA);
           router.push('/dashboard/team/directory');
         }

@@ -24,8 +24,24 @@ const useUserMutation = () => {
     {
       // 내 정보 재조회까지 끝난 뒤 알림 (onSuccess 가 끝날 때까지 mutation 은 pending 유지)
       // → 프로필 이모지 등 변경 결과가 화면에 반영된 상태에서 완료 처리
-      onSuccess: async (res) => {
+      onSuccess: async (res, params) => {
         if (res.result) {
+          // 비밀번호만 바꾼 경우 화면에 보이는 정보는 그대로라 다른 목록은 갱신하지 않음
+          const isPasswordOnly = Object.keys(params).every(
+            (key) => key === 'password'
+          );
+
+          if (!isPasswordOnly) {
+            // 팀 멤버 목록(teams)과 글 목록(contents)에도 사용자 이름·이모지 등이 포함되어 있으므로 함께 갱신.
+            // 지금 화면에 없는 캐시도 바로 다시 받아와서, 다른 화면으로 이동했을 때 이전 정보가 보이지 않도록 함
+            queryClient.invalidateQueries(queryKeys.TEAM_DATA, {
+              refetchInactive: true,
+            });
+            queryClient.invalidateQueries(queryKeys.CONTENT_DATA, {
+              refetchInactive: true,
+            });
+          }
+
           await queryClient.invalidateQueries(queryKeys.USER_DATA);
           await waitForPaint();
           alert(res?.message || '정보가 변경되었습니다.');
