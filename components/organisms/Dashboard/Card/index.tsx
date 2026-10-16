@@ -7,14 +7,15 @@ import {
   Flex,
   FormTextarea,
   Button,
+  PendingBar,
 } from '@/components/atoms';
 import { Menu } from '@/components/molecules';
-import MoreHoriz from '@material-ui/icons/MoreHoriz';
-import AddIcon from '@material-ui/icons/Add';
+import MoreHoriz from '@mui/icons-material/MoreHoriz';
+import AddIcon from '@mui/icons-material/Add';
 import { Dialog } from '@/components/organisms';
 import { useForm } from 'react-hook-form';
 import DialogActions from '@mui/material/DialogActions';
-import { Content } from '@/interfaces/models/content';
+import { Content } from '@/types/content';
 import dayjs from 'dayjs';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useUserStore } from '@/stores/useUserStore';
@@ -24,10 +25,11 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 
   remove?: (id: number) => void;
   update?: (data: { id: number; plan: string[]; happend: string[] }) => void;
+  pending?: S.CardPending; // PUT /contents(update) · DELETE /contents/{id}(remove) 요청 중 여부
 }
 
 const Card = (props: Props) => {
-  const { item, remove, update } = props;
+  const { item, remove, update, pending } = props;
   const [isOpen, setIsOpen] = useState(false); // 메뉴 open값
   const [isOpenItem, setIsOpenItem] = useState(false); // addiItem에 대한 값
   const [isCreateDialog, setIsCreateDialog] = useState(false); // item 생성 다이어로그
@@ -93,7 +95,16 @@ const Card = (props: Props) => {
   };
 
   return (
-    <S.StyledCard>
+    <S.StyledCard $pending={pending} aria-busy={!!pending}>
+      {pending && (
+        <S.PendingBarWrap className="card-pending-bar">
+          {/* 래퍼가 overflow 로 모서리를 잘라내므로 바는 래퍼 안에서 일반 흐름으로 배치 */}
+          <PendingBar
+            color={pending === 'remove' ? 'red' : 'purple'}
+            style={{ position: 'relative' }}
+          />
+        </S.PendingBarWrap>
+      )}
       <S.StyledCardHeader>
         <Box width="30px">
           <S.CardBadge>
@@ -124,6 +135,7 @@ const Card = (props: Props) => {
                     </Box>
                     <Box
                       onClick={() => {
+                        setIsOpen(false);
                         if (remove) {
                           remove(item.id);
                         }
@@ -138,6 +150,11 @@ const Card = (props: Props) => {
           </Flex>
           <Text font={{ size: 'XS' }} color="gray">
             {dayjs(item.createdAt).format('YYYY-MM-DD HH:mm:ss')}
+            {pending && (
+              <S.PendingText $pending={pending}>
+                {pending === 'remove' ? '삭제 중...' : '업데이트 중...'}
+              </S.PendingText>
+            )}
           </Text>
         </Box>
       </S.StyledCardHeader>

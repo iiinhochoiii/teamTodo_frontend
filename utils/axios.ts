@@ -1,11 +1,8 @@
 import Axios from 'axios';
 import { getToken } from './token';
-import { getProtocolHost } from './env';
-
-const baseURL = getProtocolHost();
 
 const axiosInstance = Axios.create({
-  baseURL: baseURL,
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',

@@ -6,9 +6,9 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { IEmojiData } from 'emoji-picker-react';
 import { Button } from '@/components/atoms';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-import useUsersData from '@/hooks/queries/user/useUsersData';
-import useUserMutation from '@/hooks/queries/user/useUserMutation';
+import { usePathname } from 'next/navigation';
+import useUsersData from '@/queries/user/useUsersData';
+import useUserMutation from '@/queries/user/useUserMutation';
 
 const Picker = dynamic(() => import('emoji-picker-react'), { ssr: false });
 
@@ -18,7 +18,7 @@ const ProfileTabHeader = () => {
 
   const [isEmoji, setIsEmoji] = useState(false);
   const [emojiData, setEmojiData] = useState<IEmojiData>();
-  const router = useRouter();
+  const pathname = usePathname();
 
   const onEmojiClick = (
     _: React.MouseEvent<Element, MouseEvent>,
@@ -101,12 +101,10 @@ const ProfileTabHeader = () => {
         <S.InfoWrap>
           <S.InfoHeader>
             <Link href="/dashboard/profile/information">
-              <a>
-                <div>
-                  <p>Information</p>
-                </div>
-                <ArrowForwardIosIcon />
-              </a>
+              <div>
+                <p>Information</p>
+              </div>
+              <ArrowForwardIosIcon />
             </Link>
           </S.InfoHeader>
           <S.InfoContent isNotBorder={true}>
@@ -129,12 +127,10 @@ const ProfileTabHeader = () => {
         <S.InfoWrap>
           <S.InfoHeader>
             <Link href="/dashboard/profile/password">
-              <a>
-                <div>
-                  <p>Password</p>
-                </div>
-                <ArrowForwardIosIcon />
-              </a>
+              <div>
+                <p>Password</p>
+              </div>
+              <ArrowForwardIosIcon />
             </Link>
           </S.InfoHeader>
           <S.InfoContent isNotBorder={true}>
@@ -143,17 +139,11 @@ const ProfileTabHeader = () => {
         </S.InfoWrap>
       </S.Content>
       <S.TabWrap>
-        <li
-          className={router.pathname.includes('/information') ? 'isRouted' : ''}
-        >
-          <Link href="/dashboard/profile/information">
-            <a>Information</a>
-          </Link>
+        <li className={pathname.includes('/information') ? 'isRouted' : ''}>
+          <Link href="/dashboard/profile/information">Information</Link>
         </li>
-        <li className={router.pathname.includes('/password') ? 'isRouted' : ''}>
-          <Link href="/dashboard/profile/password">
-            <a>password</a>
-          </Link>
+        <li className={pathname.includes('/password') ? 'isRouted' : ''}>
+          <Link href="/dashboard/profile/password">password</Link>
         </li>
       </S.TabWrap>
     </S.Container>

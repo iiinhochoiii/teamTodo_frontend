@@ -1,7 +1,12 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { palette, theme } from 'styled-tools';
 
-export const StyledWrap = styled.article<{ isMe?: boolean }>`
+export const StyledWrap = styled.article<{
+  isMe?: boolean;
+  $isRemoving?: boolean;
+}>`
+  position: relative;
+  overflow: hidden;
   width: 48.5%;
   border: 1px solid
     ${(props) => (props.isMe ? palette('purple') : palette('lightgray'))};
@@ -11,6 +16,30 @@ export const StyledWrap = styled.article<{ isMe?: boolean }>`
   @media screen and (max-width: 900px) {
     width: 100%;
   }
+
+  & > header,
+  & > section {
+    transition: opacity 0.2s ease;
+  }
+
+  ${(props) =>
+    props.$isRemoving &&
+    css`
+      border-color: ${palette('red')(props)};
+
+      & > header,
+      & > section {
+        opacity: 0.35;
+        pointer-events: none;
+      }
+    `}
+`;
+
+export const RemovingText = styled.span`
+  margin: 0 0 0 8px;
+  font-size: ${theme('font.size.XS')};
+  font-weight: 400;
+  color: ${palette('red')};
 `;
 
 export const StyledHeader = styled.header`

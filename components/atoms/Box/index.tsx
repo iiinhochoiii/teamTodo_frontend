@@ -7,18 +7,14 @@ export interface Props extends InputHTMLAttributes<HTMLDivElement> {
   sx?: React.CSSProperties;
 }
 
-const Box = (props: Props) => {
+const Box = ({ width = '100%', ...props }: Props) => {
   const { children, sx } = props;
 
   return (
-    <S.StyledBox {...props} style={sx}>
+    <S.StyledBox {...props} width={width} style={sx}>
       {children}
     </S.StyledBox>
   );
-};
-
-Box.defaultProps = {
-  width: '100%',
 };
 
 export default Box;

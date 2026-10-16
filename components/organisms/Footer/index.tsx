@@ -1,13 +1,13 @@
 import React from 'react';
 import { Box, Text, Link } from '@/components/atoms';
-import GitHubIcon from '@material-ui/icons/GitHub';
+import GitHubIcon from '@mui/icons-material/GitHub';
 import * as S from './style';
 
 const Footer = () => {
   return (
     <S.StyledFooter>
       <S.StyledFooterContent>
-        <Box>
+        <Box width="auto">
           <Text font={{ size: 'XS', weight: 200 }}>
             본 웹사이트는 개인 프로젝트 목적으로 제작되었습니다.
           </Text>
@@ -19,11 +19,11 @@ const Footer = () => {
             Copyright © 2023 by Team Todo, Inc. All rights reserved
           </Text>
         </Box>
-        <Box>
+        <S.StyledFooterIconWrap>
           <Link href="https://github.com/dlsgh120/teamTodo_frontend">
             <GitHubIcon />
           </Link>
-        </Box>
+        </S.StyledFooterIconWrap>
       </S.StyledFooterContent>
     </S.StyledFooter>
   );

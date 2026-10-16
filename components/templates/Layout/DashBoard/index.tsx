@@ -3,8 +3,7 @@ import DashboardSidebar from './sidebar';
 import { DashboardHeader } from '@/components/organisms';
 import { Flex } from '@/components/atoms';
 import * as S from './style';
-import { useRouter } from 'next/router';
-import Head from 'next/head';
+import { usePathname } from 'next/navigation';
 
 interface Props {
   children?: React.ReactNode;
@@ -12,17 +11,18 @@ interface Props {
   header?: React.ReactNode;
 }
 
+// <title> 은 각 app/dashboard/**/page.tsx 의 metadata 에서 지정
 const MiniDrawer = (props: Props) => {
   const { children, title, header } = props;
   const [path, setPath] = useState(title || 'Home');
 
   const [isOpenSide, setIsOpenSide] = useState(true);
 
-  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     if (!title) {
-      const url = router.pathname.replace('/dashboard', '');
+      const url = pathname.replace('/dashboard', '');
 
       if (url) {
         const text = url.replaceAll('/', '');
@@ -31,13 +31,10 @@ const MiniDrawer = (props: Props) => {
         setPath('Home');
       }
     }
-  }, [router]);
+  }, [pathname, title]);
 
   return (
     <Flex>
-      <Head>
-        <title>{path ? `${path} | TeamTodo` : 'Team Todo'}</title>
-      </Head>
       <DashboardSidebar isOpenSide={isOpenSide} setIsOpenSide={setIsOpenSide} />
       <S.StyledContainer isOpenMenu={isOpenSide}>
         <DashboardHeader title={path} header={header} />

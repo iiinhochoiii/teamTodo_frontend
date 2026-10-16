@@ -2,7 +2,7 @@ import React from 'react';
 import * as S from './style';
 import { Form, FormInput, FormSubmit } from '@/components/atoms';
 import { useForm } from 'react-hook-form';
-import useUserMutation from '@/hooks/queries/user/useUserMutation';
+import useUserMutation from '@/queries/user/useUserMutation';
 
 interface FormProps {
   password: string;

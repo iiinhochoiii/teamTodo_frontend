@@ -1,13 +1,22 @@
 import React, { useState } from 'react';
-import CloseIcon from '@material-ui/icons/Close';
+import CloseIcon from '@mui/icons-material/Close';
 import * as S from './style';
-import { Button, Text, Form, FormSubmit, Flex, Box } from '@/components/atoms';
+import {
+  Button,
+  Text,
+  Form,
+  FormSubmit,
+  Flex,
+  Box,
+  PendingBar,
+  PendingLabel,
+} from '@/components/atoms';
 import { useForm } from 'react-hook-form';
-import { Team } from '@/interfaces/models/team';
+import { Team } from '@/types/team';
 import { EMPTY_TEAM_MASKCOT } from '@/constants/emoji';
 import { IEmojiData } from 'emoji-picker-react';
 import dynamic from 'next/dynamic';
-import useTeamMutation from '@/hooks/queries/team/useTeamMutation';
+import useTeamMutation from '@/queries/team/useTeamMutation';
 
 const Picker = dynamic(() => import('emoji-picker-react'), { ssr: false });
 
@@ -30,6 +39,11 @@ const EditDialog = (props: Props) => {
   const { isValid, checkTeamMutation, deleteMutation, updateTeamMutation } =
     useTeamMutation(isRefresh);
 
+  const isChecking = checkTeamMutation.isLoading;
+  const isSaving = updateTeamMutation.isLoading;
+  const isDeleting = deleteMutation.isLoading;
+  const isPending = isSaving || isDeleting;
+
   const { register, handleSubmit, reset, watch } = useForm<FormType>({
     defaultValues: {
       teamName: team.name,
@@ -38,7 +52,15 @@ const EditDialog = (props: Props) => {
     },
   });
 
+  // 저장·삭제 중에는 바깥 클릭·닫기 버튼으로 닫히지 않도록 함
+  const closeDialog = () => {
+    if (isPending) return;
+    setIsOpen(false);
+  };
+
   const submitHandler = (form: FormType) => {
+    if (isPending || isChecking) return;
+
     const { teamName, maskcot, description } = form;
     let validate;
 
@@ -59,8 +81,10 @@ const EditDialog = (props: Props) => {
         description: description,
         ...(team.name !== teamName && { name: teamName }),
       };
-      updateTeamMutation.mutate(params);
-      setIsOpen(false);
+      // 팀 목록 재조회까지 끝난 뒤 닫힘 (useTeamMutation 의 onSuccess 이후 실행)
+      updateTeamMutation.mutate(params, {
+        onSuccess: () => setIsOpen(false),
+      });
     } else {
       alert('팀 이름 중복확인이 되지 않았습니다.');
     }
@@ -78,14 +102,16 @@ const EditDialog = (props: Props) => {
   };
 
   return (
-    <S.StyledDialog onClose={() => setIsOpen(false)} open={isOpen}>
+    <S.StyledDialog onClose={closeDialog} open={isOpen}>
+      {isPending && <PendingBar color={isDeleting ? 'red' : 'purple'} />}
       <S.StyledDialogTitleWrap>
         <S.Title>Edit team</S.Title>
         <Text font={{ size: 'S', weight: '400' }} color="gray">
           Change team info for your organization
         </Text>
         <Button
-          onClick={() => setIsOpen(false)}
+          onClick={closeDialog}
+          disabled={isPending}
           background="white"
           font={{ color: 'gray' }}
           size="S"
@@ -99,19 +125,29 @@ const EditDialog = (props: Props) => {
         </Button>
       </S.StyledDialogTitleWrap>
       <Form onSubmit={handleSubmit(submitHandler)}>
-        <S.StyledDialogContentWrap>
+        <S.StyledDialogContentWrap $isPending={isPending} aria-busy={isPending}>
           <Text sx={{ margin: '0 0 15px 0' }}>Team name</Text>
           <Flex>
             <S.StyledContentTeamName {...register('teamName')} />
             {team.name !== watch('teamName') && (
               <Button
-                sx={{ margin: '0 0 0 15px', height: '45px' }}
+                sx={{
+                  margin: '0 0 0 15px',
+                  height: '45px',
+                  ...(isChecking && { opacity: 0.7, cursor: 'progress' }),
+                }}
                 background="purple"
+                disabled={isChecking}
+                aria-busy={isChecking}
                 onClick={() => {
                   checkTeamMutation.mutate(watch('teamName'));
                 }}
               >
-                중복확인
+                {isChecking ? (
+                  <PendingLabel>확인 중...</PendingLabel>
+                ) : (
+                  '중복확인'
+                )}
               </Button>
             )}
           </Flex>
@@ -143,15 +179,30 @@ const EditDialog = (props: Props) => {
           <S.StyledContentTextarea {...register('description')} />
         </S.StyledDialogContentWrap>
         <S.StyledDialogFooterWrap>
-          <FormSubmit type="submit" value="Save" />
+          <FormSubmit
+            type="submit"
+            value={isSaving ? '저장 중...' : 'Save'}
+            disabled={isPending || isChecking}
+            aria-busy={isSaving}
+          />
           <Button
+            disabled={isPending}
+            aria-busy={isDeleting}
+            sx={isDeleting ? { cursor: 'progress' } : undefined}
             onClick={() => {
               if (window.confirm('삭제 하시겠습니까?')) {
-                deleteMutation.mutate(team.id);
+                // 목록 재조회 후 이 카드(와 모달)가 목록에서 사라짐
+                deleteMutation.mutate(team.id, {
+                  onSuccess: () => setIsOpen(false),
+                });
               }
             }}
           >
-            Delete team
+            {isDeleting ? (
+              <PendingLabel color="#d72b3f">삭제 중...</PendingLabel>
+            ) : (
+              'Delete team'
+            )}
           </Button>
         </S.StyledDialogFooterWrap>
       </Form>

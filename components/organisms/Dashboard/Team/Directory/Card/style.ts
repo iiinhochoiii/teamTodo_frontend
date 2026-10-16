@@ -1,8 +1,24 @@
-import styled from 'styled-components';
+import Link from 'next/link';
+import styled, { css } from 'styled-components';
 import { palette, theme } from 'styled-tools';
 
-export const Content = styled.div`
+export const Content = styled.div<{ $isDeleting?: boolean }>`
   margin: 50px 0 0 0;
+  transition: opacity 0.2s ease;
+
+  ${(props) =>
+    props.$isDeleting &&
+    css`
+      opacity: 0.5;
+      pointer-events: none;
+    `}
+`;
+
+export const DeletingText = styled.span`
+  margin: 0 0 0 10px;
+  font-size: ${theme('font.size.XS')};
+  font-weight: 400;
+  color: ${palette('red')};
 `;
 
 export const DirectoryItem = styled.div`
@@ -27,7 +43,7 @@ export const ItemBadgeWrap = styled.div`
   }
 `;
 
-export const ItemInfoWrap = styled.a`
+export const ItemInfoWrap = styled(Link)`
   cursor: pointer;
   margin: 0 0 0 30px;
   max-width: 500px;

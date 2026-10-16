@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import * as S from './style';
 import { Form, FormInput, FormSubmit } from '@/components/atoms';
 import { useForm } from 'react-hook-form';
-import useUserMutation from '@/hooks/queries/user/useUserMutation';
-import useUsersData from '@/hooks/queries/user/useUsersData';
+import useUserMutation from '@/queries/user/useUserMutation';
+import useUsersData from '@/queries/user/useUsersData';
 
 interface FormProps {
   email: string;

@@ -1,5 +1,5 @@
-import create from 'zustand';
-import { User } from '@/interfaces/models/user';
+import { create } from 'zustand';
+import { User } from '@/types/user';
 import { removeToken } from '@/utils/token';
 
 export interface UserState {

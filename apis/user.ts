@@ -1,5 +1,5 @@
 import axios from '@/utils/axios';
-import { User, UserParams } from '@/interfaces/models/user';
+import { User, UserParams } from '@/types/user';
 
 export const getMy = async (token?: string): Promise<User> => {
   const res = await axios.get('/users/my', {

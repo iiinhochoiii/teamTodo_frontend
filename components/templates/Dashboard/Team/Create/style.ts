@@ -1,10 +1,24 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { palette, theme } from 'styled-tools';
 
-export const Container = styled.div`
+export const Container = styled.div<{ $isPending?: boolean }>`
+  position: relative;
   padding: 50px 0 0 0;
   width: 50%;
   margin: 0 auto;
+
+  .team-create-form {
+    transition: opacity 0.2s ease;
+  }
+
+  ${(props) =>
+    props.$isPending &&
+    css`
+      .team-create-form {
+        opacity: 0.5;
+        pointer-events: none;
+      }
+    `}
 
   @media screen and (max-width: 900px) {
     width: 90%;
@@ -46,6 +60,11 @@ export const ContentItem = styled.div`
       cursor: pointer;
       font-size: ${theme('font.size.S')};
       font-weight: 500;
+
+      &:disabled {
+        cursor: progress;
+        opacity: 0.6;
+      }
     }
   }
 

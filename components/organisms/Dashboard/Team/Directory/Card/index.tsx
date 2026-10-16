@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { Text, Flex, Button } from '@/components/atoms';
+import { Text, Flex, Button, PendingLabel } from '@/components/atoms';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import Link from 'next/link';
 import * as S from './style';
-import { Team } from '@/interfaces/models/team';
+import { Team } from '@/types/team';
 import EditDialog from '@/components/templates/Dashboard/Team/Directory/Dialog/edit';
 import { EMPTY_TEAM_MASKCOT } from '@/constants/emoji';
 import { useUserStore } from '@/stores/useUserStore';
@@ -11,49 +10,55 @@ import { useUserStore } from '@/stores/useUserStore';
 interface Props {
   team: Team;
   deleteTeam: (id: number) => void;
+  isDeleting?: boolean; // DELETE /teams/{id} 요청 중 (목록 재조회까지)
 }
 const TeamDirectoryCard = (props: Props) => {
-  const { team, deleteTeam } = props;
+  const { team, deleteTeam, isDeleting } = props;
   const { user } = useUserStore();
   const [isMenu, setIsMenu] = useState(false);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
 
   return (
-    <S.Content key={team.id}>
+    <S.Content key={team.id} $isDeleting={isDeleting} aria-busy={!!isDeleting}>
       <S.DirectoryItem>
         <S.ItemBadgeWrap>
           <span>{team?.maskcot || EMPTY_TEAM_MASKCOT}</span>
         </S.ItemBadgeWrap>
-        <Link href={`/dashboard/team/${team.name}/home`}>
-          <S.ItemInfoWrap>
-            <h4>{team.name}</h4>
-            <Text font={{ size: 'M', weight: 300 }}>
-              {team.members.length} members
+        <S.ItemInfoWrap href={`/dashboard/team/${team.name}/home`}>
+          <h4>
+            {team.name}
+            {isDeleting && (
+              <S.DeletingText>
+                <PendingLabel color="#d72b3f">삭제 중...</PendingLabel>
+              </S.DeletingText>
+            )}
+          </h4>
+          <Text font={{ size: 'M', weight: 300 }}>
+            {team.members.length} members
+          </Text>
+          {team.description ? (
+            <Text className="team-diriectory-description">
+              {team.description}
             </Text>
-            {team.description ? (
-              <Text className="team-diriectory-description">
-                {team.description}
+          ) : team.members.find((m) => m.user_id === user?.id)?.role ===
+            'owner' ? (
+            <Flex>
+              <Text font={{ size: 'M', weight: 300 }} sx={{ margin: 'auto' }}>
+                What does this team do?
               </Text>
-            ) : team.members.find((m) => m.user_id === user?.id)?.role ===
-              'owner' ? (
-              <Flex>
-                <Text font={{ size: 'M', weight: 300 }} sx={{ margin: 'auto' }}>
-                  What does this team do?
-                </Text>
-                <Button
-                  onClick={(
-                    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-                  ) => {
-                    e.preventDefault();
-                    setIsOpenEdit(true);
-                  }}
-                >
-                  Add Description
-                </Button>
-              </Flex>
-            ) : null}
-          </S.ItemInfoWrap>
-        </Link>
+              <Button
+                onClick={(
+                  e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+                ) => {
+                  e.preventDefault();
+                  setIsOpenEdit(true);
+                }}
+              >
+                Add Description
+              </Button>
+            </Flex>
+          ) : null}
+        </S.ItemInfoWrap>
         <S.ItemAuthWrap>
           <Button sx={{ borderRadius: '10px 0 0 10px' }} disabled>
             {team.members.find((m) => m.user_id === user?.id)?.role}

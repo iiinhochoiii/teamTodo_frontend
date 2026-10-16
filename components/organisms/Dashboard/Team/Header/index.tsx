@@ -1,39 +1,42 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import * as S from './style';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import Link from 'next/link';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { Flex, Text, Box } from '@/components/atoms';
-import { useRouter } from 'next/router';
+import { TeamHeaderSkeleton } from '@/components/molecules';
+import { usePathname } from 'next/navigation';
+import useTeamName from '@/hooks/useTeamName';
 import EditDialog from '@/components/templates/Dashboard/Team/Directory/Dialog/edit';
-import { useQuery } from 'react-query';
-import { getTeamsByName } from '@/apis/team';
+import useTeamDetailData from '@/queries/team/useTeamDetailData';
 import { EMPTY_TEAM_MASKCOT } from '@/constants/emoji';
 import { useUserStore } from '@/stores/useUserStore';
-import useTeamMutation from '@/hooks/queries/team/useTeamMutation';
+import useTeamMutation from '@/queries/team/useTeamMutation';
+import { safeDecodeURIComponent } from '@/utils/url';
 
 const TeamHeader = () => {
-  const router = useRouter();
+  const pathname = usePathname();
+  const teamName = useTeamName();
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const { user } = useUserStore();
   const { unSubscribeMutation } = useTeamMutation();
 
-  const { data, refetch } = useQuery('teamDetail', () =>
-    getTeamsByName(String(router.query.id))
-  );
-
-  useEffect(() => {
-    refetch();
-  }, [router.query.id]);
+  const { data, isLoading } = useTeamDetailData(teamName);
 
   const menu = [
-    { id: 1, href: `/dashboard/team/${router.query.id}/home`, name: 'home' },
+    { id: 1, href: `/dashboard/team/${teamName}/home`, name: 'home' },
     {
       id: 2,
-      href: `/dashboard/team/${router.query.id}/members`,
+      href: `/dashboard/team/${teamName}/members`,
       name: 'members',
     },
   ];
+  // usePathname 은 인코딩된 경로를 반환하므로 디코딩 후 비교
+  const currentPath = safeDecodeURIComponent(pathname);
+
+  if (isLoading) {
+    return <TeamHeaderSkeleton />;
+  }
 
   if (!data) {
     return <></>;
@@ -57,12 +60,12 @@ const TeamHeader = () => {
   return (
     <React.Fragment>
       <Flex>
-        <Link href="/dashboard/team/directory">
-          <a style={{ fontSize: '14px' }}>{user?.name}’s Workspace</a>
+        <Link href="/dashboard/team/directory" style={{ fontSize: '14px' }}>
+          {user?.name}’s Workspace
         </Link>
         <ChevronRightIcon />
         <Text font={{ size: 'S', weight: 700 }} width="100%">
-          {router.query.id}
+          {teamName}
         </Text>
       </Flex>
       <Flex sx={{ margin: '15px 0' }}>
@@ -73,7 +76,7 @@ const TeamHeader = () => {
           sx={{ margin: 'auto 0 auto 10px' }}
           font={{ size: 'L', weight: 500 }}
         >
-          {router.query.id}
+          {teamName}
         </Text>
         {user?.id === data.creatorUserId && (
           <Flex sx={{ margin: '17px 0 auto 15px', cursor: 'pointer' }}>
@@ -96,26 +99,24 @@ const TeamHeader = () => {
       </Flex>
       <S.LinkWrap>
         {menu.map((item) => (
-          <Link key={item.id} href={item.href}>
-            <a
+          <Link
+            key={item.id}
+            href={item.href}
+            style={
+              item.href === currentPath
+                ? { borderBottom: '2px solid #4848d3' }
+                : undefined
+            }
+          >
+            <span
               style={
-                item.href ===
-                router.pathname.replace('[id]', String(router.query.id))
-                  ? { borderBottom: '2px solid #4848d3' }
+                item.href === currentPath
+                  ? { backgroundColor: '#ededff' }
                   : undefined
               }
             >
-              <span
-                style={
-                  item.href ===
-                  router.pathname.replace('[id]', String(router.query.id))
-                    ? { backgroundColor: '#ededff' }
-                    : undefined
-                }
-              >
-                {item.name}
-              </span>
-            </a>
+              {item.name}
+            </span>
           </Link>
         ))}
       </S.LinkWrap>

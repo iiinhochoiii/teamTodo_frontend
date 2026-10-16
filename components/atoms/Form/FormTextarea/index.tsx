@@ -1,7 +1,7 @@
-import React, { HTMLAttributes, forwardRef } from 'react';
+import React, { TextareaHTMLAttributes, forwardRef } from 'react';
 import * as S from './style';
 
-export interface Props extends HTMLAttributes<HTMLTextAreaElement> {
+export interface Props extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   readonly?: boolean;
   font?: {
     size?: string;

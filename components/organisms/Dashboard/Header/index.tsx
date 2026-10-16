@@ -1,9 +1,9 @@
 import React from 'react';
 import * as S from './style';
 import { Box } from '@/components/atoms';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import useUsersData from '@/hooks/queries/user/useUsersData';
+import useUsersData from '@/queries/user/useUsersData';
 
 interface Props {
   title?: string;

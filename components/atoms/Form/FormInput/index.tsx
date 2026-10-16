@@ -1,7 +1,7 @@
-import React, { HTMLAttributes, forwardRef } from 'react';
+import React, { InputHTMLAttributes, forwardRef } from 'react';
 import * as S from './style';
 
-export interface Props extends HTMLAttributes<HTMLInputElement> {
+export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   style?: React.CSSProperties;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;

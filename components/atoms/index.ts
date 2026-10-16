@@ -1,3 +1,5 @@
+'use client';
+
 export { default as Box } from './Box';
 export { default as Flex } from './Flex';
 export { default as Section } from './Section';
@@ -10,3 +12,5 @@ export { default as FormSubmit } from './Form/FormSubmit';
 export { default as FormTextarea } from './Form/FormTextarea';
 export { default as HRBox } from './HRBox';
 export { default as AddIcon } from './AddIcon';
+export { default as PendingBar } from './PendingBar';
+export { default as PendingLabel } from './PendingLabel';

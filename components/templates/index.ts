@@ -1,3 +1,5 @@
+'use client';
+
 export { default as HomeTemplates } from './Layout/home';
 export { default as AuthTemplates } from './Layout/Auth';
 export { default as DashboardTemplates } from './Layout/DashBoard';

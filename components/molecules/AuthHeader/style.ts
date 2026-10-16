@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styled from 'styled-components';
 import { theme } from 'styled-tools';
 
@@ -18,7 +19,7 @@ export const StyledAuthHeaderContent = styled.div`
   display: flex;
 `;
 
-export const StyledAuthHeaderLink = styled.a`
+export const StyledAuthHeaderLink = styled(Link)`
   color: ${theme('palette.white')};
   font-size: 32px;
   font-family: 'Lilita One', cursive;

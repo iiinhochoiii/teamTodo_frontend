@@ -1,7 +1,8 @@
+import Link from 'next/link';
 import styled from 'styled-components';
 import { palette, theme } from 'styled-tools';
 
-export const StyledLogo = styled.a`
+export const StyledLogo = styled(Link)`
   font-size: 32px;
   font-family: 'Lilita One', cursive;
 `;
